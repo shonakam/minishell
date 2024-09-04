@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/04 16:14:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:18:53 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void minishell(char **envp)
 	char		*line;
 	t_token 	**tokens;
 
-	// make_envlist(envp);
+	make_envlist(envp);
 	(void)envp;
 	while (1)
 	{

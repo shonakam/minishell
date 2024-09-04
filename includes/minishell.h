@@ -19,14 +19,15 @@
 
 # include "token.h"
 # include "support.h"
+# include "envlist.h"
 # include "ast.h"
 
-typedef struct s_envlist
-{
-	char				*env_var;
-	char				*value;
-	struct s_envlist	*next;
-}				t_envlist;
+// typedef struct s_envlist
+// {
+// 	char				*env_var;
+// 	char				*value;
+// 	struct s_envlist	*next;
+// }				t_envlist;
 
 
 t_token	**ft_lexer(char *line);
