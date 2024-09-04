@@ -18,12 +18,13 @@
 # include "../srcs/libft/libft.h"
 
 # include "token.h"
+# include "parser.h"
 # include "envlist.h"
 # include "support.h"
 # include "ast.h"
 
-t_token	**ft_lexer(char *line);
-
-int	ft_exec(t_token **tokens);
+t_token		**ft_lexer(char *line);
+t_command	*build_commands(t_token **tokens, int count);
+int			ft_exec(t_token **tokens);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:46 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/01 21:39:48 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/05 03:30:27 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,31 @@ int	ft_isspace(char c)
 	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
 	return (0);
+}
+
+void	free_tokens(t_token **tokens)
+{
+	int	i;
+
+	if (tokens == NULL)
+		return;
+	i = 0;
+	while(tokens[i])
+	{
+		free(tokens[i]->word);
+		free(tokens[i++]);
+	}
+	free(tokens);
+}
+
+int	count_tokens(t_token **tokens)
+{
+	int	i;
+
+	i = 0;
+	while(tokens[i])
+		i++;
+	return (i);
 }
 
 // test

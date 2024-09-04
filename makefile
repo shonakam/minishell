@@ -18,6 +18,10 @@ SRC_LIST := minishell.c \
 			test/test.c \
 			lexer/ft_lexer.c \
 			lexer/support.c \
+			lexer/error.c \
+			parser/ft_parser.c \
+			parser/build_cmd_utils.c \
+			parser/support.c \
 			executor/ft_exec.c \
 			executor/support.c \
 			env/env_manager.c \
@@ -39,8 +43,7 @@ $(MINISHELL):
 	@printf "\033[35mS\033[0m"
 	@printf "\033[31mS\033[0m"
 	@printf "\033[33m!\033[0m"
-	@printf "\033[32m!\033[0m"
-	@echo "\n"
+	@printf "\033[32m!\033[0m\n"
 
 clean:
 	make -C $(SRC_PATH)libft clean

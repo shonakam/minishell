@@ -25,4 +25,6 @@ typedef struct	s_token {
 	char			*word;
 }				t_token;
 
+t_token	**check_unexpected_token(t_token **t);
+
 #endif
