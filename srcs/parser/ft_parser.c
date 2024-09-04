@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/05 04:37:14 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/05 07:59:40 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ t_command	*build_commands(t_token **tokens, int count)
 		else if (tokens[i]->type == METACHAR_INPUT_REDIRECT
 			|| tokens[i]->type == METACHAR_OUTPUT_REDIRECT)
 			handle_io_redirect(current, tokens, &i);
-		else if (tokens[i]->type == METACHAR_APPEND_REDIRECT
-			|| tokens[i]->type == METACHAR_HEREDOC)
-			handle_append_heredoc(current, tokens, &i);
+		else if (tokens[i]->type == METACHAR_APPEND_REDIRECT)
+			handle_append(current, tokens, &i);
+		else if (tokens[i]->type == METACHAR_HEREDOC)
+			handle_heredoc(current, tokens, &i);
 		else
-			current = set_argument(current, tokens[i++]);
+			current = set_argument(current, tokens[i++]->word);
 	}
 	return (head);
 }

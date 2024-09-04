@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:42:23 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/05 04:42:25 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/05 07:57:16 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	handle_io_redirect(t_command *cmd, t_token **tokens, int *i)
 	(*i)++;
 }
 
+/*
+-- APPENDの次のトークンがファイル名であることを確認
+-- ファイルをオープンしてファイルディスクリプタを取得
+-- append_fd にファイルディスクリプタを設定
+*/
 void	handle_append(t_command *cmd, t_token **tokens, int *i)
 {
 	char	*file;
@@ -62,11 +67,6 @@ void	handle_append(t_command *cmd, t_token **tokens, int *i)
 	{
 		perror("handle_append: expected '>>' before file name");
 	}
-}
-
-void	handle_heardoc()
-{
-	
 }
 
 t_command	*set_argument(t_command *cmd, char *token)

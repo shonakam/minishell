@@ -21,6 +21,7 @@ SRC_LIST := minishell.c \
 			lexer/error.c \
 			parser/ft_parser.c \
 			parser/build_cmd_utils.c \
+			parser/heredoc.c \
 			parser/support.c \
 			executor/ft_exec.c \
 			executor/support.c \

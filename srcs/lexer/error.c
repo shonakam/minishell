@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 02:00:20 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/05 03:27:18 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/05 08:02:14 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ t_token	**check_unexpected_token(t_token **t)
 		flag += print_syntax_error(0);
 	if (t[0]->type == METACHAR_INPUT_REDIRECT
 		|| t[0]->type == METACHAR_OUTPUT_REDIRECT
-		|| t[0]->type == METACHAR_APPEND_REDIRECT
-		|| t[0]->type == METACHAR_HEREDOC)
+		|| t[0]->type == METACHAR_APPEND_REDIRECT)
 		flag += print_syntax_error(1);
 	if (flag)
 		return (free_tokens(t), NULL);
