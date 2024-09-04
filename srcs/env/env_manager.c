@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:22:13 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/04 18:57:53 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:58:12 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,40 @@ void	ft_putenv(t_envlist **l, const char *k, const char *v)
 	ft_setenv(l, k, v);
 }
 
-// void	ft_clearenv(t_envlist *list, char *key)
-// {
-	
-// }
+void	ft_clearenv(t_envlist **list, char *key)
+{
+	t_envlist	*current;
+	t_envlist	*prev;
 
-// char	*ft_getenv(t_envlist *list, char *key)
-// {
-	
-// }
+	current = *list;
+	prev = NULL;
+	while (current)
+	{
+		if ((ft_strlen(current->key) == ft_strlen(key)) &&
+			(ft_strncmp(current->key, key, ft_strlen(key)) == 0))
+		{
+			if (!prev)
+				*list = current->next;
+			else
+				prev->next = current->next;
+			return (free(current->key), free(current->value), free(current));
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+char	*ft_getenv(t_envlist *list, char *key)
+{
+	while (list)
+	{
+		if ((ft_strlen(list->key) == ft_strlen(key)) &&
+			(ft_strncmp(list->key, key, ft_strlen(key)) == 0))
+			return list->value;
+		list = list->next;
+	}
+	return (NULL);
+}
 
 t_envlist	*make_envlist(char **envp)
 {

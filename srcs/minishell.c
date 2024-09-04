@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/04 21:39:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/04 23:53:32 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+
 	t_envlist *envlist = make_envlist(envp);
 	char **r = convert_to_envp(&envlist);
 
@@ -66,6 +67,9 @@ int	main(int argc, char **argv, char **envp)
 		printf("TRY ASSERT:\n>>%s\n>>%s\n", envp[i], r[len]);
 		assert(strcmp(envp[i], r[len]) == 0);
 	}
+	printf("GETENV: USER=[%s]\n", ft_getenv(envlist, "USER"));
+	ft_clearenv(&envlist, "USER");
+	printf("RE-GETENV: USER=[%s]\n", ft_getenv(envlist, "USER"));
 	minishell(envp);
 	return (0);
 }
