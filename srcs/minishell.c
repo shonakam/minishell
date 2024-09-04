@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/04 23:53:32 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/04 23:56:23 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@
 // 	}
 // }
 
-void minishell(char **envp)
+void minishell(t_envlist *envlist)
 {
 	char		*line;
 	t_token 	**tokens;
-	t_envlist	*envlist;
 
-	envlist = make_envlist(envp);
 	(void)envlist;
 	while (1)
 	{
@@ -54,22 +52,11 @@ void minishell(char **envp)
 #include <assert.h>
 int	main(int argc, char **argv, char **envp)
 {
+	t_envlist	*envlist;
 	(void)argc;
 	(void)argv;
 
-	t_envlist *envlist = make_envlist(envp);
-	char **r = convert_to_envp(&envlist);
-
-	int len;
-	for (len = 0; r[len]; len++);
-	for (int i = 0; envp[i]; i++) {
-		len--;
-		printf("TRY ASSERT:\n>>%s\n>>%s\n", envp[i], r[len]);
-		assert(strcmp(envp[i], r[len]) == 0);
-	}
-	printf("GETENV: USER=[%s]\n", ft_getenv(envlist, "USER"));
-	ft_clearenv(&envlist, "USER");
-	printf("RE-GETENV: USER=[%s]\n", ft_getenv(envlist, "USER"));
-	minishell(envp);
+	envlist = make_envlist(envp);
+	minishell(envlist);
 	return (0);
 }
