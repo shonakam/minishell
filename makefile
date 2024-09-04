@@ -20,6 +20,7 @@ SRC_LIST := minishell.c \
 			executor/ft_exec.c \
 			executor/support.c \
 			env/env_manager.c \
+			env/env_convert.c \
 			env/support.c \
 
 FILES := $(addprefix $(SRC_PATH), $(SRC_LIST))

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 16:19:07 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/04 18:56:38 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:17:07 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_envlist {
 }				t_envlist;
 
 t_envlist	*make_envlist(char **envp);
-void	ft_putenv(t_envlist **l, const char *k, const char *v);
+void		ft_putenv(t_envlist **l, const char *k, const char *v);
+char		**convert_to_envp(t_envlist	**l);
 
 #endif
