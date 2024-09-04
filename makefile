@@ -15,6 +15,7 @@ CFLAGS += -DARGUMENT_SIZE=$(ARGUMENT_SIZE)
 CFLAGS += -fsanitize=address
 
 SRC_LIST := minishell.c \
+			test/test.c \
 			lexer/ft_lexer.c \
 			lexer/support.c \
 			executor/ft_exec.c \

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/04 23:58:51 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/05 00:05:04 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void minishell(t_envlist *envlist)
 }
 
 #include <assert.h>
+void	test_env(t_envlist	*envlist);
 int	main(int argc, char **argv, char **envp)
 {
 	t_envlist	*envlist;
@@ -45,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 
 	envlist = make_envlist(envp);
+	test_env(envlist);
 	minishell(envlist);
 	return (0);
 }
