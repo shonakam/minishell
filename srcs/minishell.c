@@ -6,19 +6,30 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/04 16:14:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/04 23:56:23 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void minishell(char **envp)
+// void	ft_printenv(t_envlist *list)
+// {
+// 	printf("----- ENVLIST -----\n");
+// 	while (list)
+// 	{
+// 		printf("Key:%s\n", list->key);
+// 		printf("Value: %s\n", list->value);
+// 		printf("\n");
+// 		list = list->next;
+// 	}
+// }
+
+void minishell(t_envlist *envlist)
 {
 	char		*line;
 	t_token 	**tokens;
 
-	// make_envlist(envp);
-	(void)envp;
+	(void)envlist;
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -38,13 +49,14 @@ void minishell(char **envp)
 	}
 }
 
+#include <assert.h>
 int	main(int argc, char **argv, char **envp)
 {
+	t_envlist	*envlist;
 	(void)argc;
 	(void)argv;
-	for (int i = 0; envp[i]; i++) {
-		printf("[%d] %s\n", i, envp[i]);
-	}
-	minishell(envp);
+
+	envlist = make_envlist(envp);
+	minishell(envlist);
 	return (0);
 }
