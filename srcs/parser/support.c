@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/06 17:42:03 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:39:12 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,27 @@ void	cpy_args(t_command *cmd, char **a)
 void	free_close_commands(t_command *cmd)
 {
 	t_command	*current;
+	t_command	*next;
 	int			i;
 
 	current = cmd;
 	while (current)
 	{
-		if (cmd->argv)
+		next = current->next;
+		if (current->argv)
 		{
 			i = 0;
-			while (cmd->argv[i])
-				free(cmd->argv[i++]);
-			free(cmd->argv);
+			while (current->argv[i])
+				free(current->argv[i++]);
+			free(current->argv);
 		}
-
-		if (cmd->input_fd != -1)
-			close(cmd->input_fd);
-		if (cmd->output_fd != -1)
-			close(cmd->output_fd);
-		if (cmd->append_fd != -1)
-			close(cmd->append_fd);
-		free(cmd);
-		current = current->next;
+		if (current->input_fd != -1)
+			close(current->input_fd);
+		if (current->output_fd != -1)
+			close(current->output_fd);
+		if (current->append_fd != -1)
+			close(current->append_fd);
+		free(current);
+		current = next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/05 03:26:21 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:57:02 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ t_token	**ft_lexer(char *line)
 	if (!tokens)
 		return (NULL);
 	extract_token(line, tokens, 0, 0);
-	free(line);
-	print_tokens(tokens);
 	tokens = check_unexpected_token(tokens);
 	return (tokens);
 }

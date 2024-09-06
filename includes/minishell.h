@@ -23,17 +23,20 @@
 # include "support.h"
 # include "../srcs/test/test.h"
 
-
-t_token		**ft_lexer(char *line);
-t_command	*build_commands(t_token **tokens, int count);
-int			ft_exec(t_token **tokens);
-
 typedef struct	s_minishell	{
 	char		*line;
-	char		**bin_path;
+	// char		**bin_path;
 	t_envlist	*envlist;
 	t_token		**token;
 	t_command	*cmd;
 }				t_minishell;
+
+t_token		**ft_lexer(char *line);
+t_command	*build_commands(t_token **tokens, int count);
+
+int			ft_exec(t_minishell *mini);
+void		ft_clean(t_minishell *mini, int flag);
+void		ft_clean_exit(t_minishell *mini);
+
 
 #endif

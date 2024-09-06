@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/06 17:38:45 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:38:25 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static t_minishell	*init_mini(t_minishell *mini, char **envp)
 	mini->envlist = make_envlist(envp);
 	if (!mini->envlist)
 		return (NULL);
-	mini->bin_path = ft_split(getenv("PATH"), ':');
-	if (!mini->bin_path)
-		return (NULL);
+	// mini->bin_path = ft_split(getenv("PATH"), ':');
+	// if (!mini->bin_path)
+	// 	return (NULL);
 	return (mini);
 }
 
@@ -44,13 +44,11 @@ static void	minishell(t_minishell *mini)
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
-		print_commands(mini->cmd);
-		free_tokens(mini->token);
+		ft_exec(mini);
+		ft_clean(mini, 0);
 	}
 }
 
-#include <assert.h>
-void	test_env(t_envlist	*envlist);
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	mini;

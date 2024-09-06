@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 02:00:20 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/05 08:02:14 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 19:09:15 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static	int	print_syntax_error(int n)
 
 t_token	**check_unexpected_token(t_token **t)
 {
-	int			flag;
+	int	flag;
 
 	flag = 0;
 	if (!t[0] || !t)

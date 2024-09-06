@@ -6,11 +6,52 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/04 21:33:13 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 23:42:03 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+char	*get_bin_path(t_envlist *list, char *cmd)
+{
+	char	**paths;
+	char	*path;
+	char	*r;
+	int		i;
+
+	paths = ft_split(ft_getenv(list, "PATH"), ':');
+	if (!paths)
+		return (NULL);
+	r = NULL;
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], cmd);
+		if (is_executable(path))
+			r = path;
+		free(paths[i++]);
+	}
+	return (free(paths), free(cmd), r);
+}
+
+void free_envlist(t_envlist **l)
+{
+	t_envlist *current;
+	t_envlist *next;
+
+	current = *l;
+	while (current)
+	{
+		next = current->next;
+		if (current->key)
+			free(current->key);
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
+	}
+	*l = NULL;
+}
 
 int	get_listsize(t_envlist **l)
 {
