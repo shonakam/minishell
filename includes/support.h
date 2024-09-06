@@ -21,5 +21,6 @@ void	free_close_commands(t_command *cmd);
 /* <=== executor/support ===>  */
 int		count_pipechar(t_token **tokens);
 int 	is_executable(const char *path);
+void	print_error(const char *msg, const char *cmd);
 
 #endif

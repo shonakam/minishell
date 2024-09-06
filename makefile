@@ -27,10 +27,13 @@ SRC_LIST := main/minishell.c \
 			parser/support.c \
 			cmd/ft_exec.c \
 			cmd/support.c \
+			cmd/error.c \
 			main/env/env_manager.c \
 			main/env/env_convert.c \
 			main/env/support.c \
 
+# SRC_DIRS := main test lexer parser cmd main/env
+# SRC_LIST := $(shell find $(SRC_DIRS) -name '*.c')
 FILES := $(addprefix $(SRC_PATH), $(SRC_LIST))
 
 all: $(MINISHELL)

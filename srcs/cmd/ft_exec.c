@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 16:44:14 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/07 01:54:41 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/07 02:11:29 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	ft_exec(t_minishell *mini)
 		// プロセスの置き換え
 		if (execve(bin_path, mini->cmd->argv, envp) == -1)
 		{
-			perror("execve");
-			// exit(EXIT_FAILURE);  // エラーが発生した場合は子プロセスを終了する
+			print_error("command not found", mini->cmd->argv[0]);
+			exit(EXIT_FAILURE);  // エラーが発生した場合は子プロセスを終了する
 		}
 	}
 	else
