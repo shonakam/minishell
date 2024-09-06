@@ -6,32 +6,46 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/05 04:21:58 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:38:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	minishell(t_envlist *envlist)
+static t_minishell	*init_mini(t_minishell *mini, char **envp)
 {
-	char		*line;
-	t_token 	**tokens;
-	t_command	*cmd;
+	mini->line = NULL;
+	mini->token = NULL;
+	mini->cmd = NULL;
+	mini->envlist = make_envlist(envp);
+	if (!mini->envlist)
+		return (NULL);
+	mini->bin_path = ft_split(getenv("PATH"), ':');
+	if (!mini->bin_path)
+		return (NULL);
+	return (mini);
+}
 
-	(void)envlist;
+static void	minishell(t_minishell *mini)
+{
+	if (!mini)
+	{
+		perror("minishell: insufficient memory or system resources\n");
+		exit(EXIT_FAILURE);
+	}
 	while (INT_MAX)
 	{
-		line = readline("minishell$ ");
-		if (line == NULL)
+		mini->line = readline("minishell$ ");
+		if (mini->line == NULL)
 			break ;
-		if (strlen(line) > 0)
-			add_history(line);
-		tokens = ft_lexer(line);
-		if (tokens == NULL)
+		if (strlen(mini->line) > 0)
+			add_history(mini->line);
+		mini->token = ft_lexer(mini->line);
+		if (mini->token == NULL)
 			continue ;
-		cmd = build_commands(tokens, count_tokens(tokens));
-		(void)cmd;
-		free_tokens(tokens);
+		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
+		print_commands(mini->cmd);
+		free_tokens(mini->token);
 	}
 }
 
@@ -39,12 +53,10 @@ void	minishell(t_envlist *envlist)
 void	test_env(t_envlist	*envlist);
 int	main(int argc, char **argv, char **envp)
 {
-	t_envlist	*envlist;
+	t_minishell	mini;
+
 	(void)argc;
 	(void)argv;
-
-	envlist = make_envlist(envp);
-	// test_env(envlist);
-	minishell(envlist);
+	minishell(init_mini(&mini, envp));
 	return (0);
 }

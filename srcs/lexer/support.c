@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:46 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/05 03:30:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:23:27 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,4 @@ int	count_tokens(t_token **tokens)
 	while(tokens[i])
 		i++;
 	return (i);
-}
-
-// test
-void	print_tokens(t_token **tokens)
-{
-	if (!tokens)
-		return ;
-	for (int i=0; tokens[i]; i++) {
-		printf("token[%d]: %s\n", i, tokens[i]->word);
-	}
 }

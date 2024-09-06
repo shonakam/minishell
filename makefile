@@ -14,8 +14,9 @@ CFLAGS += -DARGUMENT_SIZE=$(ARGUMENT_SIZE)
 # debug
 CFLAGS += -fsanitize=address
 
-SRC_LIST := minishell.c \
+SRC_LIST := main/minishell.c \
 			test/test.c \
+			test/print.c \
 			lexer/ft_lexer.c \
 			lexer/support.c \
 			lexer/error.c \
@@ -23,11 +24,11 @@ SRC_LIST := minishell.c \
 			parser/build_cmd_utils.c \
 			parser/heredoc.c \
 			parser/support.c \
-			executor/ft_exec.c \
-			executor/support.c \
-			env/env_manager.c \
-			env/env_convert.c \
-			env/support.c \
+			cmd/ft_exec.c \
+			cmd/support.c \
+			main/env/env_manager.c \
+			main/env/env_convert.c \
+			main/env/support.c \
 
 FILES := $(addprefix $(SRC_PATH), $(SRC_LIST))
 
