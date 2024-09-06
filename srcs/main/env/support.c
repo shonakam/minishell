@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/06 23:42:03 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/07 01:40:36 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*get_bin_path(t_envlist *list, char *cmd)
 {
 	char	**paths;
-	char	*path;
+	char	*path = NULL;
 	char	*r;
 	int		i;
 
@@ -26,12 +26,12 @@ char	*get_bin_path(t_envlist *list, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		path = ft_strjoin(paths[i], cmd);
+		path = concat_vars(3, paths[i], "/", cmd);
 		if (is_executable(path))
 			r = path;
 		free(paths[i++]);
 	}
-	return (free(paths), free(cmd), r);
+	return (free(paths), r);
 }
 
 void free_envlist(t_envlist **l)
