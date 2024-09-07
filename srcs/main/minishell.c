@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/06 23:38:25 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/08 05:34:46 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ static void	minishell(t_minishell *mini)
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
+		// print_commands(mini->cmd);
+		// t_ast *cmd = build_ast(mini->token, 0);
+		// print_ast(cmd, 2);
+		// exit(0);
 		ft_exec(mini);
-		ft_clean(mini, 0);
+		// ft_clean(mini, 0);
 	}
 }
 

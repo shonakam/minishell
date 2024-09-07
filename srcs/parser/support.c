@@ -6,11 +6,23 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/06 19:39:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/07 03:30:09 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+t_command	*get_current_cmd(t_command *cmd, int depth)
+{
+	t_command	*current;
+	int			i;
+
+	current = cmd;
+	i = 0;
+	while (!current && i++ < depth)
+		current = current->next;
+	return (current);
+}
 
 int		count_cmd(t_command *cmd)
 {

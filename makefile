@@ -23,9 +23,11 @@ SRC_LIST := main/minishell.c \
 			lexer/error.c \
 			parser/ft_parser.c \
 			parser/build_cmd_utils.c \
-			parser/heredoc.c \
+			parser/build_ast.c \
 			parser/support.c \
 			cmd/ft_exec.c \
+			cmd/exec_cmd_utils.c \
+			cmd/heredoc.c \
 			cmd/support.c \
 			cmd/error.c \
 			main/env/env_manager.c \
