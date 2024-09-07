@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:42:23 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/05 07:57:16 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/07 18:59:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,20 @@ void	handle_append(t_command *cmd, t_token **tokens, int *i)
 
 	if (tokens[*i]->type == METACHAR_APPEND_REDIRECT)
 	{
-		file = tokens[++(*i)]->word;
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd < 0)
+		if (tokens[*i + 1])
 		{
-			perror("handle_append: open file");
-			return;
+			file = tokens[++(*i)]->word;
+			fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd < 0)
+			{
+				perror("handle_append: open file");
+				return;
+			}
+			cmd->append_fd = fd;
 		}
-		cmd->append_fd = fd;
+		else
+			perror("handle_append: no file provided after '>>'");
+		++(*i);
 	}
 	else
 	{

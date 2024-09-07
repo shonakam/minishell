@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:56:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/06 17:38:32 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/07 07:40:01 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,40 @@ void	print_paths(t_token **tokens)
 	}
 }
 
+void	print_ast(t_ast *node, int depth)
+{
+	if (!node)
+		return;
+	for (int i = 0; i < depth; i++)
+		printf("  ");
+	switch (node->type)
+	{
+		case TOKEN_WORD:
+			printf("WORD: ");
+			if (node->argv)
+			{
+				for (int i = 0; node->argv[0]; i++)
+					printf("%s\n", node->argv[i]);
+			}
+			break;
+		case METACHAR_PIPE:
+			printf("PIPE\n");
+			break;
+		case METACHAR_OUTPUT_REDIRECT:
+			printf("OUTPUT REDIRECT\n");
+			break;
+		case METACHAR_INPUT_REDIRECT:
+			printf("INPUT REDIRECT\n");
+			break;
+		case METACHAR_APPEND_REDIRECT:
+			printf("APPEND REDIRECT\n");
+			break;
+		default:
+			printf("UNKNOWN\n");
+			break;
+	}
+	if (node->left)
+		print_ast(node->left, depth + 1);
+	if (node->right)
+		print_ast(node->right, depth + 1);
+}

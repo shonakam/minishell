@@ -6,88 +6,90 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 16:44:14 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/07 02:11:29 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/08 05:46:28 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// create_pipe
-// need [pipe * 2] child_processes
-static int	*create_pipes(int n)
+
+static void execute_command(t_command *cmd, t_minishell *mini)
 {
-	int	*pipe_fds;
-	int	err;
-	int	i;
-	
-	pipe_fds = (int *)malloc(sizeof(int) * (n * 2));
-	if (pipe_fds == NULL) {
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
-	while (i < n)
+	char	*path;
+
+	if (cmd->input_fd != STDIN_FILENO)
 	{
-		err = pipe(pipe_fds + (i * 2));
-		if (err == -1)
-		{
-			perror("create_pipes: pipe");
-			free(pipe_fds);
-			exit(EXIT_FAILURE);
-		}
-		i++;
+		if (dup2(cmd->input_fd, STDIN_FILENO) == -1)
+			perror("dup2[input_fd]");
+		close(cmd->input_fd);
 	}
-	return (pipe_fds);
+	if (cmd->output_fd != STDOUT_FILENO)
+	{
+		if (dup2(cmd->output_fd, STDOUT_FILENO) == -1)
+			perror("dup2[output_fd]");
+		close(cmd->output_fd);
+	}
+	path = get_bin_path(mini->envlist, cmd->argv[0]);
+	if (execve(path, cmd->argv, convert_to_envp(&mini->envlist)) == -1)
+	{
+		perror("execve");
+		// exit(EXIT_FAILURE);
+	}
+	perror("execute_command: execve");
 }
 
-// int	execute_command(char *cmd, int *p_fds, int p_index, int num_pipes)
-// {
-// 	pid_t pid = fork();
-// 	if (pid == -1)
-// 	{
-// 		perror("fork");
-// 		exit(EXIT_FAILURE);
-// 	}
+static int	handle_fork(t_command *cmd, t_minishell *mini)
+{
+	pid_t	pid;
 
-// 	if (pid == 0)
-// 	{
-		
-// 	}
-// }
+	pid = fork();
+	if (pid == -1)
+		return (perror("handle_fork: fork1"), -1);
+	if (pid == 0)
+		execute_command(cmd, mini);
+	return pid;
+}
 
-// シンプルなテスト
+static void	handle_pipe_io(t_command *l, t_command *r)
+{
+	int	fds[2];
+	int	err;
+
+	err = pipe(fds);
+	if (err == -1)
+	{
+		perror("handle_pipe_io: pipe");
+		return ;
+	}
+	l->output_fd = fds[WRITE];
+	r->input_fd = fds[READ];
+	// printf("W[%d], R[%d]\n", l->output_fd , r->input_fd);
+}
+
 int	ft_exec(t_minishell *mini)
 {
-	int	*pipe_fds;
-	int	status;
+	t_command	*left;
+	t_command	*right;
+	int			status;
 
-	pipe_fds = create_pipes(count_pipechar(mini->token));
-	(void)pipe_fds;
-	// pid_t	pid;
-
-	pid_t pid = fork();
-	if (pid == 0)
+	left = mini->cmd;
+	left->input_fd = STDIN_FILENO;
+	while (left)
 	{
-		char *cmd = mini->cmd->argv[0];
-		char *bin_path = get_bin_path(mini->envlist, cmd);
-		char **envp = convert_to_envp(&mini->envlist);
-
-		// プロセスの置き換え
-		if (execve(bin_path, mini->cmd->argv, envp) == -1)
+		if (!left->next)
+			left->output_fd = STDOUT_FILENO;
+		right = left->next;
+		if (right)
+			handle_pipe_io(left, right);
+		if (handle_fork(left, mini) == -1)
+			return (-1);
+		if (right)
 		{
-			print_error("command not found", mini->cmd->argv[0]);
-			exit(EXIT_FAILURE);  // エラーが発生した場合は子プロセスを終了する
+			close(left->output_fd);
+			// close(right->input_fd); //コメントアウトすると動く、なぜ？
 		}
+		left = right;
 	}
-	else
-	{
-		// 子プロセスの終了を待機
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			perror("waitpid");
-			return EXIT_FAILURE;
-		}
-	}
-	
+	while (waitpid(-1, &status, 0) > 0);
 	return (0);
 }
