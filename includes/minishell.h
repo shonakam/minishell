@@ -19,8 +19,8 @@
 # include "token.h"
 # include "parser.h"
 # include "envlist.h"
-# include "support.h"
 # include "cmd.h"
+# include "support.h"
 
 // # include "test/test.h"
 

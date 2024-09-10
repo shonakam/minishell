@@ -6,18 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:01:53 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/11 00:36:10 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/11 02:05:34 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-typedef struct	s_pipe {
-	int	read_end;
-	int	write_end;
-}				t_pipe;
-
-void exec_command(char *cmd, t_pipe *i, t_pipe *o, t_minishell *mini)
+static void exec_command(t_command *cmd, t_pipe *i, t_pipe *o, t_minishell *mini)
 {
 	pid_t	pid;
 	char	*path;
@@ -39,76 +34,62 @@ void exec_command(char *cmd, t_pipe *i, t_pipe *o, t_minishell *mini)
 			dup2(o->write_end, STDOUT_FILENO);	// 標準出力をパイプの書き込み側にリダイレクト
 			close(o->write_end);				// リダイレクト後にパイプの書き込み側を閉じる
 		}
-		path = get_bin_path(mini->envlist, cmd);
-		execve(path, mini->cmd->argv, NULL);
-		perror("execlp");
+		path = get_bin_path(mini->envlist, cmd->argv[0]);
+		execve(path, cmd->argv, convert_to_envp(&mini->envlist));
+		perror("execve");
 	}
 }
 
-void create_pipe(int pipe_fd[2])
+static void create_pipe(t_pipe *p)
 {
 	int	err;
+	int	fd[2];
 
-	err = pipe(pipe_fd);
+	err = pipe(fd);
 	if (err == -1)
 	{
 		perror("pipe");
 	}
+	p->read_end = fd[READ];
+	p->write_end = fd[WRITE];
 }
 
-// void	set_pipe()
-// {
-// 		if (cmd->next != NULL)
-// 		{
-// 			create_pipe(&pipe_out);
-// 			out_pipe_ptr = &pipe_out;  // Set the output pipe pointer to pipe_out
-// 		}
-// 		else
-// 		{
-// 			out_pipe_ptr = NULL;  // No next command, so no output pipe needed
-// 		}
+static t_pipe *get_input_pipe(t_command *cmd, t_pipe *in, t_minishell *mini)
+{
+	if (cmd == mini->cmd)
+		return (NULL);
+	return (in);
+}
 
-// 		// If this is the first command, no input pipe, otherwise set to pipe_in
-// 		if (cmd == mini->cmd)
-// 		{
-// 			in_pipe_ptr = NULL;  // First command has no input pipe
-// 		}
-// 		else
-// 		{
-// 			in_pipe_ptr = &pipe_in;  // Use pipe_in for subsequent commands
-// 		}
-// }
+static t_pipe *get_output_pipe(t_command *cmd, t_pipe *out)
+{
+	if (cmd->next == NULL)
+		return (NULL);
+	return (out);
+}
 
 void	ft_exec_v3(t_minishell *mini)
 {
-	t_pipe	pipe_in = {-1, -1};
-	t_pipe	pipe_out = {-1, -1};
-	t_command *cmd = mini->cmd;
+	t_pipe		pipe_in;
+	t_pipe		pipe_out;
+	t_command	*cmd;
 
-	while (cmd != NULL)
+	initialize_pipes(&pipe_in, &pipe_out);
+	cmd = mini->cmd;
+	while (cmd)
 	{
-		if (cmd->next != NULL)
+		if (cmd->next)
 			create_pipe(&pipe_out);
-		exec_command(cmd->argv[0], 
-			(cmd == mini->cmd ? NULL : &pipe_in),  // Use pipe_in if not the first command
-			(cmd->next != NULL ? &pipe_out : NULL), mini);  // Use pipe_out if there’s a next command
-		// Close old pipe_in fds
+		exec_command(cmd,
+			get_input_pipe(cmd, &pipe_in, mini),  // Use pipe_in if not the first command
+			get_output_pipe(cmd, &pipe_out), mini);  // Use pipe_out if there’s a next command
 		if (pipe_in.read_end != -1)
-		{
-			close(pipe_in.read_end);
-			close(pipe_in.write_end);
-		}
-		// Update pipe_in for the next iteration
+			close_pipe(&pipe_in);
 		pipe_in = pipe_out;
 		cmd = cmd->next;
 	}
-	// Close remaining pipe fds if they exist
 	if (pipe_in.read_end != -1)
-	{
-		close(pipe_in.read_end);
-		close(pipe_in.write_end);
-	}
+		close_pipe(&pipe_in);
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
-	printf(">> END EXEC\n");
 }
