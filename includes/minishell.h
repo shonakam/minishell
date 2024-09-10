@@ -15,33 +15,32 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "../srcs/libft/libft.h"
-
-
+# include "libft/libft.h"
 # include "token.h"
 # include "parser.h"
 # include "envlist.h"
-# include "../srcs/test/test.h"
 # include "support.h"
+# include "cmd.h"
+
+// # include "test/test.h"
 
 # define READ	0
 # define WRITE	1
 
 typedef struct	s_minishell	{
 	char		*line;
-	// char		**bin_path;
 	t_envlist	*envlist;
 	t_token		**token;
 	t_command	*cmd;
+	int			status;
 }				t_minishell;
 
 t_token		**ft_lexer(char *line);
 t_command	*build_commands(t_token **tokens, int count);
-t_ast		*build_ast(t_token **token, int *index);
-int			ft_exec(t_minishell *mini);
+void		ft_exec_v1(t_minishell *mini);
+void		ft_exec_v3(t_minishell *mini);
 
 void		ft_clean(t_minishell *mini, int flag);
 void		ft_clean_exit(t_minishell *mini);
-
 
 #endif

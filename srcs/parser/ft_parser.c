@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/06 21:36:28 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:33:51 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ t_command	*create_command(void)
 	}
 	cmd->argv = NULL;
 	cmd->argc = 0;
-	cmd->input_fd = -1;
-	cmd->output_fd = -1;
+	cmd->input_fd = STDIN_FILENO;
+	cmd->output_fd = STDOUT_FILENO;
 	cmd->append_fd = -1;
 	cmd->next = NULL;
 	return (cmd);

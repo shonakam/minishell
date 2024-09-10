@@ -10,13 +10,6 @@ typedef struct	s_command {
 	struct s_command	*next;
 }				t_command;
 
-typedef struct	s_ast	{
-	TokenType		type;
-	char			**argv;
-	struct s_ast	*left;
-	struct s_ast	*right;
-}				t_ast;
-
 t_command	*set_argument(t_command *cmd, char *token);
 void		handle_io_redirect(t_command *cmd, t_token **tokens, int *i);
 void		handle_append(t_command *cmd, t_token **tokens, int *i);

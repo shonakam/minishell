@@ -23,6 +23,6 @@ t_command	*get_current_cmd(t_command *cmd, int depth);
 int			count_pipe(t_token **tokens);
 int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
-void		close_pipefds(int *pipe_fds, int n);
+void		dup_descriptor(t_command *cmd);
 
 #endif
