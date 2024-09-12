@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/07 03:30:09 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:46:24 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,6 @@ void	free_close_commands(t_command *cmd)
 				free(current->argv[i++]);
 			free(current->argv);
 		}
-		if (current->input_fd != -1)
-			close(current->input_fd);
-		if (current->output_fd != -1)
-			close(current->output_fd);
-		if (current->append_fd != -1)
-			close(current->append_fd);
 		free(current);
 		current = next;
 	}

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/10 15:33:51 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/11 15:56:37 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ t_command	*build_commands(t_token **tokens, int count)
 	{
 		if (tokens[i]->type == METACHAR_PIPE)
 		{
+			if (!tokens[++i])
+				return (head); // pipe待機
 			current->next = create_command();
 			current = current->next;
-			i++;
 		}
 		else if (tokens[i]->type == METACHAR_INPUT_REDIRECT
 			|| tokens[i]->type == METACHAR_OUTPUT_REDIRECT)

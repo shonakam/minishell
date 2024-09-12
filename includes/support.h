@@ -12,6 +12,7 @@ int			ft_isspace(char c);
 int			valid_quote(const char *s);
 int			count_tokens(t_token **tokens);
 void		free_tokens(t_token **tokens);
+char		*connect_and_free(char *s1, char *s2);
 
 /*  <=== lexer/parser ===>  */
 int			count_cmd(t_command *cmd);
@@ -23,7 +24,7 @@ t_command	*get_current_cmd(t_command *cmd, int depth);
 int			count_pipe(t_token **tokens);
 int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
-void		dup_descriptor(t_command *cmd);
+void		dup_handler(t_pipe *i, t_pipe *o);
 void		close_pipe(t_pipe *pipe);
 void		initialize_pipes(t_pipe *pipe_in, t_pipe *pipe_out);
 

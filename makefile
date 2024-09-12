@@ -12,11 +12,14 @@ ARGUMENT_SIZE := $(shell expr $(shell getconf ARG_MAX) / 8)
 CFLAGS += -DARGUMENT_SIZE=$(ARGUMENT_SIZE)
 
 # debug
-CFLAGS += -fsanitize=address
+CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=leak
 
 SRC_LIST := main/minishell.c \
 			main/clean.c \
 			lexer/ft_lexer.c \
+			lexer/resolve_eos.c \
+			lexer/resolve_eos_utils.c \
 			lexer/support.c \
 			lexer/error.c \
 			parser/ft_parser.c \
@@ -39,7 +42,7 @@ all: $(MINISHELL)
 
 $(MINISHELL):
 	@make -C libft
-	@gcc $(CFLAGS) $(FILES) $(LIBS) libft/libft.a -o $(MINISHELL)
+	@clang $(CFLAGS) $(FILES) $(LIBS) libft/libft.a -o $(MINISHELL)
 	@printf "\033[31mS\033[0m"
 	@printf "\033[33mU\033[0m"
 	@printf "\033[32mC\033[0m"
