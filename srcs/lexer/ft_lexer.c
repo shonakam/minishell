@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 13:52:05 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:38:00 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,9 @@ t_token	**ft_lexer(char *line)
 {
 	t_token	**tokens;
 
-	// if (!valid_quote(line))
-	// {
-	// 	errno = EINVAL;
-	// 	perror("minishell");
-	// 	return (NULL);
-	// }
 	line = resolve_eos(line);
+	if (strlen(line) > 0)
+		add_history(line);
 	tokens = (t_token **)malloc(ARGUMENT_SIZE * sizeof(t_token *));
 	if (!tokens)
 		return (NULL);

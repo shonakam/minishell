@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:48:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 14:18:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:55:58 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	is_unfinished(const char *line)
 		return (2);
 	if (line[i] == '>')
 		return (3);
-	if (line[i] == ft_strncmp(&line[i], ">>", 2))
+	if (ft_strncmp(&line[i], ">>", 2) == 0)
 		return (4);
 	return (0);
 }
@@ -110,7 +110,6 @@ char	*resolve_eos(char *line)
 	new_line = ft_strdup(line);
 	new_line = resolve_quote(new_line);
 	new_line = resolve_reserve(new_line);
-
 	// printf("result: %s\n", new_line);	// 結果を表示
 	return (new_line);
 }
