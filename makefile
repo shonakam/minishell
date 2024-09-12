@@ -16,7 +16,7 @@ CFLAGS += -g -fsanitize=address
 # CFLAGS += -g -fsanitize=leak
 
 SRC_LIST := main/minishell.c \
-			main/clean.c \
+			main/exit.c \
 			lexer/ft_lexer.c \
 			lexer/resolve_eos.c \
 			lexer/resolve_eos_utils.c \

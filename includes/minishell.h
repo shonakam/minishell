@@ -38,9 +38,10 @@ typedef struct	s_minishell	{
 t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
 t_command	*build_commands(t_token **tokens, int count);
-void		ft_exec_v1(t_minishell *mini);
+// void		ft_exec_v1(t_minishell *mini);
 void		ft_exec_v3(t_minishell *mini);
 
+int			get_exit_status(t_minishell *mini);
 void		ft_clean(t_minishell *mini, int flag);
 void		ft_clean_exit(t_minishell *mini);
 

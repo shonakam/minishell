@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 00:01:53 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 19:47:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:51:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,4 @@ void	ft_exec_v3(t_minishell *mini)
 		close_pipe(&pipe_in);
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
-	printf("exited with status \033[0;32m%d\033[0m\n", WEXITSTATUS(mini->status));
 }
