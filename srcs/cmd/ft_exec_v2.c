@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 16:44:14 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/10 19:40:59 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:31:57 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ static void	close_pipe(int **pipes, int n_cmds)
 // 		pipe.index++;
 // 	}
 // 	close_pipe(pipe.pipes, pipe.n_cmds - 1);
-
 // 	pipe.index = 0;
 // 	while (pipe.index < pipe.n_cmds)
 // 	{

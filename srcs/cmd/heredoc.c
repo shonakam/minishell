@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/06 01:14:29 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:23:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ void	handle_heredoc(t_command *cmd, t_token **tokens, int *i)
 	if (fd < 0)
 		return (perror("handle_heredoc: open file"));
 	heredoc_loop(fd, delimiter);
-	cmd->input_fd = fd;
+	// cmd->input_fd = fd;
 }

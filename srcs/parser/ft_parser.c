@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/11 15:56:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:23:09 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_command	*create_command(void)
 	}
 	cmd->argv = NULL;
 	cmd->argc = 0;
-	cmd->input_fd = STDIN_FILENO;
-	cmd->output_fd = STDOUT_FILENO;
-	cmd->append_fd = -1;
+	// cmd->input_fd = STDIN_FILENO;
+	// cmd->output_fd = STDOUT_FILENO;
+	// cmd->append_fd = -1;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -49,11 +49,11 @@ t_command	*build_commands(t_token **tokens, int count)
 			current->next = create_command();
 			current = current->next;
 		}
-		else if (tokens[i]->type == METACHAR_INPUT_REDIRECT
-			|| tokens[i]->type == METACHAR_OUTPUT_REDIRECT)
-			handle_io_redirect(current, tokens, &i);
-		else if (tokens[i]->type == METACHAR_APPEND_REDIRECT)
-			handle_append(current, tokens, &i);
+		// else if (tokens[i]->type == METACHAR_INPUT_REDIRECT
+		// 	|| tokens[i]->type == METACHAR_OUTPUT_REDIRECT)
+		// 	handle_io_redirect(current, tokens, &i);
+		// else if (tokens[i]->type == METACHAR_APPEND_REDIRECT)
+		// 	handle_append(current, tokens, &i);
 		// else if (tokens[i]->type == METACHAR_HEREDOC)
 		// 	handle_heredoc(current, tokens, &i);
 		else

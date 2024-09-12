@@ -4,9 +4,9 @@
 typedef struct	s_command {
 	char				**argv;
 	int					argc;
-	int					input_fd;
-	int					output_fd;
-	int					append_fd;
+	// int					input_fd;
+	// int					output_fd;
+	// int					append_fd;
 	struct s_command	*next;
 }				t_command;
 
