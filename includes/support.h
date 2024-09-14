@@ -23,8 +23,7 @@ t_command	*get_current_cmd(t_command *cmd, int depth);
 /* <=== executor/support ===>  */
 int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
-void		child_handler(t_pipe *i, t_pipe *o);
-void		parent_handler(t_pipe *i, t_pipe *o);
+void		redirect_fd(int old, int new);
 void		close_pipe(t_pipe *pipe);
 void		initialize_pipes(t_pipe *pipe_in, t_pipe *pipe_out);
 
