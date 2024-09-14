@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:22:13 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/04 21:58:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/14 22:59:30 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_putenv(t_envlist **l, const char *k, const char *v)
 	ft_setenv(l, k, v);
 }
 
-void	ft_clearenv(t_envlist **list, char *key)
+int	ft_clearenv(t_envlist **list, char *key)
 {
 	t_envlist	*current;
 	t_envlist	*prev;
@@ -79,11 +79,14 @@ void	ft_clearenv(t_envlist **list, char *key)
 				*list = current->next;
 			else
 				prev->next = current->next;
-			return (free(current->key), free(current->value), free(current));
+			return (free(current->key),
+				free(current->value),
+				free(current), 0);
 		}
 		prev = current;
 		current = current->next;
 	}
+	return (1);
 }
 
 char	*ft_getenv(t_envlist *list, char *key)
