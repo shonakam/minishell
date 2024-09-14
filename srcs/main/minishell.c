@@ -6,11 +6,20 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/14 20:34:06 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 02:23:59 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+void	print_tokens(t_token **tokens)
+{
+	if (!tokens)
+		return ;
+	for (int i=0; tokens[i]; i++) {
+		printf("token[%d]: %s\n", i, tokens[i]->word);
+	}
+}
 
 static t_minishell	*init_mini(t_minishell *mini, char **envp)
 {
@@ -41,6 +50,7 @@ static void	minishell(t_minishell *mini)
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
+		print_tokens(mini->token);
 		ft_exec_v5(mini);
 		ft_clean(mini, 0);
 		get_exit_status(mini);
