@@ -21,10 +21,10 @@ void		free_close_commands(t_command *cmd);
 t_command	*get_current_cmd(t_command *cmd, int depth);
 
 /* <=== executor/support ===>  */
-int			count_pipe(t_token **tokens);
 int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
-void		dup_handler(t_pipe *i, t_pipe *o);
+void		child_handler(t_pipe *i, t_pipe *o);
+void		parent_handler(t_pipe *i, t_pipe *o);
 void		close_pipe(t_pipe *pipe);
 void		initialize_pipes(t_pipe *pipe_in, t_pipe *pipe_out);
 

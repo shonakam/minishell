@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 16:44:14 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/11 15:28:24 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:17:48 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+// #include "includes/minishell.h"
 
 // static void execute_command(t_command *cmd, t_minishell *mini)
 // {

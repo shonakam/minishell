@@ -2,86 +2,97 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <string.h>
 
-#define READ 0
-#define WRITE 1
+typedef struct	command {
+	char **args;            // コマンドとその引数
+	struct command *next;    // 次のコマンド
+}				command_t;
 
-typedef struct s_pipe {
-    int read_end;
-    int write_end;
-} t_pipe;
-
-void fork_and_exec_command(char *cmd, t_pipe *pipe_in, t_pipe *pipe_out)
+// ビルトインコマンドかどうかを判定する
+int is_builtin(char *cmd)
 {
-    pid_t pid = fork();
-    if (pid == -1)
-    {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-
-    if (pid == 0)
-    {
-        // 子プロセス
-        if (pipe_in != NULL)
-        {
-            close(pipe_in->write_end);  // 入力パイプの書き込み側を閉じる
-            dup2(pipe_in->read_end, STDIN_FILENO); // 標準入力をパイプの読み取り側にリダイレクト
-            close(pipe_in->read_end);  // リダイレクト後にパイプの読み取り側を閉じる
-        }
-
-        if (pipe_out != NULL)
-        {
-            close(pipe_out->read_end);  // 出力パイプの読み取り側を閉じる
-            dup2(pipe_out->write_end, STDOUT_FILENO); // 標準出力をパイプの書き込み側にリダイレクト
-            close(pipe_out->write_end);  // リダイレクト後にパイプの書き込み側を閉じる
-        }
-
-        execlp(cmd, cmd, NULL);  // コマンドを実行
-        perror("execlp");
-        exit(EXIT_FAILURE);
-    }
+	return (strcmp(cmd, "pwd") == 0); // 例: pwd がビルトイン
 }
 
-void create_pipe(int pipe_fd[2])
+// ビルトインコマンドの実行
+void run_builtin(char **args, int write_fd)
 {
-    if (pipe(pipe_fd) == -1)
-    {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
+	if (strcmp(args[0], "pwd") == 0)
+	{
+		char	cwd[1024];
+		if (getcwd(cwd, sizeof(cwd)) != NULL)
+			dprintf(write_fd, "%s\n", cwd); // パイプに結果を書き込む
+		else
+			perror("getcwd() error");
+	}
 }
 
-#include <stdio.h>
-#include <stdlib.h>
+void execute_command_chain(command_t *cmd_list) {
+    int pipefd[2];
+    int in_fd = 0; // 最初のコマンドの標準入力は元々の標準入力（0）に接続
+    pid_t pid;
 
-int main()
-{
-    t_pipe pipe_in = {-1, -1};
-    t_pipe pipe_out = {-1, -1};
-
-    char *commands[] = {"ls", "cat", NULL, NULL, NULL};  // NULL 終端のコマンドリスト
-
-    // 最初のコマンドから開始
-    for (int i = 0; commands[i] != NULL; ++i)
-    {
-        if (commands[i + 1] != NULL)
-            create_pipe(&pipe_out);
-        fork_and_exec_command(commands[i], (i == 0 ? NULL : &pipe_in), (commands[i + 1] != NULL ? &pipe_out : NULL));
-        // 入力パイプを更新
-        if (commands[i + 1] != NULL)
-        {
-            close(pipe_in.read_end);
-            close(pipe_in.write_end);
-            pipe_in = pipe_out;
+    while (cmd_list != NULL)
+	{
+        if (cmd_list->next != NULL)
+            pipe(pipefd); // 次のコマンドが存在する場合、パイプを作成
+        if (is_builtin(cmd_list->args[0]))
+		{
+            // ビルトインコマンドを親プロセスで実行
+            run_builtin(cmd_list->args, pipefd[1]); // ビルトインの結果をパイプに書き込み
+            close(pipefd[1]); // 書き込みを閉じる
+            in_fd = pipefd[0]; // 次のコマンドの標準入力として設定
         }
+		else
+		{
+            pid = fork();
+            if (pid == 0) {
+                // 子プロセス内
+
+                if (in_fd != 0) {
+                    dup2(in_fd, 0); // 標準入力を前のコマンドの出力にリダイレクト
+                    close(in_fd);
+                }
+
+                if (cmd_list->next != NULL) {
+                    close(pipefd[0]); // 読み取り側を閉じる
+                    dup2(pipefd[1], 1); // 標準出力をパイプにリダイレクト
+                    close(pipefd[1]);
+                }
+
+                execvp(cmd_list->args[0], cmd_list->args); // コマンドの実行
+                perror("execvp failed");
+                exit(1);
+            } else {
+                // 親プロセス内
+
+                if (cmd_list->next != NULL) {
+                    close(pipefd[1]); // パイプの書き込み側を閉じる
+                }
+
+                if (in_fd != 0) {
+                    close(in_fd); // 既に使用済みの標準入力を閉じる
+                }
+                in_fd = pipefd[0]; // 次のコマンドの標準入力として設定
+            }
+        }
+
+        cmd_list = cmd_list->next; // 次のコマンドへ進む
     }
 
-    if (pipe_in.read_end != -1)
-    {
-        close(pipe_in.read_end);
-        close(pipe_in.write_end);
-    }
-    while (wait(NULL) > 0)
-        ;
+    while (wait(NULL) > 0); // 全ての子プロセスが終了するのを待機
+}
+
+int	main() {
+    // コマンド例: pwd | cat -e
+    // command_t cmd1 = { .args = (char*[]){"pwd", NULL}, .next = NULL };
+    // command_t cmd2 = { .args = (char*[]){"cat", "-e", NULL}, .next = NULL };
+	command_t cmd1 = { .args = (char*[]){"cat", NULL}, .next = NULL };
+    command_t cmd2 = { .args = (char*[]){"cat", NULL}, .next = NULL };
+	command_t cmd3 = { .args = (char*[]){"ls", NULL}, .next = NULL };
+    cmd1.next = &cmd2;
+	cmd2.next = &cmd3;
+    execute_command_chain(&cmd1);
+    return 0;
 }

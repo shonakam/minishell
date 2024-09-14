@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 00:39:05 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/07 00:44:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:16:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 void	remove_first_arg(char **argv)
 {

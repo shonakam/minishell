@@ -6,12 +6,12 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:56:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 14:44:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/12 23:17:09 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-#include <stdio.h>
+// #include <stdio.h>
 
 static size_t get_total_length(int count, va_list args)
 {

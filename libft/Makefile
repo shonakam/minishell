@@ -10,11 +10,11 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(AR) $@ $(OBJS)
+	@$(AR) $@ $(OBJS)
 
 objs/%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I . -c $< -o $@
+	@$(CC) $(CFLAGS) -I . -c $< -o $@
 
 clean:
 	@$(RM) -r objs

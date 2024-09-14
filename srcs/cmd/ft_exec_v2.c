@@ -6,57 +6,57 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 16:44:14 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 18:31:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:17:51 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+// #include "includes/minishell.h"
 
-static void execute_command(t_command *cmd, t_minishell *mini)
-{
-	char	*path;
+// static void execute_command(t_command *cmd, t_minishell *mini)
+// {
+// 	char	*path;
 
-	dup_descriptor(cmd);
-	path = get_bin_path(mini->envlist, cmd->argv[0]);
-	execve(path, cmd->argv, convert_to_envp(&mini->envlist));
-	perror("execute_command: execve");
-}
+// 	dup_descriptor(cmd);
+// 	path = get_bin_path(mini->envlist, cmd->argv[0]);
+// 	execve(path, cmd->argv, convert_to_envp(&mini->envlist));
+// 	perror("execute_command: execve");
+// }
 
-static int	**create_pipe(int n_cmds)
-{
-	int	**pipes;
-	int	i;
+// static int	**create_pipe(int n_cmds)
+// {
+// 	int	**pipes;
+// 	int	i;
 
-	pipes = (int **)malloc(sizeof(int *) * (n_cmds - 1));
-	if (!pipes)
-		perror("create_pipe: malloc");
-	i = 0;
-	while (i < n_cmds - 1)
-	{
-		pipes[i] = (int *)malloc(sizeof(int) * 2);
-		if (!pipes[i])
-			perror("create_pipe: malloc");
-		if (pipe(pipes[i]) == -1)
-			perror("create_pipe: pipe");
-		i++;
-	}
-	return (pipes);
-}
+// 	pipes = (int **)malloc(sizeof(int *) * (n_cmds - 1));
+// 	if (!pipes)
+// 		perror("create_pipe: malloc");
+// 	i = 0;
+// 	while (i < n_cmds - 1)
+// 	{
+// 		pipes[i] = (int *)malloc(sizeof(int) * 2);
+// 		if (!pipes[i])
+// 			perror("create_pipe: malloc");
+// 		if (pipe(pipes[i]) == -1)
+// 			perror("create_pipe: pipe");
+// 		i++;
+// 	}
+// 	return (pipes);
+// }
 
-static void	close_pipe(int **pipes, int n_cmds)
-{
-	int	i;
+// static void	close_pipe(int **pipes, int n_cmds)
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < n_cmds - 1)
-	{
-		close(pipes[i][READ]);
-		close(pipes[i][WRITE]);
-		free(pipes[i]);
-		i++;
-	}
-	free(pipes);
-}
+// 	i = 0;
+// 	while (i < n_cmds - 1)
+// 	{
+// 		close(pipes[i][READ]);
+// 		close(pipes[i][WRITE]);
+// 		free(pipes[i]);
+// 		i++;
+// 	}
+// 	free(pipes);
+// }
 
 // static void fork_and_execute(t_pipe *p, t_command *cmd, t_minishell *mini)
 // {
