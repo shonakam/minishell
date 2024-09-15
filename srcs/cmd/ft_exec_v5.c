@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 06:20:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/14 22:03:06 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:12:35 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ static void	exec_pattern(t_command *cmd, int *p, t_minishell *mini)
 	}
 }
 
+/*
+-- heredocは最後のみ解釈？
+-- cat <<e <<f なら <<f を表示
+*/
 void	ft_exec_v5(t_minishell *mini)
 {
 	t_command	*cmd;
@@ -78,9 +82,14 @@ void	ft_exec_v5(t_minishell *mini)
 			if (pipe(p) == -1)
 			{
 				perror("pipe");
-				// free
 				exit(EXIT_FAILURE);
 			}
+		}
+		if (handle_heredoc(cmd, &mini->hd_index) == 1)
+		{
+			printf("\033[31mBREAKPOINT\033[0m\n");
+			cmd = cmd->next;
+			continue ;
 		}
 		exec_pattern(cmd, p, mini);
 		cmd = cmd->next;

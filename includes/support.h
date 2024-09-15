@@ -18,14 +18,13 @@ char		*connect_and_free(char *s1, char *s2);
 /*  <=== lexer/parser ===>  */
 int			count_cmd(t_command *cmd);
 void		cpy_args(t_command *cmd, char **a);
-void		free_close_commands(t_command *cmd);
+void		free_commands(t_command *cmd);
 t_command	*get_current_cmd(t_command *cmd, int depth);
 
 /* <=== executor/support ===>  */
 int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
 void		redirect_fd(int old, int new);
-void		close_pipe(t_pipe *pipe);
-void		initialize_pipes(t_pipe *pipe_in, t_pipe *pipe_out);
+void		free_heredoc(t_command *cmd);
 
 #endif
