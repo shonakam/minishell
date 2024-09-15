@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:57:44 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 23:33:02 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 13:49:06 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	exit_error(char *arg)
 
 int	cmd_exit(t_command *cmd)
 {
+	int		exit_status;
 	char	*s;
 
 	ft_putendl_fd("exit", 2);
@@ -33,14 +34,14 @@ int	cmd_exit(t_command *cmd)
 			exit(exit_error(cmd->argv[1]));
 		else if (cmd->argc == 1)
 		{
-			int exit_status = ft_atoi(cmd->argv[1]) % 256;
+			exit_status = ft_atoi(cmd->argv[1]) % 256;
 			exit(exit_status);
 		}
 		else
 		{
 			s = "minishell: exit: too many arguments\n";
 			write(2, s, ft_strlen(s));
-			return (2);
+			return (1);
 		}
 	}
 	return (0);

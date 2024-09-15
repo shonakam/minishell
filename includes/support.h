@@ -6,6 +6,7 @@ char		**ft_split_by_eq(char *s);
 int			get_listsize(t_envlist **l);
 void		free_envlist(t_envlist **l);
 char		*get_bin_path(t_envlist *list, char *cmd);
+t_envlist	*create_head_node(void);
 
 /*  <=== lexer/support ===>  */
 int			ft_isspace(char c);

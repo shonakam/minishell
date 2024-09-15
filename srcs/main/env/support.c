@@ -6,11 +6,26 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/07 01:40:36 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:11:36 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+t_envlist	*create_head_node(void)
+{
+	t_envlist *head = malloc(sizeof(t_envlist));
+	if (!head)
+	{
+		perror("create_head_node: malloc");
+		return (NULL);
+	}
+	head->key = NULL;
+	head->value = NULL;
+	head->next = NULL;
+	return (head);
+}
+
 
 char	*get_bin_path(t_envlist *list, char *cmd)
 {

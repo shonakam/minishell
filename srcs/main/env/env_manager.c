@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:22:13 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/14 22:59:30 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:33:16 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ static void	ft_setenv(t_envlist **l, const char *k, const char *v)
 		perror("ft_setenv: malloc for [key|value]");
 		return ;
 	}
-	new_variable->next = *l;
-	*l = new_variable;
+	new_variable->next = (*l)->next;
+	(*l)->next = new_variable;
+	printf("SUCCESS\n");
 }
 
 void	ft_putenv(t_envlist **l, const char *k, const char *v)
@@ -42,11 +43,10 @@ void	ft_putenv(t_envlist **l, const char *k, const char *v)
 	t_envlist	*current;
 	char		*tmp;
 
-	current = *l;
+	current = (*l)->next;
 	while (current)
 	{
-		if ((ft_strlen(current->key) == ft_strlen(k)) &&
-			(ft_strncmp(current->key, k, ft_strlen(k)) == 0))
+		if (ft_strcmp(current->key, k) == 0)
 		{
 			tmp = ft_strdup(v);
 			if (!tmp)
@@ -68,12 +68,11 @@ int	ft_clearenv(t_envlist **list, char *key)
 	t_envlist	*current;
 	t_envlist	*prev;
 
-	current = *list;
+	current = (*list)->next;
 	prev = NULL;
 	while (current)
 	{
-		if ((ft_strlen(current->key) == ft_strlen(key)) &&
-			(ft_strncmp(current->key, key, ft_strlen(key)) == 0))
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			if (!prev)
 				*list = current->next;
@@ -91,11 +90,12 @@ int	ft_clearenv(t_envlist **list, char *key)
 
 char	*ft_getenv(t_envlist *list, char *key)
 {
+	list = list->next;
 	while (list)
 	{
 		if ((ft_strlen(list->key) == ft_strlen(key)) &&
 			(ft_strncmp(list->key, key, ft_strlen(key)) == 0))
-			return list->value;
+			return (list->value);
 		list = list->next;
 	}
 	return (NULL);
@@ -107,9 +107,9 @@ t_envlist	*make_envlist(char **envp)
 	char		**kv;
 	int	i;
 
-	head = NULL;
+	head = create_head_node();
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		kv = ft_split_by_eq(envp[i]);
 		if (!kv)

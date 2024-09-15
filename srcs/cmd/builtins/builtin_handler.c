@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 00:04:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 01:51:49 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 12:23:59 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	builtin_runner(t_command *cmd, int fd, t_envlist *envlist)
 	else if (!ft_strcmp(cmd->argv[0], "env"))
 		return (cmd_env(fd, envlist));
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		return (cmd_exit(cmd, fd));
+		return (cmd_exit(cmd));
 	else if (!ft_strcmp(cmd->argv[0], "export"))
-		return (1);
+		return (cmd_export(cmd, fd, envlist));
 	else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (cmd_pwd(cmd, fd));
 	else if (!ft_strcmp(cmd->argv[0], "unset"))

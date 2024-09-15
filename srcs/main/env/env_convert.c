@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:20:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/04 21:06:52 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:12:39 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	free_envvar(char **r, int n)
 	free(r);
 }
 
+/* skip head -> not size+1  */
 char	**convert_to_envp(t_envlist	**l)
 {
 	t_envlist	*current;
@@ -48,13 +49,13 @@ char	**convert_to_envp(t_envlist	**l)
 	int			i;
 
 	size = get_listsize(l);
-	r = malloc(sizeof(char *) * (size + 1));
+	r = malloc(sizeof(char *) * (size));
 	if (!r)
 	{
 		perror("convert_to_envp: malloc");
 		return(NULL);
 	}
-	current = *l;
+	current = (*l)->next;
 	i = 0;
 	while (current)
 	{
