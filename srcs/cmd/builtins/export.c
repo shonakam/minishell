@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:57:03 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 14:53:01 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:27:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	set_all_args(t_command *cmd, int fd, t_envlist *envlist)
 		}
 		else if (is_valid_identifier(cmd->argv[i]))
 		{
-			printf("\033[31mBREAKPOINT\033[0m\n");
 			kv = ft_split_by_eq(cmd->argv[i]);
 			if (kv)
 			{

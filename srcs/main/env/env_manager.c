@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:22:13 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 14:33:16 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 22:31:48 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	ft_setenv(t_envlist **l, const char *k, const char *v)
 	}
 	new_variable->next = (*l)->next;
 	(*l)->next = new_variable;
-	printf("SUCCESS\n");
 }
 
 void	ft_putenv(t_envlist **l, const char *k, const char *v)

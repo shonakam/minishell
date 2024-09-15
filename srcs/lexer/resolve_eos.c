@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:48:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 15:04:25 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 18:04:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,22 @@ static int	is_unfinished(const char *line)
 	if (i == 0)
 		return (0);
 	i--;
-	while (i > 0 && (line[i] == ' ' || (9 <= line[i] && line[i] <= 13)))
+	while (i > 0 &&  ft_isspace((unsigned char)line[i]))
 		i--;
-	if (line[i] == '|')
+	if (i >= 0 && line[i] == '|')
 		return (1);
-	if (line[i] == '<')
-		return (2);
-	if (line[i] == '>')
-		return (3);
-	if (ft_strncmp(&line[i], ">>", 2) == 0)
-		return (4);
+	if (i >= 0 && line[i] == '<')
+	{
+		if (i > 0 && line[i - 1] == '<')
+			return (-1);
+		return (-2);
+	}
+	if (i >= 0 && line[i] == '>')
+	{
+		if (i > 0 && line[i - 1] == '>')
+			return (-4);
+		return (-3);
+	}
 	return (0);
 }
 
@@ -82,12 +88,15 @@ static char	*resolve_reserve(char *line)
 	unfinished_flag = is_unfinished(line);
 	while (unfinished_flag)
 	{
-		if (unfinished_flag == 1)								// パイプ '|' の場合
+		if (unfinished_flag < 0)
+		{
+			ft_putendl_fd(
+				"minishell: syntax error near unexpected token `newline'",
+				STDERR_FILENO);
+			return (free(line), NULL);
+		}
+		else if (unfinished_flag == 1)								// パイプ '|' の場合
 			new_line = readline("pipe> ");
-		else if (unfinished_flag == 2)							// リダイレクト '<' の場合
-			new_line = readline("heredoc> ");
-		else if (unfinished_flag == 3 || unfinished_flag == 4)	// リダイレクト '>' の場合
-			new_line = readline("> ");							// ここはエラーにすべきかも
 		if (!new_line)
 			return (free(new_line), NULL);
 		line = connect_and_free(line, new_line);
@@ -108,7 +117,11 @@ char	*resolve_eos(char *line)
 	int		unfinished_flag;
 
 	new_line = ft_strdup(line);
+	if (!new_line)
+		return (NULL);
 	new_line = resolve_quote(new_line);
+	if (!new_line)
+		return (NULL);
 	new_line = resolve_reserve(new_line);
 	// printf("result: %s\n", new_line);	// 結果を表示
 	return (new_line);

@@ -14,7 +14,6 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
 # include "libft/libft.h"
 # include "token.h"
 # include "parser.h"
@@ -30,6 +29,7 @@ typedef struct	s_minishell	{
 	t_envlist	*envlist;
 	t_token		**token;
 	t_command	*cmd;
+	int			hd_index;
 	int			in_fd;
 	int			status;
 }				t_minishell;
@@ -37,9 +37,7 @@ typedef struct	s_minishell	{
 t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
 t_command	*build_commands(t_token **tokens, int count);
-// void		ft_exec_v1(t_minishell *mini);
-// void		ft_exec_v3(t_minishell *mini);
-// void		ft_exec_v4(t_minishell *mini);
+int			handle_heredoc(t_command *cmd, int *index);
 void		ft_exec_v5(t_minishell *mini);
 
 int			get_exit_status(t_minishell *mini);

@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_cleanup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:50:56 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 21:51:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 23:36:58 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-// void	set_exit_status(const int n)
-// {
-	
-// }
 
 int	get_exit_status(t_minishell *mini)
 {
@@ -30,9 +25,12 @@ void	ft_clean(t_minishell *mini, int flag)
 	if (mini->token)
 		free_tokens(mini->token);
 	if (mini->cmd)
-		free_close_commands(mini->cmd);
+		free_commands(mini->cmd);
 	if (mini->envlist && flag == 1)
 		free_envlist(&mini->envlist);
+	mini->in_fd = STDIN_FILENO;
+	mini->hd_index = 0;
+	mini->status = 0;
 }
 
 void	ft_clean_exit(t_minishell *mini)

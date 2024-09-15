@@ -42,6 +42,7 @@ objs/%.o: $(SRC_PATH)%.c
 
 clean:
 	@make -C libft clean
+	@rm -rf objs/
 
 fclean: clean
 	@rm -f $(MINISHELL)

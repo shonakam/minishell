@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/15 14:56:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/16 03:39:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static t_minishell	*init_mini(t_minishell *mini, char **envp)
 	mini->token = NULL;
 	mini->cmd = NULL;
 	mini->in_fd = STDIN_FILENO;
+	mini->hd_index = 0;
 	mini->status = 0;
 	mini->envlist = make_envlist(envp);
 	if (!mini->envlist)
@@ -36,16 +37,14 @@ static void	minishell(t_minishell *mini)
 	{
 		mini->line = readline("minishell$ ");
 		if (mini->line == NULL)
-			break ;
+			continue ;
 		mini->token = ft_lexer(mini->line); // '|'や'>>'で終わる不完全な文字列は連続して入力を受け続ける
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
-		print_tokens(mini->token);
 		ft_exec_v5(mini);
-		ft_clean(mini, 0);
 		get_exit_status(mini);
-		// return ;
+		ft_clean(mini, 0);
 	}
 }
 
