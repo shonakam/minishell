@@ -26,5 +26,6 @@ int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
 void		redirect_fd(int old, int new);
 void		free_heredoc(t_command *cmd);
+char		**rebuild_args(t_command *cmd);
 
 #endif

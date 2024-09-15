@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 23:33:09 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/16 03:29:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,17 @@ static t_heredoc	*set_heredoc(char *delimiter, int *index)
 
 /*
 -- '<<'が存在するか確認
--- delimiterの取得
+-- delimiterの取得 展開
 -- tmpファイルを作成(READ&WRITE)
 -- LOOP開始
 -- 終了後closeは外部で処理
 -- 1コマンド1heredoc
+
+--	bash-3.2$ cat s1 e s2
+	s1-hi
+	cat: e: No such file or directory
+	s2-hoo
+-- tmpファイルを作成するから問題ない
 */
 int	handle_heredoc(t_command *cmd, int *index)
 {

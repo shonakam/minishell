@@ -6,29 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/15 22:00:24 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/16 03:39:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-void	print_commands(t_command *cmd)
-{
-	if (!cmd)
-		return ;
-	printf("----- PRINT CMD -----\n");
-	for (int i=0; cmd; i++) {
-		printf("cmd[%d] argc: %d\n", i, cmd->argc);
-		for (int j = 0; cmd->argv && cmd->argv[j]; j++)
-			printf("cmd[%d] argv[%d]: %s\n", i, j, cmd->argv[j]);
-		// printf("cmd[%d] append_fd: %d\n", i, cmd->append_fd);
-		// printf("cmd[%d] imput_fd: %d\n", i, cmd->input_fd);
-		// printf("cmd[%d] output_fd: %d\n", i, cmd->output_fd);
-		printf("\n");
-		cmd = cmd->next;
-	}
-	printf("---------------------\n");
-}
 
 static t_minishell	*init_mini(t_minishell *mini, char **envp)
 {
@@ -60,11 +42,9 @@ static void	minishell(t_minishell *mini)
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
-		// print_commands(mini->cmd);
 		ft_exec_v5(mini);
-		ft_clean(mini, 0);
 		get_exit_status(mini);
-		// return ;
+		ft_clean(mini, 0);
 	}
 }
 
