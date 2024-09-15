@@ -26,6 +26,10 @@ int			is_executable(const char *path);
 void		print_error(const char *msg, const char *cmd);
 void		redirect_fd(int old, int new);
 void		free_heredoc(t_command *cmd);
+void		handle_pipe(int *p, int f);
 char		**rebuild_args(t_command *cmd);
+char		*get_next_hd_filename(t_heredoc **hd);
+int			count_hd(t_heredoc *hd);
+int			is_here_doc_placeholder(const char *arg);
 
 #endif
