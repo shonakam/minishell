@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 00:04:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/14 17:19:28 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 12:23:59 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,39 @@
 
 int	is_builtin(t_command *cmd)
 {
-	if (!ft_strcmp(cmd->argv[0], "pwd"))
-		return (1); // ビルトインコマンドであると示す
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (1);
+	else if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (1);
+	else if (!ft_strcmp(cmd->argv[0], "env"))
+		return (1);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		return (1); // ビルトインコマンドであると示す
-	// 他のビルトインコマンドのチェックを追加
-	return (0); // ビルトインコマンドでない
+		return (1);
+	else if (!ft_strcmp(cmd->argv[0], "export"))
+		return (1);
+	else if (!ft_strcmp(cmd->argv[0], "pwd"))
+		return (1);
+	else if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (1);
+	return (0);
 }
 
 // ビルトインコマンドを実行する関数
-int	builtin_runner(t_command *cmd, int fd)
+int	builtin_runner(t_command *cmd, int fd, t_envlist *envlist)
 {
-	if (!ft_strncmp(cmd->argv[0], "pwd", ft_strlen(cmd->argv[0])))
+	if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (cmd_cd(cmd));
+	else if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (cmd_echo(cmd, fd));
+	else if (!ft_strcmp(cmd->argv[0], "env"))
+		return (cmd_env(fd, envlist));
+	else if (!ft_strcmp(cmd->argv[0], "exit"))
+		return (cmd_exit(cmd));
+	else if (!ft_strcmp(cmd->argv[0], "export"))
+		return (cmd_export(cmd, fd, envlist));
+	else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (cmd_pwd(cmd, fd));
-	else if (!ft_strncmp(cmd->argv[0], "exit", ft_strlen(cmd->argv[0])))
-		return (cmd_exit(cmd, fd));
-	// 他のビルトインコマンドの実行を追加
-	return (127); // コマンドが見つからない場合のエラーコード
+	else if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (cmd_unset(cmd, envlist));
+	return (127);
 }

@@ -22,8 +22,6 @@
 # include "builtin.h"
 # include "support.h"
 
-// # include "test/test.h"
-
 # define READ	0
 # define WRITE	1
 

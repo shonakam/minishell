@@ -49,5 +49,8 @@ fclean: clean
 
 re: fclean all
 
+leak: re
+	@valgrind --leak-check=full --show-leak-kinds=all ./minishell
+
 run: re
 	@./minishell || { echo "Build or execution failed"; exit 1; }

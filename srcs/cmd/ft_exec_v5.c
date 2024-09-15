@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 06:20:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/14 21:02:01 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/14 22:03:06 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ static void	exec_pattern(t_command *cmd, int *p, t_minishell *mini)
 	{
 		if (cmd->next)
 		{
-			builtin_runner(cmd, p[WRITE]);
+			builtin_runner(cmd, p[WRITE], mini->envlist);
 			close(p[WRITE]);
 			mini->in_fd = p[READ]; 
 		}
 		else
-			builtin_runner(cmd, 0);
+			builtin_runner(cmd, 0, mini->envlist);
 	}
 	else
 	{

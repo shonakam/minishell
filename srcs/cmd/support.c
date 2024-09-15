@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:37 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/14 20:53:10 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/14 21:04:15 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	redirect_fd(int old, int new)
 		close(old);
 	}
 }
+
 int		is_executable(const char *path)
 {
 	if (access(path, F_OK) != 0)
@@ -35,30 +36,30 @@ int		is_executable(const char *path)
 	return (1);
 }
 
-void	initialize_pipes(t_pipe *pipe_in, t_pipe *pipe_out)
-{
-	if (pipe_in != NULL)
-	{
-		pipe_in->read_end = -1;
-		pipe_in->write_end = -1;
-	}
-	if (pipe_out != NULL)
-	{
-		pipe_out->read_end = -1;
-		pipe_out->write_end = -1;
-	}
-}
+// void	initialize_pipes(t_pipe *pipe_in, t_pipe *pipe_out)
+// {
+// 	if (pipe_in != NULL)
+// 	{
+// 		pipe_in->read_end = -1;
+// 		pipe_in->write_end = -1;
+// 	}
+// 	if (pipe_out != NULL)
+// 	{
+// 		pipe_out->read_end = -1;
+// 		pipe_out->write_end = -1;
+// 	}
+// }
 
-void close_pipe(t_pipe *pipe)
-{
-	if (pipe->read_end != -1)
-	{
-		close(pipe->read_end);
-		pipe->read_end = -1; // Mark as closed
-	}
-	if (pipe->write_end != -1)
-	{
-		close(pipe->write_end);
-		pipe->write_end = -1; // Mark as closed
-	}
-}
+// void close_pipe(t_pipe *pipe)
+// {
+// 	if (pipe->read_end != -1)
+// 	{
+// 		close(pipe->read_end);
+// 		pipe->read_end = -1; // Mark as closed
+// 	}
+// 	if (pipe->write_end != -1)
+// 	{
+// 		close(pipe->write_end);
+// 		pipe->write_end = -1; // Mark as closed
+// 	}
+// }

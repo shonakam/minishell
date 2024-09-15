@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/14 20:34:06 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/15 14:56:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	minishell(t_minishell *mini)
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
+		print_tokens(mini->token);
 		ft_exec_v5(mini);
 		ft_clean(mini, 0);
 		get_exit_status(mini);
@@ -60,5 +61,5 @@ int	main(int argc, char **argv, char **envp)
 
 __attribute__((destructor))
 static void destructor() {
-	system("leaks ./minishell");
+	system("leaks -q minishell");
 }
