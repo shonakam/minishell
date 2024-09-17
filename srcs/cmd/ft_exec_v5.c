@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 06:20:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/17 02:12:08 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 03:59:52 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,28 +65,38 @@ static void	exec_pattern(t_command *cmd, int *p, t_minishell *mini)
 	}
 }
 
-static	int	exec_handler(t_command	*cmd, t_minishell *mini, int *p)
+static	int	exec_handler(t_command	*cmd, t_minishell *m, int *p)
 {
+	int		i;
+	char 	*tmp;
+
 	if (cmd->next)
 			handle_pipe(p, 0);
-	if (handle_heredoc(cmd, &mini->hd_index, mini->envlist) == 1)
+	if (handle_heredoc(cmd, &m->hd_index, m->status, m->envlist) == 1)
 	{
-		mini->status = 0;
+		m->status = 0;
 		if (cmd->next)
 			handle_pipe(p, 1);
 		return (1);
 	}
 	if (cmd->hd_list)
 		rebuild_args(cmd);
-	exec_pattern(cmd, p, mini);
-	return (0);
+	i = 0;
+	while (cmd->argv[i])
+	{
+		tmp = expand_variables(cmd->argv[i], m->status, m->envlist);
+		free(cmd->argv[i]);
+		cmd->argv[i++] = remove_quotes(tmp);
+	}
+	return (exec_pattern(cmd, p, m), 0);
 }
 
 
 /*
 -- manage heredoc
 -- expand args
--- redirect | bin / builtins 
+-- redirect | bin / builtins
+-- export TMP=s1 > cat "$TMP" ok
 */
 void	ft_exec_v5(t_minishell *mini)
 {

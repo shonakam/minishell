@@ -6,13 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/17 00:30:34 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 03:17:27 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	heredoc_loop(int fd, char *delimiter, t_envlist *e)
+static void	heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 {
 	char	*line;
 	char	*processed_line;
@@ -28,7 +28,7 @@ static void	heredoc_loop(int fd, char *delimiter, t_envlist *e)
 			free(line);
 			break ;
 		}
-		processed_line = process_quotes(line, e);
+		processed_line = expand_variables(line, s, e);
 		if (processed_line == NULL)
 		{
 			free(line);
@@ -77,7 +77,7 @@ void	append_hd_node(t_heredoc **head, t_heredoc *new_node)
 		new_node->prev = last;
 }
 
-static t_heredoc	*set_heredoc(char *delimiter, int *index, t_envlist *e)
+static t_heredoc	*set_heredoc(char *del, int *index, int s, t_envlist *e)
 {
 	int		fd;
 	char	*filename;
@@ -94,7 +94,7 @@ static t_heredoc	*set_heredoc(char *delimiter, int *index, t_envlist *e)
 		}
 	}
 	(*index)++;
-	heredoc_loop(fd, delimiter, e);
+	heredoc_loop(fd, del, s, e);
 	return (create_hd_node(filename, fd));
 }
 
@@ -112,7 +112,7 @@ static t_heredoc	*set_heredoc(char *delimiter, int *index, t_envlist *e)
 	s2-hoo
 -- tmpファイルを作成するから問題ない
 */
-int	handle_heredoc(t_command *cmd, int *index, t_envlist *e)
+int	handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e)
 {
 	int		flag;
 	int		fd;
@@ -129,7 +129,7 @@ int	handle_heredoc(t_command *cmd, int *index, t_envlist *e)
 			if (cmd->argv[i + 1])
 			{
 				append_hd_node(&cmd->hd_list,
-					set_heredoc(cmd->argv[i + 1], index, e));
+					set_heredoc(cmd->argv[i + 1], index, s, e));
 				// printf("\033[31mBREAKPOINT\033[0m\n");
 			}
 		}

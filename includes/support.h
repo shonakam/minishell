@@ -33,5 +33,6 @@ char		**rebuild_args(t_command *cmd);
 char		*get_next_hd_filename(t_heredoc **hd);
 int			count_hd(t_heredoc *hd);
 int			is_here_doc_placeholder(const char *arg);
+char		*concat_and_free(char *result, char *tmp);
 
 #endif

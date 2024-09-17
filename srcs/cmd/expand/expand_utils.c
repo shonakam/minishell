@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:23:42 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 02:54:24 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 03:29:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,17 @@ void	init_expand_state(t_state *state)
 	state->in_double = 0;
 }
 
+char	*concat_and_free(char *result, char *tmp)
+{
+	char *new_result;
+
+	if (!result)
+		return (ft_strdup(tmp));
+	new_result = ft_strjoin(result, tmp);
+	free(result);
+	return (new_result);
+}
+
 /* 
 -- getpid() is forbidden
 -- [0, #, @]
@@ -44,15 +55,7 @@ char	*expand_special_variable(const char *str, int status)
 void	state_toggle(t_state *state, int flag)
 {
 	if (flag == 1)
-	{
-		// if (!state->in_single)  // シングルクォートが開始される場合のみ
-			// state->e += 1;
 		state->in_single = !state->in_single;
-	}
 	else if (flag == 2)
-	{
-		// if (!state->in_double)  // ダブルクォートが開始される場合のみ
-			// state->e += 1;
 		state->in_double = !state->in_double;
-	}
 }

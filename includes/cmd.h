@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:40:06 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 00:36:19 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 03:42:37 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,13 @@ int			cmd_unset(t_command *cmd, t_envlist *envlist);
 
 /*  <=== HEREDOCUMENTS ===>  */
 t_command	*build_commands(t_token **tokens, int count);
-int			handle_heredoc(t_command *cmd, int *index, t_envlist *e);
+int			handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e);
 
 /*  <=== EXPASION ===>  */
 void		init_expand_state(t_state *state);
-char		*extract_env_variable(const char *str);
+char		*expand_variables(const char *input, int status, t_envlist *e);
 char		*expand_special_variable(const char *str, int status);
-char		*expand_env_variable(const char *str, t_envlist *envlist, int *i);
-// char		*expand_variables(const char *str, t_envlist *envlist);
-char		*process_quotes(const char *str, t_envlist *envlist);
+char		*remove_quotes(const char *input);
 void		state_toggle(t_state *state, int flag);
 
 #endif
