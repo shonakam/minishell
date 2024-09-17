@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:46 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/17 01:32:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:20:26 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ TokenType	identify_metachar(const char *input, size_t pos)
 		return METACHAR_SINGLE_QUOTE;
 	if (ft_strncmp(&input[pos], "\"", 1) == 0)
 		return METACHAR_DOUBLE_QUOTE;
-	if (ft_strncmp(&input[pos], "$?", 2) == 0)
-		return METACHAR_EXIT_STATUS;
+	// if (ft_strncmp(&input[pos], "$?", 2) == 0)
+	// 	return METACHAR_EXIT_STATUS;
 	if (ft_strncmp(&input[pos], "$", 1) == 0)
 		return METACHAR_DOLLAR;
 	return METACHAR_NONE;

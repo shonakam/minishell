@@ -16,7 +16,7 @@ typedef enum {
 	METACHAR_DOUBLE_QUOTE,		// "
 	METACHAR_DOLLAR,			// $
 	METACHAR_ENV_VAR,			// $ followed by characters
-	METACHAR_EXIT_STATUS,		// $?
+	// METACHAR_EXIT_STATUS,		// $?
 	TOKEN_WORD,
 }	TokenType;
 

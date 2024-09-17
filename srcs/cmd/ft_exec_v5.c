@@ -6,11 +6,38 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 06:20:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:59:52 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 06:15:33 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+static void	bin_support(t_command *cmd, int *p, t_minishell *mini)
+{
+	char *path;
+
+	if (mini->in_fd != STDIN_FILENO)
+		redirect_fd(mini->in_fd, STDIN_FILENO);
+	if (p && cmd->next)
+	{
+		close(p[READ]);
+		redirect_fd(p[WRITE], STDOUT_FILENO);
+	}
+	path = get_bin_path(mini->envlist, cmd->argv[0]);
+	if (access(path, F_OK) == -1)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd("command not found: ", STDERR_FILENO);
+		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
+		mini->status = 1;
+		return ;
+	}
+	execve(path, cmd->argv, convert_to_envp(&mini->envlist));
+	perror("minishell");
+	// mini->status = 126;
+	free(path);
+	exit(EXIT_FAILURE);
+}
 
 static void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 {
@@ -19,17 +46,7 @@ static void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (mini->in_fd != STDIN_FILENO)
-			redirect_fd(mini->in_fd, STDIN_FILENO);
-		if (p && cmd->next)
-		{
-			close(p[READ]);
-			redirect_fd(p[WRITE], STDOUT_FILENO);
-		}
-		execve(get_bin_path(mini->envlist, cmd->argv[0]),
-			cmd->argv, convert_to_envp(&mini->envlist));
-		perror("execve");
-		exit(EXIT_FAILURE);
+		bin_support(cmd, p, mini);
 	}
 	else
 	{
@@ -51,7 +68,7 @@ static void	exec_pattern(t_command *cmd, int *p, t_minishell *mini)
 			mini->in_fd = p[READ]; 
 		}
 		else
-			builtin_runner(cmd, 0, mini->envlist);
+			mini->status = builtin_runner(cmd, 0, mini->envlist);
 	}
 	else
 	{
@@ -106,7 +123,7 @@ void	ft_exec_v5(t_minishell *mini)
 	cmd = mini->cmd;
 	while (cmd)
 	{
-		printf("\033[31mBREAKPOINT\033[0m\n");
+		// printf("\033[31mBREAKPOINT\033[0m\n");
 		if (exec_handler(cmd, mini, p))
 		{
 			cmd = cmd->next;
