@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 04:06:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 01:57:19 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 02:59:04 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*expand_env(const char *input, t_state *state)
 	char	*value;
 	size_t	s;
 
-	// printf("input[c]: %c\n", input[state->e]);
+	printf("input[c]: %c\n", input[state->e]);
 	state->e += 1;
 	s = state->e;
 	while ((ft_isalnum(input[state->e]) || input[state->e] == '_'))
@@ -70,37 +70,33 @@ char	*expand_variables(const char *input, int status)
 	init_expand_state(&state);
 	while (input[state.s])
 	{
+		printf("d:[%zu] s: [%zu]\n", state.in_double, state.in_single);
 		if (input[state.s] == '\'' && !state.in_double)
 			state_toggle(&state, 1);
 		else if (input[state.s] == '"' && !state.in_single)
 			state_toggle(&state, 2);
-		if (input[state.e])
+		if (input[state.e] == '$' && !state.in_single)
 		{
-			if ((state.in_single && input[state.e] == '\'') ||
-				(state.in_double &&  input[state.e] == '"'))
-				break ;
-			if (input[state.e] == '$' && !state.in_single)
+			state.v = expand_special_variable(input + state.e, status);
+			if (state.v)
 			{
-				state.v = expand_special_variable(input + state.e, status);
-				if (state.v)
-				{
-					state.result = concat_and_free(state.result, state.v);
-					state.e += 2;
-					state.s = state.e;
-					continue ;
-				}
-				else
-				{
-					state.v = expand_env(input, &state);
-					state.result = concat_and_free(state.result, state.v);
-					free(state.v);
-					state.s = state.e;
-					continue ;
-				}
+				state.result = concat_and_free(state.result, state.v);
+				state.e += 2;
+				state.s = state.e;
+				continue ;
 			}
-			state.e++;
+			else
+			{
+				state.v = expand_env(input, &state);
+				state.result = concat_and_free(state.result, state.v);
+				free(state.v);
+				state.s = state.e;
+				continue ;
+			}
 		}
+		state.e++;
 		state.result = concat_and_free(state.result, ft_strndup(input + state.s, (state.e - state.s)));
+		// printf("e:[%lu] res: [%s]\n", state.e, state.result);
 		state.s = state.e;
 	}
 	return (state.result);
@@ -118,10 +114,10 @@ int main()
 	const char *input2 = "\'hello\"$USER\"WORLD\'";
 	const char *input3 = "$USER";
 	const char *input4 = "HELLO";
-	const char *input5 = "$$$?";
+	const char *input5 = "$$$? \"$$\" \'HI $USER\"bob\"\'";
 	const char *input = "Hello ${USER}, your home is ${HOME}/docs";
-    char *output = expand_variables(input0, 127);
-	printf("Input: %s\n", input0);
+    char *output = expand_variables(input5, 127);
+	printf("Input: %s\n", input5);
     printf("Output: %s\n", output);
     free(output);
 }
