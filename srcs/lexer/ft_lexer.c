@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 18:15:49 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 03:51:53 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,34 +24,19 @@ static t_token	*create_token(TokenType t, const char *l, size_t p, size_t s)
 	return (tok);
 }
 
-static TokenType identify_metachar(const char *input, size_t pos)
-{
-	if (ft_strncmp(&input[pos], ">>", 2) == 0)
-		return METACHAR_APPEND_REDIRECT;
-	if (ft_strncmp(&input[pos], "<<", 2) == 0)
-		return METACHAR_HEREDOC;
-	if (ft_strncmp(&input[pos], "|", 1) == 0)
-		return METACHAR_PIPE;
-	if (ft_strncmp(&input[pos], "<",1) == 0)
-		return METACHAR_INPUT_REDIRECT;
-	if (ft_strncmp(&input[pos], ">", 1) == 0)
-		return METACHAR_OUTPUT_REDIRECT;
-	if (ft_strncmp(&input[pos], "'", 1) == 0)
-		return METACHAR_SINGLE_QUOTE;
-	if (ft_strncmp(&input[pos], "\"", 1) == 0)
-		return METACHAR_DOUBLE_QUOTE;
-	if (ft_strncmp(&input[pos], "$?", 2) == 0)
-		return METACHAR_EXIT_STATUS;
-	if (ft_strncmp(&input[pos], "$", 1) == 0)
-		return METACHAR_DOLLAR;
-	return METACHAR_NONE;
-}
 
 static size_t	get_token_size(const char *line, size_t posision, int flag)
 {
 	size_t	end;
 
 	end = posision;
+	if (line[posision] == '$')
+	{
+		end++;
+		while (line[end] && (ft_isalnum(line[end]) || line[end] == '_'))
+			end++;
+		return (end - posision);
+	}
 	while (flag == 0 && line[end] && !ft_isspace(line[end]))
 	{
 		end++;
@@ -63,6 +48,27 @@ static size_t	get_token_size(const char *line, size_t posision, int flag)
 	while (flag == 2 && line[end] && line[end] != '"')
 		end++;
 	return (end - posision);
+}
+
+size_t	size_matcher(TokenType type, const char *line, size_t pos)
+{
+	if (type == METACHAR_SINGLE_QUOTE)
+		return (2 + get_token_size(line, pos + 1, 1));
+	else if (type == METACHAR_DOUBLE_QUOTE)
+		return (2 + get_token_size(line, pos + 1, 2));
+	else if (type == METACHAR_NONE)
+		return (get_token_size(line, pos, 0));
+	else if (type == METACHAR_DOLLAR)
+	{
+		if (line[pos + 1] == '$' || line[pos + 1] == '?')
+			return (2);
+		else
+			return (get_token_size(line, pos, 0));
+	}
+	else if (type == 4 || type == 2 || type == 3 || type == 1 || type == 5)
+		return (2u);
+	else
+		return (1u);
 }
 
 void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
@@ -79,16 +85,7 @@ void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
 	}
 	type = identify_metachar(line, pos);
 	token_size = 0u;
-	if (type == METACHAR_SINGLE_QUOTE)
-		token_size = (2 + get_token_size(line, (pos + 1), 1));
-	else if (type == METACHAR_DOUBLE_QUOTE)
-		token_size = (2 + get_token_size(line, (pos + 1), 2));
-	else if (type == METACHAR_NONE)
-		token_size = get_token_size(line, pos, 0);
-	else if (type == 4 || type == 5 || type == 10)
-		token_size = 2u;
-	else if (type == 1 || type == 2 || type == 3 || type == 8)
-		token_size = 1u;
+	token_size = size_matcher(type, line, pos);
 	toks[c] = create_token(type, line, pos, token_size);
 	pos += token_size;
 	extract_token(line, toks, pos, ++c);
@@ -98,6 +95,13 @@ t_token	**ft_lexer(char *line)
 {
 	t_token	**tokens;
 
+
+	if (!valid_quote(line))
+	{
+		errno = EINVAL;
+		perror("minishell");
+		return (NULL);
+	}
 	add_history(line);
 	line = resolve_eos(line);
 	if (!line)

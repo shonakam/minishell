@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:56:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 14:22:36 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/16 07:26:39 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	print_commands(t_command *cmd)
 		printf("cmd[%d] argc: %d\n", i, cmd->argc);
 		for (int j = 0; cmd->argv && cmd->argv[j]; j++)
 			printf("cmd[%d] argv[%d]: %s\n", i, j, cmd->argv[j]);
-		printf("cmd[%d] append_fd: %d\n", i, cmd->append_fd);
-		printf("cmd[%d] imput_fd: %d\n", i, cmd->input_fd);
-		printf("cmd[%d] output_fd: %d\n", i, cmd->output_fd);
+		// printf("cmd[%d] append_fd: %d\n", i, cmd->append_fd);
+		// printf("cmd[%d] imput_fd: %d\n", i, cmd->input_fd);
+		// printf("cmd[%d] output_fd: %d\n", i, cmd->output_fd);
 		printf("\n");
 		cmd = cmd->next;
 	}

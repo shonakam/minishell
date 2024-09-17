@@ -15,10 +15,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
+
 # include "token.h"
 # include "parser.h"
 # include "envlist.h"
-# include "builtin.h"
 # include "support.h"
 
 # define READ	0
@@ -34,10 +34,10 @@ typedef struct	s_minishell	{
 	int			status;
 }				t_minishell;
 
+# include "cmd.h"
+
 t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
-t_command	*build_commands(t_token **tokens, int count);
-int			handle_heredoc(t_command *cmd, int *index);
 void		ft_exec_v5(t_minishell *mini);
 
 int			get_exit_status(t_minishell *mini);

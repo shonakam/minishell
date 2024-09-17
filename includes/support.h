@@ -14,8 +14,10 @@ int			valid_quote(const char *s);
 int			count_tokens(t_token **tokens);
 void		free_tokens(t_token **tokens);
 char		*connect_and_free(char *s1, char *s2);
+// size_t		size_matcher(TokenType type, const char *line, size_t pos);
+TokenType	identify_metachar(const char *input, size_t pos);
 
-/*  <=== lexer/parser ===>  */
+/*  <=== parser/support ===>  */
 int			count_cmd(t_command *cmd);
 void		cpy_args(t_command *cmd, char **a);
 void		free_commands(t_command *cmd);
@@ -31,5 +33,6 @@ char		**rebuild_args(t_command *cmd);
 char		*get_next_hd_filename(t_heredoc **hd);
 int			count_hd(t_heredoc *hd);
 int			is_here_doc_placeholder(const char *arg);
+char		*concat_and_free(char *result, char *tmp);
 
 #endif

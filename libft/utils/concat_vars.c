@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:56:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 23:17:09 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:44:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static size_t get_total_length(int count, va_list args)
 	while (i < count)
 	{
 		str = va_arg(args, const char *);
-		total_length += ft_strlen(str);
+		if (str)
+			total_length += ft_strlen(str);
 		i += 1;
 	}
 	return (total_length);
@@ -41,8 +42,11 @@ static void	concat_strings(char *dest, int count, va_list args)
 	while (i < count)
 	{
 		str = va_arg(args, const char *);
-		ft_memcpy(current_position, str, ft_strlen(str));
-		current_position += ft_strlen(str);
+		if (str)
+		{
+			ft_memcpy(current_position, str, ft_strlen(str));
+			current_position += ft_strlen(str);
+		}
 		i += 1;
 	}
 	*current_position = '\0';

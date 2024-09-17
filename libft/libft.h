@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 22:30:36 by kmoshker          #+#    #+#             */
-/*   Updated: 2024/09/14 00:58:11 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/16 18:47:49 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 long	ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);
+char	*ft_strndup(const char *src, size_t n);
 char	*ft_strnstr(const char *str, const char *to_find, size_t len);
 // void	ft_putnbr_fd(int n, int fd);
 // void	ft_putstr_fd(char *s, int fd);
