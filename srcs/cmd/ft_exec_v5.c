@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 06:20:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/16 04:32:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/17 02:12:08 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,28 @@ static void	exec_pattern(t_command *cmd, int *p, t_minishell *mini)
 	}
 }
 
+static	int	exec_handler(t_command	*cmd, t_minishell *mini, int *p)
+{
+	if (cmd->next)
+			handle_pipe(p, 0);
+	if (handle_heredoc(cmd, &mini->hd_index, mini->envlist) == 1)
+	{
+		mini->status = 0;
+		if (cmd->next)
+			handle_pipe(p, 1);
+		return (1);
+	}
+	if (cmd->hd_list)
+		rebuild_args(cmd);
+	exec_pattern(cmd, p, mini);
+	return (0);
+}
+
+
 /*
--- heredocは最後のみ解釈？
--- cat <<e <<f なら <<f を表示
+-- manage heredoc
+-- expand args
+-- redirect | bin / builtins 
 */
 void	ft_exec_v5(t_minishell *mini)
 {
@@ -77,19 +96,12 @@ void	ft_exec_v5(t_minishell *mini)
 	cmd = mini->cmd;
 	while (cmd)
 	{
-		if (cmd->next)
-			handle_pipe(p, 0);
-		if (handle_heredoc(cmd, &mini->hd_index) == 1)
+		printf("\033[31mBREAKPOINT\033[0m\n");
+		if (exec_handler(cmd, mini, p))
 		{
-			printf("\033[31mBREAKPOINT\033[0m\n");
-			mini->status = 0;
 			cmd = cmd->next;
-			handle_pipe(p, 1);
 			continue ;
 		}
-		if (cmd->hd_list)
-			rebuild_args(cmd);
-		exec_pattern(cmd, p, mini);
 		cmd = cmd->next;
 	}
 	while (waitpid(-1, &mini->status, 0) > 0)

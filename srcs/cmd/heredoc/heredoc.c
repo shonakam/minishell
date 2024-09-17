@@ -6,32 +6,38 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/16 03:29:13 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/17 00:30:34 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	heredoc_loop(int fd, char *delimiter)
+static void	heredoc_loop(int fd, char *delimiter, t_envlist *e)
 {
 	char	*line;
+	char	*processed_line;
 
 	while (1)
 	{
 		line = readline("heredoc> ");
 		if (line == NULL)
-			break ;
-		if ((ft_strlen(line) == ft_strlen(delimiter))
-			&& ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+			continue ;
+		if ((ft_strlen(line) == ft_strlen(delimiter)) &&
+			ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		processed_line = process_quotes(line, e);
+		if (processed_line == NULL)
+		{
+			free(line);
+			continue ;
+		}
+		ft_putendl_fd(processed_line, fd);
+		free(processed_line);
 		free(line);
 	}
-	
 }
 
 t_heredoc	*create_hd_node(char *filename, int fd)
@@ -71,7 +77,7 @@ void	append_hd_node(t_heredoc **head, t_heredoc *new_node)
 		new_node->prev = last;
 }
 
-static t_heredoc	*set_heredoc(char *delimiter, int *index)
+static t_heredoc	*set_heredoc(char *delimiter, int *index, t_envlist *e)
 {
 	int		fd;
 	char	*filename;
@@ -88,7 +94,7 @@ static t_heredoc	*set_heredoc(char *delimiter, int *index)
 		}
 	}
 	(*index)++;
-	heredoc_loop(fd, delimiter);
+	heredoc_loop(fd, delimiter, e);
 	return (create_hd_node(filename, fd));
 }
 
@@ -106,7 +112,7 @@ static t_heredoc	*set_heredoc(char *delimiter, int *index)
 	s2-hoo
 -- tmpファイルを作成するから問題ない
 */
-int	handle_heredoc(t_command *cmd, int *index)
+int	handle_heredoc(t_command *cmd, int *index, t_envlist *e)
 {
 	int		flag;
 	int		fd;
@@ -123,11 +129,12 @@ int	handle_heredoc(t_command *cmd, int *index)
 			if (cmd->argv[i + 1])
 			{
 				append_hd_node(&cmd->hd_list,
-					set_heredoc(cmd->argv[i + 1], index));
-				// return (flag);
+					set_heredoc(cmd->argv[i + 1], index, e));
+				// printf("\033[31mBREAKPOINT\033[0m\n");
 			}
 		}
 		i++;
 	}
+	// printf("\033[31mBREAKPOINT\033[0m\n");
 	return (flag);
 }
