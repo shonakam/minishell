@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:40:06 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:42:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:21:00 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ typedef struct s_state {
 	size_t		in_double;
 }				t_state;
 
+typedef struct s_rdir {
+	char	*file;
+	int		mode;
+	int		rdir_fd;
+	int		out_backup;
+	int		in_backup;
+}				t_rdir;
+
 /*  <=== BUILTINS ===>  */
 int			is_builtin(t_command *cmd);
 int			builtin_runner(t_command *cmd, int fd, t_envlist *envlist);
@@ -36,6 +44,12 @@ int			cmd_unset(t_command *cmd, t_envlist *envlist);
 /*  <=== HEREDOCUMENTS ===>  */
 t_command	*build_commands(t_token **tokens, int count);
 int			handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e);
+
+/*  <=== REDIRECTION ===>  */
+int			get_redirect_mode(char *arg);
+t_rdir		*manage_redirect(t_rdir *info, int toggle);
+t_rdir		*handle_redirection(t_command *cmd);
+void		handle_error(const char *message);
 
 /*  <=== EXPASION ===>  */
 void		init_expand_state(t_state *state);

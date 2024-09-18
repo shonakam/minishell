@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 06:20:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 06:15:33 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:43:52 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,27 +108,31 @@ static	int	exec_handler(t_command	*cmd, t_minishell *m, int *p)
 	return (exec_pattern(cmd, p, m), 0);
 }
 
-
 /*
 -- manage heredoc
 -- expand args
 -- redirect | bin / builtins
 -- export TMP=s1 > cat "$TMP" ok
+-- [cd,export,unset,exit] directly modify the shell’s state or environment
 */
 void	ft_exec_v5(t_minishell *mini)
 {
 	t_command	*cmd;
 	int			p[2];
+	t_rdir		*info;
 
 	cmd = mini->cmd;
 	while (cmd)
 	{
 		// printf("\033[31mBREAKPOINT\033[0m\n");
+		info = handle_redirection(cmd);
 		if (exec_handler(cmd, mini, p))
 		{
+			manage_redirect(info, 1);
 			cmd = cmd->next;
 			continue ;
 		}
+		manage_redirect(info, 1);
 		cmd = cmd->next;
 	}
 	while (waitpid(-1, &mini->status, 0) > 0)

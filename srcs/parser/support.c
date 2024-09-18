@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 23:31:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:40:10 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,16 @@ void	cpy_args(t_command *cmd, char **a)
 	free(cmd->argv);
 }
 
+void	free_argv(char	**argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		free(argv[i++]);
+	free(argv);
+}
+
 void	free_commands(t_command *cmd)
 {
 	t_command	*current;
@@ -75,12 +85,7 @@ void	free_commands(t_command *cmd)
 		next = current->next;
 		free_heredoc(current);
 		if (current->argv)
-		{
-			i = 0;
-			while (current->argv[i])
-				free(current->argv[i++]);
-			free(current->argv);
-		}
+			free_argv(current->argv);
 		free(current);
 		current = next;
 	}

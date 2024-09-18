@@ -14,12 +14,13 @@ int			valid_quote(const char *s);
 int			count_tokens(t_token **tokens);
 void		free_tokens(t_token **tokens);
 char		*connect_and_free(char *s1, char *s2);
-// size_t		size_matcher(TokenType type, const char *line, size_t pos);
+int			handle_special_char_size(const char *line, size_t position);
 TokenType	identify_metachar(const char *input, size_t pos);
 
 /*  <=== parser/support ===>  */
 int			count_cmd(t_command *cmd);
 void		cpy_args(t_command *cmd, char **a);
+void		free_argv(char	**argv);
 void		free_commands(t_command *cmd);
 t_command	*get_current_cmd(t_command *cmd, int depth);
 

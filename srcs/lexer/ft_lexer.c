@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 07:05:20 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:05:04 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static t_token	*create_token(TokenType t, const char *l, size_t p, size_t s)
 	tok->word	= ft_substr(l, p, s);
 	return (tok);
 }
-
+/*
+-- Handle special characters (|, >, >>, <, <<)
+*/
 static size_t	get_token_size(const char *line, size_t position, int flag)
 {
 	size_t	end;
@@ -49,7 +51,7 @@ static size_t	get_token_size(const char *line, size_t position, int flag)
 		quote_char = '\'';
 	else if (flag == 2)
 		quote_char = '"';
-	if (flag == 1 || flag == 2)  // シングルクォートの場合
+	if (flag == 1 || flag == 2)
 	{
 		end++;
 		while (line[end] && line[end] != quote_char)
@@ -58,31 +60,13 @@ static size_t	get_token_size(const char *line, size_t position, int flag)
 			end++;
 		return (end - position);
 	}
-	while (line[end] && !ft_isspace(line[end]) && line[end] != '|')
+	if (handle_special_char_size(line, position))
+		return (handle_special_char_size(line, position));
+	while (line[end] && !ft_isspace(line[end])
+		&& line[end] != '|' && line[end] != '>' && line[end] != '<')
 		end++;
 	return (end - position);
 }
-
-// size_t	size_matcher(TokenType type, const char *line, size_t pos)
-// {
-// 	if (type == METACHAR_SINGLE_QUOTE)
-// 		return (2 + get_token_size(line, pos + 1, 1));
-// 	else if (type == METACHAR_DOUBLE_QUOTE)
-// 		return (2 + get_token_size(line, pos + 1, 2));
-// 	else if (type == METACHAR_NONE)
-// 		return (get_token_size(line, pos, 0));
-// 	else if (type == METACHAR_DOLLAR)
-// 	{
-// 		if (line[pos + 1] == '$' || line[pos + 1] == '?')
-// 			return (2u);
-// 		else
-// 			return (get_token_size(line, pos, 0));
-// 	}
-// 	else if (type == 4 || type == 2 || type == 3 || type == 1 || type == 5)
-// 		return (2u);
-// 	else
-// 		return (1u);
-// }
 
 void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
 {	
@@ -90,7 +74,7 @@ void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
 	size_t		token_size;
 	int flag;
 
-	printf(">> %c\n", line[pos]);
+	// printf(">> %c\n", line[pos]);
 	while (line[pos] && ft_isspace(line[pos]))
 		pos++;
 	if (line[pos] == '\0')
