@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:48:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 09:09:21 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:36:38 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char	*resolve_reserve(char *line)
 			syntax_err(unfinished_flag);
 			return (free(line), NULL);
 		}
-		else if (unfinished_flag == 1)								// パイプ '|' の場合
+		else if (unfinished_flag == 1)			// パイプ '|' の場合
 			new_line = readline("pipe> ");
 		if (!new_line)
 			return (free(new_line), NULL);

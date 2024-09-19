@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:34:03 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 08:37:01 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:54:27 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 
 void	handle_error(const char *message);
 void	syntax_err(int n);
+int		handle_exec_errors(char *path, int *p);
 
 #endif
