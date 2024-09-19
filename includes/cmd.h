@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:40:06 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:42:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:46:38 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ typedef struct s_state {
 	size_t		in_single;
 	size_t		in_double;
 }				t_state;
+
+typedef struct s_rdir {
+	char	*file;
+	int		mode;
+	int		rdir_i;
+	int		rdir_o;
+	// int		rdir_fd;
+	int		o_bkp;
+	int		i_bkp;
+}				t_rdir;
 
 /*  <=== BUILTINS ===>  */
 int			is_builtin(t_command *cmd);
@@ -37,11 +47,23 @@ int			cmd_unset(t_command *cmd, t_envlist *envlist);
 t_command	*build_commands(t_token **tokens, int count);
 int			handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e);
 
+/*  <=== REDIRECTION ===>  */
+t_rdir		*init_redirect(void);
+void		parse_redirects(t_command *cmd, t_rdir *info);
+void		apply_redirects(t_rdir *info);
+char		**prepare_exec_argv(char **argv, int *argc);
+void		set_bkp_fd(t_rdir *info);
+void		restore_io(t_rdir *info);
+
+int			get_redirect_mode(char *arg);
+
 /*  <=== EXPASION ===>  */
 void		init_expand_state(t_state *state);
 char		*expand_variables(const char *input, int status, t_envlist *e);
 char		*expand_special_variable(const char *str, int status);
 char		*remove_quotes(const char *input);
 void		state_toggle(t_state *state, int flag);
+int			exec_handler(t_command *c, t_minishell *m, int *p, t_rdir *i);
+void		exec_bin(t_command *cmd, int *p, t_minishell *mini);
 
 #endif

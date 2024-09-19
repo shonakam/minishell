@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 22:30:36 by kmoshker          #+#    #+#             */
-/*   Updated: 2024/09/16 18:47:49 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:49:02 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_isspace(char c);
 size_t	ft_strlen(const char *s);
 int		ft_istrlen(const char *s);
 void	*ft_memset(void *b, int c, size_t len);

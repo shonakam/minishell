@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:48:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:53:44 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:09:21 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ static int	is_unfinished(const char *line)
 		i++;
 	if (i == 0)
 		return (0);
-	i--;
-	while (i > 0 &&  ft_isspace((unsigned char)line[i]))
+	while (--i > 0 &&  ft_isspace((unsigned char)line[i]))
 		i--;
 	if (i >= 0 && line[i] == '|')
+	{
+		if (i > 0 && line[i - 1] == '|')
+			return (-5);
 		return (1);
+	}
 	if (i >= 0 && line[i] == '<')
 	{
 		if (i > 0 && line[i - 1] == '<')
@@ -90,9 +93,7 @@ static char	*resolve_reserve(char *line)
 	{
 		if (unfinished_flag < 0)
 		{
-			ft_putendl_fd(
-				"minishell: syntax error near unexpected token `newline'",
-				STDERR_FILENO);
+			syntax_err(unfinished_flag);
 			return (free(line), NULL);
 		}
 		else if (unfinished_flag == 1)								// パイプ '|' の場合
@@ -116,6 +117,8 @@ char	*resolve_eos(char *line)
 	int		quote_flag;
 	int		unfinished_flag;
 
+	if (line && line[0] == '|')
+		return (syntax_err(-9), NULL);
 	new_line = ft_strdup(line);
 	if (!new_line)
 		return (NULL);
@@ -123,6 +126,5 @@ char	*resolve_eos(char *line)
 	// if (!new_line)
 	// 	return (NULL);
 	new_line = resolve_reserve(new_line);
-	// printf("result: %s\n", new_line);	// 結果を表示
 	return (new_line);
 }

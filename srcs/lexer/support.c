@@ -6,11 +6,30 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:46 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/17 01:32:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:02:18 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+int	handle_special_char_size(const char *line, size_t position)
+{
+	if (line[position] == '|')
+		return (1);
+	if (line[position] == '>')
+	{
+		if (line[position + 1] == '>')
+			return (2);
+		return (1);
+	}
+	if (line[position] == '<')
+	{
+		if (line[position + 1] == '<')
+			return (2);
+		return (1); 
+	}
+	return (0);
+}
 
 int	valid_quote(const char *s)
 {
@@ -30,13 +49,6 @@ int	valid_quote(const char *s)
 	if ((single_q % 2 != 0) || (double_q % 2 != 0))
 		return (0);
 	return (1);
-}
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\n')
-		return (1);
-	return (0);
 }
 
 void	free_tokens(t_token **tokens)
@@ -80,8 +92,8 @@ TokenType	identify_metachar(const char *input, size_t pos)
 		return METACHAR_SINGLE_QUOTE;
 	if (ft_strncmp(&input[pos], "\"", 1) == 0)
 		return METACHAR_DOUBLE_QUOTE;
-	if (ft_strncmp(&input[pos], "$?", 2) == 0)
-		return METACHAR_EXIT_STATUS;
+	// if (ft_strncmp(&input[pos], "$?", 2) == 0)
+	// 	return METACHAR_EXIT_STATUS;
 	if (ft_strncmp(&input[pos], "$", 1) == 0)
 		return METACHAR_DOLLAR;
 	return METACHAR_NONE;

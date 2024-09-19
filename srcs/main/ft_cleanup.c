@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:50:56 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 23:36:58 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 04:17:49 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	get_exit_status(t_minishell *mini)
 {
-	printf("exited with status \033[0;32m%d\033[0m\n", WEXITSTATUS(mini->status));
+	// printf("exited with status \033[0;32m%d\033[0m\n", WEXITSTATUS(mini->status));
+	printf("exited with status \033[0;32m%d\033[0m\n", mini->status);
 	return (mini->status);
 }
 
@@ -30,7 +31,7 @@ void	ft_clean(t_minishell *mini, int flag)
 		free_envlist(&mini->envlist);
 	mini->in_fd = STDIN_FILENO;
 	mini->hd_index = 0;
-	mini->status = 0;
+	// mini->status = 0;
 }
 
 void	ft_clean_exit(t_minishell *mini)

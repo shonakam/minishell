@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 04:06:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:48:44 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 07:11:01 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,14 @@ static char	*expand_env(const char *in, t_state *state, t_envlist *e)
 		return (free(state->v), ft_strdup(""));
 	return (free(state->v), ft_strdup(value));
 }
-
+/*
+-- $の後ろがない場合$のみを格納
+-- $$$ -> [PID]$
+*/
 static int	expand_ptn(const char *in, t_state *state, int s, t_envlist *e)
 {
+	if (in[state->e + 1] == '\0')
+		return (0);
 	state->v = expand_special_variable(in + state->e, s);
 	if (state->v)
 	{

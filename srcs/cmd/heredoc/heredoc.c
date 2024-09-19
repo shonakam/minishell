@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:17:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:09:03 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int	handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e)
 			{
 				append_hd_node(&cmd->hd_list,
 					set_heredoc(cmd->argv[i + 1], index, s, e));
-				// printf("\033[31mBREAKPOINT\033[0m\n");
 			}
 		}
 		i++;
