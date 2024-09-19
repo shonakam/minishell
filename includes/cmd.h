@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:40:06 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 09:05:51 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:46:38 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_rdir {
 	int		mode;
 	int		rdir_i;
 	int		rdir_o;
+	// int		rdir_fd;
 	int		o_bkp;
 	int		i_bkp;
 }				t_rdir;
@@ -62,5 +63,7 @@ char		*expand_variables(const char *input, int status, t_envlist *e);
 char		*expand_special_variable(const char *str, int status);
 char		*remove_quotes(const char *input);
 void		state_toggle(t_state *state, int flag);
+int			exec_handler(t_command *c, t_minishell *m, int *p, t_rdir *i);
+void		exec_bin(t_command *cmd, int *p, t_minishell *mini);
 
 #endif

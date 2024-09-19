@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/19 08:24:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:56:08 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	minishell(t_minishell *mini)
 		mini->line = readline("minishell$ ");
 		if (mini->line == NULL)
 			continue ;
-		mini->token = ft_lexer(mini->line); // '|'や'>>'で終わる不完全な文字列は連続して入力を受け続ける
+		mini->token = ft_lexer(mini->line);
 		if (mini->token == NULL)
 			continue ;
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
