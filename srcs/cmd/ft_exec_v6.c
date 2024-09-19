@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 17:30:28 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 20:39:29 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	bin_support(t_command *cmd, int *p, t_minishell *mini)
 {
-	char *path;
+	char	*path;
 
 	if (mini->in_fd != STDIN_FILENO)
 		redirect_fd(mini->in_fd, STDIN_FILENO);
@@ -24,20 +24,11 @@ static int	bin_support(t_command *cmd, int *p, t_minishell *mini)
 		redirect_fd(p[WRITE], STDOUT_FILENO);
 	}
 	path = get_bin_path(mini->envlist, cmd->argv[0]);
-	if (access(path, F_OK) == -1)
-	{
-		if (p[WRITE] != -1)
-			return (exit(EXIT_FAILURE), handle_pipe(p, 1), 1);
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd("command not found: ", STDERR_FILENO);
-		ft_putendl_fd(cmd->argv[0], STDERR_FILENO);
-		mini->status = 1;
-		return (1);
-	}
-	execve(path, cmd->argv, convert_to_envp(&mini->envlist));
-	perror("minishell");
-	free(path);
-	exit(EXIT_FAILURE);
+	mini->status = handle_exec_errors(path, p);
+	if (mini->status != 0)
+		return (mini->status);
+	execve(path, cmd->argv, convert_to_envp(&mini->envlist));	
+	return (perror("minishell"), free(path), exit(EXIT_FAILURE), 1);
 }
 
 void	exec_bin(t_command *cmd, int *p, t_minishell *mini)

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 16:49:14 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:37:28 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static int	handle_redirect_and_pipe(t_command *c, int *p, t_minishell *m, t_rdir
 	}
 	if (c->hd_list)
 		rebuild_args(c);
-	// set_bkp_fd(i);
-	// apply_redirects(i);
 	return (0);
 }
 
