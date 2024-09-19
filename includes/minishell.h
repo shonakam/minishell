@@ -21,6 +21,7 @@
 # include "parser.h"
 # include "envlist.h"
 # include "support.h"
+# include "signal.h"
 
 # define READ	0
 # define WRITE	1
