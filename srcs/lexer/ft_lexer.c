@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 23:05:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:26:39 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static size_t	handle_dollar(const char *line, size_t pos)
 	size_t	end;
 
 	end = pos + 1;
-	// if (line[end] == '?' || line[end] == '$')
-	// 	return (2);
 	while (line[end] && (ft_isalnum(line[end])
 		|| line[end] == '_' || line[end] == '?' || line[end] == '$'))
 		end++;

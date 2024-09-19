@@ -11,7 +11,8 @@ ARGUMENT_SIZE := $(shell expr $(shell getconf ARG_MAX) / 8)
 CFLAGS += -DARGUMENT_SIZE=$(ARGUMENT_SIZE)
 
 # debug
-CFLAGS += -g -fsanitize=address
+CFLAGS += -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 # CFLAGS += -g -fsanitize=leak
 
 # SRC_DIRS := main test lexer parser cmd main/env

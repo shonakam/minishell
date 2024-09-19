@@ -16,6 +16,7 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
+# include "errors.h"
 # include "token.h"
 # include "parser.h"
 # include "envlist.h"
@@ -40,7 +41,8 @@ t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
 
 int			exec_hd_support(t_command *cmd, t_minishell *m, int *p);
-void		ft_exec_v5(t_minishell *mini);
+// void		ft_exec_v5(t_minishell *mini);
+void		ft_exec_v6(t_minishell *mini);
 int			get_exit_status(t_minishell *mini);
 void		ft_clean(t_minishell *mini, int flag);
 void		ft_clean_exit(t_minishell *mini);

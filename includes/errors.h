@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   errors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/07 02:06:08 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/17 01:04:33 by shonakam         ###   ########.fr       */
+/*   Created: 2024/09/19 08:34:03 by shonakam          #+#    #+#             */
+/*   Updated: 2024/09/19 08:37:01 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#ifndef FT_ERRORS_H
+# define FT_ERRORS_H
 
-void	print_error(const char *msg, const char *cmd)
-{
-	char	*s;
+void	handle_error(const char *message);
+void	syntax_err(int n);
 
-	s = concat_vars(6, "minishell: ", msg, " ", ":", cmd, "\n");
-	write(2, s, ft_strlen(s));
-	free(s);
-}
+#endif

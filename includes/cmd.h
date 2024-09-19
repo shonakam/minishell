@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:40:06 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 22:21:00 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:05:51 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ typedef struct s_state {
 typedef struct s_rdir {
 	char	*file;
 	int		mode;
-	int		rdir_fd;
-	int		out_backup;
-	int		in_backup;
+	int		rdir_i;
+	int		rdir_o;
+	int		o_bkp;
+	int		i_bkp;
 }				t_rdir;
 
 /*  <=== BUILTINS ===>  */
@@ -46,10 +47,14 @@ t_command	*build_commands(t_token **tokens, int count);
 int			handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e);
 
 /*  <=== REDIRECTION ===>  */
+t_rdir		*init_redirect(void);
+void		parse_redirects(t_command *cmd, t_rdir *info);
+void		apply_redirects(t_rdir *info);
+char		**prepare_exec_argv(char **argv, int *argc);
+void		set_bkp_fd(t_rdir *info);
+void		restore_io(t_rdir *info);
+
 int			get_redirect_mode(char *arg);
-t_rdir		*manage_redirect(t_rdir *info, int toggle);
-t_rdir		*handle_redirection(t_command *cmd);
-void		handle_error(const char *message);
 
 /*  <=== EXPASION ===>  */
 void		init_expand_state(t_state *state);
