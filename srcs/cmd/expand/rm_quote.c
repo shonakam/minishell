@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 06:48:07 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:41:41 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:29:25 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	rm_pattern(const char *input, t_state *state, char c, int mode)
 char	*remove_quotes(const char *input)
 {
 	t_state state;
-	char *tmp;
 
 	init_expand_state(&state);
 	while (input[state.s])

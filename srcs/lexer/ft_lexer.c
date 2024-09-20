@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 23:26:39 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:52:37 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ t_token	**ft_lexer(char *line)
 	if (!line)
 		return (NULL);
 	if (strlen(line) > 0)
-		add_history(line); // rl_replace_line
+		rl_replace_line(line, 1);
 	tokens = (t_token **)malloc(ARGUMENT_SIZE * sizeof(t_token *));
 	if (!tokens)
 		return (NULL);
-	extract_token(line, tokens, 0, 0); // <- segf
+	extract_token(line, tokens, 0, 0);
 	// printf("\033[31mBREAKPOINT\033[0m\n");
 	tokens = check_unexpected_token(tokens);
 	return (free(line), tokens);

@@ -6,12 +6,12 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:54:54 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 22:45:30 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:43:21 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-# define PAESER_H
+# define PARSER_H
 
 typedef struct	s_heredoc {
 	char				*filename;

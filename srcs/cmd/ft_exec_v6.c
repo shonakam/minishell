@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 20:39:29 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:13:19 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,16 @@ void	ft_exec_v6(t_minishell *mini)
 			continue ;
 		}
 		free(info);
+		// close(info->i_bkp);
+		// close(info->o_bkp);
+		// close(p[WRITE]);
+		// close(p[READ]);
 		cmd = cmd->next;
 	}
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
+	free_commands(mini->cmd);
+	free_tokens(mini->token);
+	exit(0);
 	// printf("\033[31mBREAKPOINT\033[0m\n");
 }

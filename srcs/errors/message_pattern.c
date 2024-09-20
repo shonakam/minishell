@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   message_pattern.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/19 08:34:03 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 17:10:45 by shonakam         ###   ########.fr       */
+/*   Created: 2024/09/20 17:07:15 by shonakam          #+#    #+#             */
+/*   Updated: 2024/09/20 17:11:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_ERRORS_H
-# define FT_ERRORS_H
+#include "includes/minishell.h"
 
-void	handle_error(const char *message);
-void	syntax_err(int n);
-int		handle_exec_errors(char *path, int *p);
-char	*static_err_msg(int n);
+char	*static_err_msg(int n)
+{
+	if (n == 1)
+		return ("minishell: warning: here-document delimited by eof");
+	// if (n == 2)
 
-#endif
+	// if (n == 3)
+	return (NULL);
+}

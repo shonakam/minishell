@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 22:40:10 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/19 21:31:44 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	free_commands(t_command *cmd)
 {
 	t_command	*current;
 	t_command	*next;
-	int			i;
 
 	current = cmd;
 	while (current)

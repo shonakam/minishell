@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:50:56 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 04:17:49 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/20 23:57:16 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ void	ft_clean(t_minishell *mini, int flag)
 		free_envlist(&mini->envlist);
 	mini->in_fd = STDIN_FILENO;
 	mini->hd_index = 0;
-	// mini->status = 0;
 }
 
 void	ft_clean_exit(t_minishell *mini)
 {
-	ft_clean(mini, 1);
-	exit(EXIT_SUCCESS);
+	// ft_clean(mini, 1);
+	ft_putendl_fd("exit", STDOUT_FILENO);
+	// free(mini);
+	exit(mini->status);
+	// exit(EXIT_SUCCESS);
 }

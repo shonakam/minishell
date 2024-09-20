@@ -6,13 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 16:09:03 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:10:33 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
+static void	*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 {
 	char	*line;
 	char	*processed_line;
@@ -21,13 +21,10 @@ static void	heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 	{
 		line = readline("heredoc> ");
 		if (line == NULL)
-			continue ;
+			return (ft_putendl_fd(static_err_msg(1), STDOUT_FILENO), NULL);
 		if ((ft_strlen(line) == ft_strlen(delimiter)) &&
 			ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
-		{
-			free(line);
-			break ;
-		}
+			return (free(line), NULL);
 		processed_line = expand_variables(line, s, e);
 		if (processed_line == NULL)
 		{
@@ -38,6 +35,7 @@ static void	heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 		free(processed_line);
 		free(line);
 	}
+	return (NULL);
 }
 
 t_heredoc	*create_hd_node(char *filename, int fd)
@@ -115,7 +113,6 @@ static t_heredoc	*set_heredoc(char *del, int *index, int s, t_envlist *e)
 int	handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e)
 {
 	int		flag;
-	int		fd;
 	int		i;
 
 	i = 0;
