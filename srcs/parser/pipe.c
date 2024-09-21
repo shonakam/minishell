@@ -6,32 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/08 22:55:59 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 21:31:31 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-// static void	pipe_loop(int fd, char *delimiter)
-// {
-// 	char	*line;
-
-// 	while (1)
-// 	{
-// 		line = readline("pipe> ");
-// 		if (line == NULL)
-// 			break ;
-// 		if ((ft_strlen(line) == ft_strlen(delimiter))
-// 			&& ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
-// 		{
-// 			free(line);
-// 			break ;
-// 		}
-// 		write(fd, line, ft_strlen(line));
-// 		write(fd, "\n", 1);
-// 		free(line);
-// 	}
-// }
 
 // tokenの終端がpipeなら繰り返す
 t_command	*wait_pipe_cmd(t_command *head)

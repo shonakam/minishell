@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:56:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 06:40:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:53:05 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	option_parse(char **av, int *index)
 		while (av[i][j] == 'n')
 			j++;
 		if (av[i][j] != '\0')
-			break;
+			break ;
 		i++;
 	}
 	*index = i;

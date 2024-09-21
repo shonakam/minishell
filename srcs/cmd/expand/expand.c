@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 04:06:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 07:11:01 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:28:24 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static int	expand_ptn(const char *in, t_state *state, int s, t_envlist *e)
 char	*expand_variables(const char *input, int status, t_envlist *e)
 {
 	t_state	state;
+	char	*r;
 
 	init_expand_state(&state);
 	while (input[state.s])
@@ -84,9 +85,10 @@ char	*expand_variables(const char *input, int status, t_envlist *e)
 				continue ;
 		}
 		state.e++;
-		state.result = concat_and_free(state.result,
+		state.result = concat_and_free(state.result, 
 			ft_strndup(input + state.s, (state.e - state.s)));
 		state.s = state.e;
 	}
-	return (state.result);
+	r = state.result;
+	return (r);
 }

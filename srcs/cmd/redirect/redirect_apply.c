@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 07:12:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/21 00:03:29 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:47 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ char	**prepare_exec_argv(char **argv, int *argc)
 	j = 0;
 	while (i < *argc)
 	{
-		printf("\033[31mBREAKPOINT\033[0m\n");
 		if (ft_strcmp(argv[i], ">") == 0
 			|| ft_strcmp(argv[i], "<") == 0
 			|| ft_strcmp(argv[i], ">>") == 0)

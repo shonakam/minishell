@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 17:10:33 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:40 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,5 @@ int	handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e)
 		}
 		i++;
 	}
-	// printf("\033[31mBREAKPOINT\033[0m\n");
 	return (flag);
 }

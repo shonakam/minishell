@@ -6,16 +6,17 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 02:06:08 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 10:14:43 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:21:42 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+/*  */
 void	handle_error(const char *message)
 {
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	perror(message);
-	exit(EXIT_FAILURE);
 }
 
 void	print_error(const char *msg, const char *cmd)
@@ -58,20 +59,20 @@ int	handle_exec_errors(char *path, int *p)
 	status = 0;
 	// if (status > 0)
 	// 	return (status);
-	if (access(path, F_OK) && access(path, X_OK) == -1)
-	{
-		if (p && p[WRITE] != -1)
-			return (exit(EXIT_FAILURE), handle_pipe(p, 1), 1);
-		ft_putstr_fd("minishell: permission denied: ", STDERR_FILENO);
-		return (ft_putendl_fd(path, STDERR_FILENO), 126);
-	}
-	if (access(path, F_OK) == -1)
-	{
-		if (p && p[WRITE] != -1)
-			return (exit(EXIT_FAILURE), handle_pipe(p, 1), 1);
-		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-		return (ft_putendl_fd(path, STDERR_FILENO), 127);
-	}
-	status = is_directory(path, p);
+	// if (access(path, F_OK) && access(path, X_OK) == -1)
+	// {
+	// 	if (p && p[WRITE] != -1)
+	// 		return (exit(EXIT_FAILURE), handle_pipe(p, 1), 1);
+	// 	ft_putstr_fd("minishell: permission denied: ", STDERR_FILENO);
+	// 	return (ft_putendl_fd(path, STDERR_FILENO), 126);
+	// }
+	// if (access(path, F_OK) == -1)
+	// {
+	// 	if (p && p[WRITE] != -1)
+	// 		return (exit(EXIT_FAILURE), handle_pipe(p, 1), 1);
+	// 	ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+	// 	return (ft_putendl_fd(path, STDERR_FILENO), 127);
+	// }
+	// status = is_directory(path, p);
 	return (status);
 }

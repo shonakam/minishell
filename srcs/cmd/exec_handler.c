@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/21 00:15:46 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 		tmp = expand_variables(cmd->argv[i], mini->status, mini->envlist);
 		free(cmd->argv[i]);
 		cmd->argv[i++] = remove_quotes(tmp);
+		free(tmp);
 	}
 }
 
@@ -102,12 +103,8 @@ int	exec_handler(t_command *c, t_minishell *m, int *p, t_rdir *i)
 {
 	if (handle_redirect_and_pipe(c, p, m))
 		return (1);
-	// printf("\033[31mBREAKPOINT\033[0m\n");
 	c->argv = prepare_exec_argv(c->argv, &c->argc);
 	expand_and_clean_args(c, m);
-	free_commands(m->cmd);
-	free_tokens(m->token);
-	exit(0);
 	if (c->next)
 	{
 		set_bkp_fd(i);

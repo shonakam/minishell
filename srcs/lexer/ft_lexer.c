@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 09:52:37 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
 	size_t		token_size;
 	int flag;
 
-	// printf(">> %c\n", line[pos]);
 	while (line[pos] && ft_isspace(line[pos]))
 		pos++;
 	if (line[pos] == '\0')
@@ -113,7 +112,6 @@ t_token	**ft_lexer(char *line)
 	if (!tokens)
 		return (NULL);
 	extract_token(line, tokens, 0, 0);
-	// printf("\033[31mBREAKPOINT\033[0m\n");
 	tokens = check_unexpected_token(tokens);
 	return (free(line), tokens);
 }

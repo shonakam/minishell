@@ -6,13 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/21 00:13:19 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:37:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static int	bin_support(t_command *cmd, int *p, t_minishell *mini)
+static void	*bin_support(t_command *cmd, int *p, t_minishell *mini)
 {
 	char	*path;
 
@@ -26,9 +26,11 @@ static int	bin_support(t_command *cmd, int *p, t_minishell *mini)
 	path = get_bin_path(mini->envlist, cmd->argv[0]);
 	mini->status = handle_exec_errors(path, p);
 	if (mini->status != 0)
-		return (mini->status);
-	execve(path, cmd->argv, convert_to_envp(&mini->envlist));	
-	return (perror("minishell"), free(path), exit(EXIT_FAILURE), 1);
+		return (close(p[READ]), close(p[WRITE]), NULL);
+	execve(path, cmd->argv, convert_to_envp(&mini->envlist));
+	perror("minishell");
+	exit(EXIT_FAILURE);
+	// return (perror("minishell"), exit(EXIT_FAILURE), NULL);
 }
 
 void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
@@ -47,6 +49,8 @@ void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 		if (mini->in_fd != 0)
 			close(mini->in_fd);
 	}
+	while (waitpid(pid, &mini->status, 0) > 0)
+		;
 } 
 
 /*
@@ -69,23 +73,17 @@ void	ft_exec_v6(t_minishell *mini)
 	{
 		info = init_redirect();
 		parse_redirects(cmd, info);
-		if (exec_handler(cmd, mini, p, info))
+		if (info->rdir_i == INT_MIN)
 		{
+			mini->status = 1;
 			free(info);
-			cmd = cmd->next;
-			continue ;
+			break ;
 		}
+		else
+			exec_handler(cmd, mini, p, info);
 		free(info);
-		// close(info->i_bkp);
-		// close(info->o_bkp);
-		// close(p[WRITE]);
-		// close(p[READ]);
 		cmd = cmd->next;
 	}
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
-	free_commands(mini->cmd);
-	free_tokens(mini->token);
-	exit(0);
-	// printf("\033[31mBREAKPOINT\033[0m\n");
 }

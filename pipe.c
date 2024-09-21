@@ -89,10 +89,10 @@ int	main() {
     // command_t cmd1 = { .args = (char*[]){"pwd", NULL}, .next = NULL };
     // command_t cmd2 = { .args = (char*[]){"cat", "-e", NULL}, .next = NULL };
 	command_t cmd1 = { .args = (char*[]){"cat", NULL}, .next = NULL };
-    command_t cmd2 = { .args = (char*[]){"cat", NULL}, .next = NULL };
-	command_t cmd3 = { .args = (char*[]){"ls", NULL}, .next = NULL };
+    command_t cmd2 = { .args = (char*[]){"sl", NULL}, .next = NULL };
+	// command_t cmd3 = { .args = (char*[]){"ls", NULL}, .next = NULL };
     cmd1.next = &cmd2;
-	cmd2.next = &cmd3;
+	// cmd2.next = &cmd3;
     execute_command_chain(&cmd1);
     return 0;
 }

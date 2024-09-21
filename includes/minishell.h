@@ -38,6 +38,7 @@ typedef struct	s_minishell	{
 
 # include "cmd.h"
 
+void		print_tokens(t_token **tokens);
 t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
 

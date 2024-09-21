@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:50:56 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 23:57:16 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:32:16 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_clean_exit(t_minishell *mini)
 {
 	// ft_clean(mini, 1);
 	ft_putendl_fd("exit", STDOUT_FILENO);
+	free_envlist(&mini->envlist);
 	// free(mini);
 	exit(mini->status);
 	// exit(EXIT_SUCCESS);

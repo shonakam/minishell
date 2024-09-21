@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 21:31:44 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:47:39 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	free_argv(char	**argv)
 	int	i;
 
 	i = 0;
+	if (!argv || !argv[i])
+		return ;
 	while (argv[i])
 		free(argv[i++]);
 	free(argv);
@@ -83,7 +85,7 @@ void	free_commands(t_command *cmd)
 	{
 		next = current->next;
 		free_heredoc(current);
-		if (current->argv)
+		if (current && current->argv)
 			free_argv(current->argv);
 		free(current);
 		current = next;

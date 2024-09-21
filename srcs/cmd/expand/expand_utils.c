@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:23:42 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 03:29:45 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:26:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*concat_and_free(char *result, char *tmp)
 		return (ft_strdup(tmp));
 	new_result = ft_strjoin(result, tmp);
 	free(result);
+	free(tmp);
 	return (new_result);
 }
 

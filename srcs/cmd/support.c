@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:37 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 20:26:15 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:27:14 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void free_heredoc(t_command *cmd)
 	t_heredoc *current;
 	t_heredoc *next;
 
+	if (!cmd)
+		return ;
 	current = cmd->hd_list;
 	while (current)
 	{
