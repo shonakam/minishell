@@ -18,10 +18,10 @@ typedef enum {
 	METACHAR_ENV_VAR,			// $ followed by characters
 	// METACHAR_EXIT_STATUS,		// $?
 	TOKEN_WORD,
-}	TokenType;
+}	e_tokentype;
 
 typedef struct	s_token {
-	TokenType		type;
+	e_tokentype		type;
 	char			*word;
 }				t_token;
 

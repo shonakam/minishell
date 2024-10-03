@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/15 22:05:21 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:38:02 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,36 @@ t_command	*create_command(void)
 	return (cmd);
 }
 
+/*
+-- 次のトークンが存在し、かつそのトークンのタイプが TOKEN_WORD であることを確認
+-- 前のトークンのタイプに応じてリダイレクトを設定
+-- 入力リダイレクトの場合 || 出力リダイレクトの場合
+-- ファイル名が期待されているにも関わらず存在しない場合のエラーメッセージ
+-- トークンのインデックスを進める
+失敗時のクリーン処理必要かも?
+*/
+t_command	*set_argument(t_command *cmd, char *token)
+{
+	char	**args;
+
+	cmd->argc += 1;
+	args = malloc(sizeof(char *) * (cmd->argc + 1));
+	if (!args)
+		return (perror("set_argument: malloc"), NULL);
+	if (cmd->argv)
+	{
+		cpy_args(cmd, args);
+		if (!args[cmd->argc - 2])
+			return (free(args), NULL);
+	}
+	args[cmd->argc - 1] = ft_strdup(token);
+	if (!args[cmd->argc - 1])
+		return (free(args), perror("set_argument: malloc arg"), NULL);
+	args[cmd->argc] = NULL;
+	cmd->argv = args;
+	return (cmd);
+}
+
 t_command	*build_commands(t_token **tokens, int count)
 {
 	t_command	*head;
@@ -43,7 +73,7 @@ t_command	*build_commands(t_token **tokens, int count)
 		if (tokens[i]->type == METACHAR_PIPE)
 		{
 			if (!tokens[++i])
-				return (head); // pipe待機
+				return (head);
 			current->next = create_command();
 			current = current->next;
 		}

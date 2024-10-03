@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 23:26:39 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:56:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t	handle_dollar(const char *line, size_t pos)
 	return (end - pos);
 }
 
-static t_token	*create_token(TokenType t, const char *l, size_t p, size_t s)
+static t_token	*create_token(e_tokentype t, const char *l, size_t p, size_t s)
 {
 	t_token	*tok;
 
@@ -68,11 +68,10 @@ static size_t	get_token_size(const char *line, size_t position, int flag)
 
 void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
 {	
-	TokenType	type;
+	e_tokentype	type;
 	size_t		token_size;
 	int flag;
 
-	// printf(">> %c\n", line[pos]);
 	while (line[pos] && ft_isspace(line[pos]))
 		pos++;
 	if (line[pos] == '\0')
@@ -108,12 +107,11 @@ t_token	**ft_lexer(char *line)
 	if (!line)
 		return (NULL);
 	if (strlen(line) > 0)
-		add_history(line); // rl_replace_line
+		rl_replace_line(line, 1);
 	tokens = (t_token **)malloc(ARGUMENT_SIZE * sizeof(t_token *));
 	if (!tokens)
 		return (NULL);
-	extract_token(line, tokens, 0, 0); // <- segf
-	// printf("\033[31mBREAKPOINT\033[0m\n");
+	extract_token(line, tokens, 0, 0);
 	tokens = check_unexpected_token(tokens);
 	return (free(line), tokens);
 }

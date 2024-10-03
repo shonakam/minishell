@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 07:12:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 08:58:16 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/21 01:52:47 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ char	**prepare_exec_argv(char **argv, int *argc)
 				i++;
 		}
 		else
+		{
 			new_argv[j++] = ft_strdup(argv[i++]);
+		}
 	}
 	new_argv[j] = NULL;
 	free_argv(argv);

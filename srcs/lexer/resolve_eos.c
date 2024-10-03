@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:48:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 17:36:38 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/20 23:37:51 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	is_unfinished(const char *line)
 		i++;
 	if (i == 0)
 		return (0);
-	while (--i > 0 &&  ft_isspace((unsigned char)line[i]))
+	while (--i > 1 &&ft_isspace((unsigned char)line[i]))
 		i--;
 	if (i >= 0 && line[i] == '|')
 	{
@@ -114,8 +114,6 @@ static char	*resolve_reserve(char *line)
 char	*resolve_eos(char *line)
 {
 	char	*new_line;
-	int		quote_flag;
-	int		unfinished_flag;
 
 	if (line && line[0] == '|')
 		return (syntax_err(-9), NULL);

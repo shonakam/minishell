@@ -6,13 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:42:13 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 08:58:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:19:36 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	open_file(t_rdir *info, const char *file, int f, int *rdir_fd)
+static void	open_file(const char *file, int f, int *rdir_fd)
 {
 	int		fd;
 
@@ -20,7 +20,11 @@ static void	open_file(t_rdir *info, const char *file, int f, int *rdir_fd)
 		close(*rdir_fd);
 	fd = open(file, f, 0644);
 	if (fd == -1)
+	{
 		handle_error("open");
+		*rdir_fd = INT_MIN;
+		return ;
+	}
 	*rdir_fd = fd;
 }
 
@@ -33,17 +37,16 @@ void	parse_redirects(t_command *cmd, t_rdir *info)
 	{
 		if (ft_strcmp(cmd->argv[i], "<") == 0 && cmd->argv[i + 1])
 		{
-			open_file(info, cmd->argv[i + 1],
-				O_RDONLY, &info->rdir_i);
+			open_file(cmd->argv[i + 1], O_RDONLY, &info->rdir_i);
 		}
 		else if (ft_strcmp(cmd->argv[i], ">") == 0 && cmd->argv[i + 1])
 		{
-			open_file(info, cmd->argv[i + 1],
+			open_file(cmd->argv[i + 1],
 				O_WRONLY | O_CREAT | O_TRUNC, &info->rdir_o);
 		}
 		else if (ft_strcmp(cmd->argv[i], ">>") == 0 && cmd->argv[i + 1])
 		{
-			open_file(info, cmd->argv[i + 1],
+			open_file(cmd->argv[i + 1],
 				O_WRONLY | O_CREAT | O_APPEND, &info->rdir_o);
 		}
 		i++;

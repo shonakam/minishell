@@ -2,7 +2,7 @@ SRCS = $(shell find . -name '*.c')
 OBJS = $(patsubst %.c, objs/%.o, $(SRCS))
 
 NAME = libft.a
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rs
 RM = rm -f

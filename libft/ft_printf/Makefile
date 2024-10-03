@@ -3,7 +3,7 @@ SRCS = ft_printf.c utils.c
 OBJS = ${SRCS:.c=.o}
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rs
 RM = rm -f
