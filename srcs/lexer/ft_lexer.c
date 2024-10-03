@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/21 01:52:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:56:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static size_t	handle_dollar(const char *line, size_t pos)
 	return (end - pos);
 }
 
-static t_token	*create_token(TokenType t, const char *l, size_t p, size_t s)
+static t_token	*create_token(e_tokentype t, const char *l, size_t p, size_t s)
 {
 	t_token	*tok;
 
@@ -68,7 +68,7 @@ static size_t	get_token_size(const char *line, size_t position, int flag)
 
 void	extract_token(const char *line, t_token **toks, size_t pos, size_t c)
 {	
-	TokenType	type;
+	e_tokentype	type;
 	size_t		token_size;
 	int flag;
 

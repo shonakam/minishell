@@ -63,6 +63,7 @@
     "cstring": "c",
     "locale": "c",
     "unistd.h": "c",
-    "ios": "c"
+    "ios": "c",
+    "signal.h": "c"
   }
 }

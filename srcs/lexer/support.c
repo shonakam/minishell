@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:46 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 10:38:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:56:23 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	count_tokens(t_token **tokens)
 	return (i);
 }
 
-TokenType	identify_metachar(const char *input, size_t pos)
+e_tokentype	identify_metachar(const char *input, size_t pos)
 {
 	if (ft_strncmp(&input[pos], ">>", 2) == 0)
 		return METACHAR_APPEND_REDIRECT;

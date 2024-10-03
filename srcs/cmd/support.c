@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:37 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/21 01:27:14 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:49:12 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,11 @@ void	handle_pipe(int *p, int f)
 		close(p[READ]);
 		close(p[WRITE]);
 	} 
+}
+
+int	is_cmd(char *cmd)
+{
+	if (!ft_strchr(cmd, '/'))
+			return (1);
+	return (0);
 }

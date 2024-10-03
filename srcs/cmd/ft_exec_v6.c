@@ -6,13 +6,20 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/22 01:37:55 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:50:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void	*bin_support(t_command *cmd, int *p, t_minishell *mini)
+/*
+Exit code 0: Command succeeded.
+Non-zero exit code: Command failed.
+Exit code 128+N: Command terminated by fatal signal N.
+Exit code 127: Command not found.
+Exit code 126: Command found but not executable.
+*/
+static  void	bin_support(t_command *cmd, int *p, t_minishell *mini)
 {
 	char	*path;
 
@@ -24,13 +31,12 @@ static void	*bin_support(t_command *cmd, int *p, t_minishell *mini)
 		redirect_fd(p[WRITE], STDOUT_FILENO);
 	}
 	path = get_bin_path(mini->envlist, cmd->argv[0]);
-	mini->status = handle_exec_errors(path, p);
+	mini->status = handle_exec_errors(path, p, is_cmd(cmd->argv[0]));
 	if (mini->status != 0)
-		return (close(p[READ]), close(p[WRITE]), NULL);
+		exit(mini->status);
 	execve(path, cmd->argv, convert_to_envp(&mini->envlist));
 	perror("minishell");
 	exit(EXIT_FAILURE);
-	// return (perror("minishell"), exit(EXIT_FAILURE), NULL);
 }
 
 void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
@@ -39,9 +45,7 @@ void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 
 	pid = fork();
 	if (pid == 0)
-	{
 		bin_support(cmd, p, mini);
-	}
 	else
 	{
 		if (cmd->next)
@@ -49,8 +53,9 @@ void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 		if (mini->in_fd != 0)
 			close(mini->in_fd);
 	}
-	while (waitpid(pid, &mini->status, 0) > 0)
-		;
+	g_signal_flag = (sig_atomic_t)pid;
+	// mini->status = parse_exit_status(mini->status);
+	g_signal_flag = 0b00000000;
 } 
 
 /*
@@ -86,4 +91,6 @@ void	ft_exec_v6(t_minishell *mini)
 	}
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
+	mini->status = parse_exit_status(mini->status);
+	printf("m:status=%d\n", mini->status);
 }

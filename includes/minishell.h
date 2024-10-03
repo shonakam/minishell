@@ -21,29 +21,29 @@
 # include "parser.h"
 # include "envlist.h"
 # include "support.h"
-# include "signal.h"
 
 # define READ	0
 # define WRITE	1
 
 typedef struct	s_minishell	{
-	char		*line;
-	t_envlist	*envlist;
-	t_token		**token;
-	t_command	*cmd;
-	int			hd_index;
-	int			in_fd;
-	int			status;
+	char			*line;
+	t_envlist		*envlist;
+	t_token			**token;
+	t_command		*cmd;
+	int				hd_index;
+	int				in_fd;
+	int				status;
 }				t_minishell;
 
 # include "cmd.h"
+# include "signal.h"
 
 void		print_tokens(t_token **tokens);
 t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
 
 int			exec_hd_support(t_command *cmd, t_minishell *m, int *p);
-// void		ft_exec_v5(t_minishell *mini);
+int			parse_exit_status(int status);
 void		ft_exec_v6(t_minishell *mini);
 int			get_exit_status(t_minishell *mini);
 void		ft_clean(t_minishell *mini, int flag);

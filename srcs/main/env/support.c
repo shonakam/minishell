@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/20 10:12:24 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:41:52 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,14 @@ char	*get_bin_path(t_envlist *list, char *cmd)
 {
 	char	**paths;
 	char	*path = NULL;
-	char	*r;
+	char	*r = NULL;
 	int		i;
 
-	if (ft_strchr(cmd, '/'))
-	{
-		if (is_executable(cmd))
-			return (cmd);
-	}
+	if (ft_strchr(cmd, '/') && is_executable(cmd))
+		return (cmd);
 	paths = ft_split(ft_getenv(list, "PATH"), ':');
 	if (!paths)
 		return (NULL);
-	r = NULL;
 	i = 0;
 	while (paths[i])
 	{

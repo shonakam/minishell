@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/22 01:41:22 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/02 20:02:07 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,10 @@ static t_minishell	*init_mini(t_minishell *mini, char **envp)
 	return (mini);
 }
 
-void	print_tokens(t_token **tokens)
-{
-	if (!tokens)
-		return ;
-	for (int i=0; tokens[i]; i++) {
-		printf("token[%d]: %s\n", i, tokens[i]->word);
-	}
-}
-
 static void	minishell(t_minishell *mini)
 {
 	setup_signals();
+	// printf("init-->[%d]\n", g_signal_flag);
 	while (INT_MAX)
 	{
 		mini->line = readline("minishell$ ");
@@ -48,17 +40,11 @@ static void	minishell(t_minishell *mini)
 		if (mini->line[0] == '\0')
 		{
 			free(mini->line);
-			continue;
-		}
-		if (g_signal_flag & (1 << 0))
-		{
-			g_signal_flag &= ~(1 << 0);
 			continue ;
 		}
 		mini->token = ft_lexer(mini->line);
 		if (mini->token == NULL)
 			continue ;
-		print_tokens(mini->token);
 		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
 		ft_exec_v6(mini);
 		ft_clean(mini, 0);
@@ -79,8 +65,9 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	minishell(mini);
-	// printf("\033[31mBREAKPOINT\033[0m\n");
 }
+
+// printf("\033[31mBREAKPOINT\033[0m\n");
 
 // __attribute__((destructor))
 // static void destructor() {

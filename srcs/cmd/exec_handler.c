@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/21 01:52:31 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:15:38 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,3 @@ int	exec_handler(t_command *c, t_minishell *m, int *p, t_rdir *i)
 	restore_io(i);
 	return (0);
 }
-

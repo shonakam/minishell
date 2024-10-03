@@ -1,4 +1,4 @@
-MINISHELL = minishell
+NAME = minishell
 
 # readlineのpathを指定してね
 # readlineのpathを指定
@@ -24,11 +24,11 @@ SRC_PATH := ./srcs/
 SRCS := $(shell find $(SRC_PATH) -type f -name '*.c')
 OBJS := $(patsubst $(SRC_PATH)%.c, objs/%.o, $(SRCS))
 
-all: $(MINISHELL)
+all: $(NAME)
 
-$(MINISHELL): $(OBJS)
+$(NAME): $(OBJS)
 	@make -C libft
-	@gcc $(CFLAGS) $(OBJS) $(LIBS) libft/libft.a -o $(MINISHELL)
+	@gcc $(CFLAGS) $(OBJS) $(LIBS) libft/libft.a -o $(NAME)
 	@printf "\033[31mS\033[0m"
 	@printf "\033[33mU\033[0m"
 	@printf "\033[32mC\033[0m"
@@ -41,14 +41,14 @@ $(MINISHELL): $(OBJS)
 
 objs/%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
-	@clang $(CFLAGS) -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	@make -C libft clean
 	@rm -rf objs/
 
 fclean: clean
-	@rm -f $(MINISHELL)
+	@rm -f $(NAME)
 	@make -C libft fclean
 
 re: fclean all
