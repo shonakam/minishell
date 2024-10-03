@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 11:50:31 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:13:54 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 Exit code 0: Command succeeded.
 Non-zero exit code: Command failed.
 Exit code 128+N: Command terminated by fatal signal N.
+	ex: cat -> ctrl + c = 130
 Exit code 127: Command not found.
 Exit code 126: Command found but not executable.
 */
@@ -54,7 +55,7 @@ void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 			close(mini->in_fd);
 	}
 	g_signal_flag = (sig_atomic_t)pid;
-	// mini->status = parse_exit_status(mini->status);
+	mini->status = parse_exit_status(mini->status);
 	g_signal_flag = 0b00000000;
 } 
 

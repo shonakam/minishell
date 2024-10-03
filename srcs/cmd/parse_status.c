@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 09:50:44 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 11:25:06 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:15:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 正常終了したかどうかを判定
 0x7f (127) はシグナルマスク
 */
-int	ft_wifexited(int status)
+static int	ft_wifexited(int status)
 {
 	return ((status & 0x7f) == 0);
 }
@@ -24,7 +24,7 @@ int	ft_wifexited(int status)
 正常終了した場合の終了ステータスを取得
 8ビット右シフトし、上位8ビットをマスク
 */
-int	ft_wexitstatus(int status)
+static int	ft_wexitstatus(int status)
 {
 	return ((status >> 8) & 0xff);
 }
@@ -32,7 +32,7 @@ int	ft_wexitstatus(int status)
 シグナルで終了したかどうか
 下位7ビットにシグナル番号がある場合
 */
-int ft_wifsignaled(int status)
+static int ft_wifsignaled(int status)
 {
 	return ((status & 0x7f) != 0 && (status & 0x7f) != 0x7f);
 }
@@ -40,7 +40,7 @@ int ft_wifsignaled(int status)
 シグナルで終了した場合のシグナル番号を取得
 下位7ビットがシグナル番号
 */
-int ft_wtermsig(int status)
+static int ft_wtermsig(int status)
 {
 	return (status & 0x7f);
 }
@@ -56,7 +56,7 @@ int	parse_exit_status(int status)
 	}
 	else if (ft_wifsignaled(status))
 	{
-		exit_code = ft_wtermsig(status);
+		exit_code = ft_wtermsig(status) + 128;
 		return (exit_code);
 	}
 	else
