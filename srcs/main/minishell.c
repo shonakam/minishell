@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/10/02 20:02:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:18:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static t_minishell	*init_mini(t_minishell *mini, char **envp)
 static void	minishell(t_minishell *mini)
 {
 	setup_signals();
-	// printf("init-->[%d]\n", g_signal_flag);
 	while (INT_MAX)
 	{
 		mini->line = readline("minishell$ ");

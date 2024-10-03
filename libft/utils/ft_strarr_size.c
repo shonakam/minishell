@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   ft_strarr_size.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/08 22:55:59 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 13:48:12 by shonakam         ###   ########.fr       */
+/*   Created: 2024/10/03 13:34:39 by shonakam          #+#    #+#             */
+/*   Updated: 2024/10/03 13:35:41 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../libft.h"
 
-// tokenの終端がpipeなら繰り返す
-t_command	*wait_pipe_cmd(t_command *head)
+size_t	ft_strarr_size(char **strarr)
 {
-	t_command	*current;
-	char		*line;
-
-	current = head;
-	while (current)
-		current = current->next;
-	while (1)
-	{
-		line = readline("pipe> ");
-		if (line == NULL)
-			break ;
-		free(line);
-	}
-	return (head);
+	size_t	count;
+	
+	count = 0;
+	if (!strarr)
+		return (0);
+	while (strarr[count])
+		count++;
+	return (count);
 }

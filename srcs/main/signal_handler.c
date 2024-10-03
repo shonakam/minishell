@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:46:22 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/02 20:01:46 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 13:02:49 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// if (g_signal_flag == 0)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		write(STDOUT_FILENO, "\n", 1);
@@ -53,10 +52,9 @@ void	handle_signal(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		if (g_signal_flag == 0)
+		if (g_signal_flag == 0b00000000)
 			return ;
 		kill(g_signal_flag, SIGQUIT);
-		// printf("kill-->[%d]\n", g_signal_flag);
 		g_signal_flag |= (0b00000001 << 1);
 		ft_putstr_fd("Quit: ", STDOUT_FILENO);
 		ft_putendl_fd(ft_itoa(SIGQUIT), STDOUT_FILENO);
