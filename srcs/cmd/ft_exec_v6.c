@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 13:46:42 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:08:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,5 @@ void	ft_exec_v6(t_minishell *mini)
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
 	mini->status = parse_exit_status(mini->status);
-	printf("m:status=%d\n", mini->status);
+	// printf("m:status=%d\n", mini->status);
 }
