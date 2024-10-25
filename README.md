@@ -1,6 +1,6 @@
 # MINISHELL
 
-## 戦略
+## 戦略 with konaito
 
 ### PHASE[0]: INIT_ENVIRONMENT
 このフェーズでは、シェルの初期化を行います。
