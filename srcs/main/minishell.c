@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2024/10/03 12:18:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:28:27 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	minishell(mini);
 }
-
-// printf("\033[31mBREAKPOINT\033[0m\n");
-
-// __attribute__((destructor))
-// static void destructor() {
-// 	system("leaks -q minishell");
-// }

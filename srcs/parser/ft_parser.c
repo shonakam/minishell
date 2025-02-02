@@ -6,13 +6,12 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2024/09/21 01:38:02 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:39:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// コマンド構造体を作成する関数
 t_command	*create_command(void)
 {
 	t_command *cmd;

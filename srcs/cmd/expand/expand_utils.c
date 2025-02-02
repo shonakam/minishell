@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:23:42 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/24 05:51:20 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:11:54 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*expand_special_variable(const char *str, int status)
 	if (ft_strncmp(str, "$?", 2) == 0)
 		return (ft_itoa(status));
 	if (ft_strncmp(str, "$$", 2) == 0)
-		return ("[PID]");
+		return (ft_strdup("[PID]"));
 	return (NULL);
 }
 
