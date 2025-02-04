@@ -6,13 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2025/02/03 01:28:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:27:05 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-volatile sig_atomic_t	g_signal_flag = 0b00000000;
+volatile sig_atomic_t g_signal_flag = 0b00000000;
 
 static t_minishell	*init_mini(t_minishell *mini, char **envp)
 {
@@ -28,25 +28,32 @@ static t_minishell	*init_mini(t_minishell *mini, char **envp)
 	return (mini);
 }
 
+static void	process_input(t_minishell *mini)
+{
+	if (mini->line == NULL)
+		ft_clean_exit(mini);
+	if (mini->line[0] == '\0')
+	{
+		free(mini->line);
+		return ;
+	}
+	mini->token = ft_lexer(mini->line);
+	if (mini->token == NULL)
+		return ;
+	mini->cmd = build_commands(mini->token, count_tokens(mini->token));
+	ft_exec_v6(mini);
+	ft_clean(mini, 0);
+}
+
 static void	minishell(t_minishell *mini)
 {
 	setup_signals();
 	while (INT_MAX)
 	{
+		g_signal_flag |= IN_READLINE;
 		mini->line = readline("minishell$ ");
-		if (mini->line == NULL)
-			break ;
-		if (mini->line[0] == '\0')
-		{
-			free(mini->line);
-			continue ;
-		}
-		mini->token = ft_lexer(mini->line);
-		if (mini->token == NULL)
-			continue ;
-		mini->cmd = build_commands(mini->token, count_tokens(mini->token));
-		ft_exec_v6(mini);
-		ft_clean(mini, 0);
+		g_signal_flag &= ~IN_READLINE;
+		process_input(mini);
 	}
 	ft_clean_exit(mini);
 }

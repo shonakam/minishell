@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/02 19:56:55 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:49:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_token	**ft_lexer(char *line)
 	line = resolve_eos(line);
 	if (!line)
 		return (NULL);
-	if (strlen(line) > 0)
+	if (line && strlen(line) > 0)
 		rl_replace_line(line, 1);
 	tokens = (t_token **)malloc(ARGUMENT_SIZE * sizeof(t_token *));
 	if (!tokens)

@@ -24,6 +24,9 @@
 
 # define READ	0
 # define WRITE	1
+# define SIGINT_FLAG	(1 << 0)
+# define SIGQUIT_FLAG	(1 << 1)
+# define IN_READLINE	(1 << 2)
 
 typedef struct	s_minishell	{
 	char			*line;
