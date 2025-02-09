@@ -1,21 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   resolve_eos_utils.c                                :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 04:35:55 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 02:12:27 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/08 17:07:21 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/08 17:07:48 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include <stddef.h>
 
-char	*connect_and_free(char *s1, char *s2)
+size_t	ft_strspn(const char *s, const char *accept)
 {
-	char	*result;
+	size_t	i;
+	int		j;
+	int		match;
 
-	result = concat_vars(4, "\n", s1, "\n", s2);
-	return (free(s1), result);
+	if (!s || !accept)
+		return (0);
+	i = 0;
+	while (s[i])
+	{
+		match = 0;
+		j = 0;
+		while (accept[j])
+		{
+			if (s[i] == accept[j])
+			{
+				match = 1;
+				break;
+			}
+			j++;
+		}
+		if (!match)
+			break;
+		i++;
+	}
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/24 10:41:52 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 08:51:05 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_envlist	*create_head_node(void)
 	head->next = NULL;
 	return (head);
 }
-
 
 char	*get_bin_path(t_envlist *list, char *cmd)
 {

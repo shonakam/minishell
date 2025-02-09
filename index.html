@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Minishell 関数の実行順序・関連性まとめ</title>
+  <style>
+    body {
+      margin: 2rem;
+      font-family: sans-serif;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      margin-top: 2rem;
+    }
+    ul {
+      list-style: disc inside;
+    }
+    code {
+      background-color: #f4f4f4;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 90%;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 1em;
+      border-radius: 4px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Minishell 関数の実行順序・関連性まとめ</h1>
+<p>
+  以下は、本リポジトリに含まれる <code>minishell</code> プログラムにおける主な処理の流れと、主要関数同士の関連を大まかに説明したものです。
+  ソースコードは大きく分けて、以下のコンポーネントに分かれています:
+</p>
+<ul>
+  <li>メインループ管理 (<code>srcs/main/*.c</code>)</li>
+  <li>入力行の字句解析 (Lexer) (<code>srcs/lexer/*.c</code>)</li>
+  <li>トークン列をコマンド構造体へ変換 (Parser) (<code>srcs/parser/*.c</code>)</li>
+  <li>実行系 (コマンド実行・ビルトインなど) (<code>srcs/cmd/*.c</code>)</li>
+  <li>入出力リダイレクト・ヒアドキュメントのサポート (<code>srcs/cmd/redirect</code>, <code>srcs/cmd/heredoc</code>)</li>
+  <li>エラーハンドリング・ユーティリティ (<code>srcs/errors/*.c</code>, <code>libft/*</code>)</li>
+</ul>
+
+<hr>
+
+<h2>メインループと大まかな流れ</h2>
+
+<ol>
+  <li>
+    <strong>プログラム開始: <code>main()</code> ( <em>srcs/main/minishell.c</em> )</strong><br>
+    <ul>
+      <li><code>init_mini()</code> で <code>t_minishell</code> 構造体を初期化</li>
+      <li>環境変数リスト (<code>envlist</code>) の作成: <code>make_envlist(envp)</code></li>
+      <li><code>minishell()</code> 関数を呼び出し、メインループへ移行</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong><code>minishell()</code> ループ ( <em>srcs/main/minishell.c</em> )</strong><br>
+    <ul>
+      <li><code>setup_signals()</code> を呼び出し、<code>SIGINT</code> / <code>SIGQUIT</code> などのシグナルを設定</li>
+      <li><code>readline()</code> でコマンドライン入力を受け付け</li>
+      <li>入力行を <code>process_input()</code> に渡す</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong><code>process_input()</code> ( <em>srcs/main/minishell.c</em> )</strong><br>
+    <ul>
+      <li>入力された行が空文字列の場合は何もせずループ継続</li>
+      <li><code>ft_lexer()</code> を呼び出し、字句解析 (トークン化) を実施</li>
+      <li>生成されたトークンを <code>build_commands()</code> に渡してパース (コマンド構造体群を生成)</li>
+      <li><code>ft_exec_v6()</code> を呼び出してコマンド列を実行</li>
+      <li>その後、<code>ft_clean()</code> でトークンやコマンド構造体などを解放</li>
+    </ul>
+  </li>
+</ol>
+
+<hr>
+
+<h2>Lexer (字句解析)</h2>
+<ul>
+  <li><code>ft_lexer(char *line)</code> ( <em>srcs/lexer/ft_lexer.c</em> )</li>
+  <ul>
+    <li><code>resolve_eos()</code> で文末のメタ文字 (<code>|</code>, <code>&lt;</code>, <code>&gt;</code> など) をチェックし、未完成なら追加の入力を促す、あるいは syntax error を出す</li>
+    <li><code>extract_token()</code> により、メタ文字や文字列をトークンに分解</li>
+    <li>トークン配列を <code>check_unexpected_token()</code> で妥当性チェック</li>
+  </ul>
+  <li>出力: <em>トークン配列</em> ( <code>t_token **</code> )</li>
+</ul>
+
+<hr>
+
+<h2>Parser (トークン列 → コマンド構造体)</h2>
+<ul>
+  <li><code>build_commands(t_token **tokens, int count)</code> ( <em>srcs/parser/ft_parser.c</em> )</li>
+  <ul>
+    <li><code>create_command()</code> で新しいコマンドノード (<code>t_command</code>) を作成</li>
+    <li>トークンが <code>METACHAR_PIPE</code> (<code>|</code>) であれば次のコマンドノードへ</li>
+    <li>それ以外 (WORD, &lt;, &gt; など) は <code>set_argument()</code> により <code>cmd->argv</code> に追加</li>
+  </ul>
+  <li>出力: コマンドを単方向リストでつないだ <code>t_command</code> 構造</li>
+</ul>
+
+<hr>
+
+<h2>コマンド実行系のフロー</h2>
+<ol>
+  <li>
+    <strong><code>ft_exec_v6()</code> ( <em>srcs/cmd/ft_exec_v6.c</em> )</strong><br>
+    <ul>
+      <li>コマンドリスト (<code>mini->cmd</code>) を順次走査</li>
+      <li>各コマンドでリダイレクトの解析 (<code>parse_redirects()</code>)</li>
+      <li><code>exec_handler()</code> を呼び出し、リダイレクト適用やパイプ処理などを一括管理</li>
+      <li><code>waitpid</code> で子プロセス終了を待機し、終了ステータスを <code>parse_exit_status()</code> で解析</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong><code>exec_handler()</code> ( <em>srcs/cmd/exec_handler.c</em> )</strong><br>
+    <ul>
+      <li><code>handle_heredoc()</code> によりヒアドキュメント (<<) の処理を行う</li>
+      <li><code>expand_and_clean_args()</code> で各引数中の変数展開 (<code>$VAR</code>)・クォート除去</li>
+      <li><code>is_builtin()</code> でビルトインコマンドか判定</li>
+      <ul>
+        <li>ビルトインの場合: <code>builtin_runner()</code></li>
+        <li>バイナリ実行の場合: <code>exec_bin()</code> を呼び出し <code>fork()</code> + <code>execve()</code></li>
+      </ul>
+    </ul>
+  </li>
+
+  <li>
+    <strong>ビルトイン処理</strong>
+    <ul>
+      <li><code>builtin_runner()</code> ( <em>srcs/cmd/builtins/builtin_handler.c</em> )</li>
+      <li><code>cmd_cd()</code>, <code>cmd_echo()</code>, <code>cmd_env()</code>, <code>cmd_exit()</code>, <code>cmd_export()</code>, <code>cmd_pwd()</code>, <code>cmd_unset()</code></li>
+      <li>これらは基本的に <code>t_envlist</code> を直接編集したり、<code>chdir</code> を行ったりする</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>バイナリ実行処理</strong>
+    <ul>
+      <li><code>exec_bin()</code> ( <em>srcs/cmd/ft_exec_v6.c</em> )</li>
+      <li><code>fork()</code> で子プロセス生成 → 子プロセス側で <code>execve()</code></li>
+      <li><code>get_bin_path()</code> ( <em>srcs/main/env/support.c</em> ) により <code>PATH</code> から実行ファイルを検索</li>
+    </ul>
+  </li>
+</ol>
+
+<hr>
+
+<h2>リダイレクト・ヒアドキュメント関連</h2>
+<ul>
+  <li><code>parse_redirects()</code> ( <em>srcs/cmd/redirect/redirect_parse.c</em> )</li>
+  <ul>
+    <li>コマンド引数に含まれる <code>&lt;</code>, <code>&gt;</code>, <code>&gt;&gt;</code> を走査し、該当ファイルを <code>open()</code></li>
+    <li><code>info-&gt;rdir_i</code>, <code>info-&gt;rdir_o</code> にファイルディスクリプタを格納</li>
+  </ul>
+  <li><code>apply_redirects()</code> ( <em>redirect_apply.c</em> )</li>
+  <ul>
+    <li>最終的に <code>dup2()</code> で標準入出力をファイルやパイプへリダイレクト</li>
+  </ul>
+  <li><code>handle_heredoc()</code> ( <em>heredoc.c</em> )</li>
+  <ul>
+    <li><code>&lt;&lt;</code> がある場合、テンポラリファイル (<code>/tmp/heredoc_temp_file_xxx</code>) を作成し、<code>readline("heredoc>")</code> で入力を受け取って書き込む</li>
+    <li>最終的にリダイレクト先としてそのテンポラリファイルを利用</li>
+    <li><code>rebuild_args()</code> によって引数の <code>&lt;&lt;</code> セクションを置き換え</li>
+  </ul>
+</ul>
+
+<hr>
+
+<h2>エラー処理・シグナル</h2>
+<ul>
+  <li><code>handle_signal()</code>, <code>setup_signals()</code> ( <em>srcs/main/signal_handler.c</em> )</li>
+  <ul>
+    <li><code>SIGINT</code> (<code>Ctrl + C</code>) を受け取ってプロンプト再表示</li>
+    <li><code>SIGQUIT</code> は無視するか、バイナリ実行時のみ表示</li>
+  </ul>
+  <li><code>handle_error()</code>, <code>syntax_err()</code> など ( <em>srcs/errors/*</em> )</li>
+  <ul>
+    <li>ファイルオープン失敗や無効なトークンなどの場合にメッセージを出力</li>
+  </ul>
+</ul>
+
+<hr>
+
+<h2>まとめ</h2>
+<ul>
+  <li><strong><code>main() → minishell()</code></strong>: ループを回して行入力</li>
+  <li><strong><code>process_input()</code></strong>: <code>ft_lexer()</code> → <code>build_commands()</code> → <code>ft_exec_v6()</code></li>
+  <li><strong><code>ft_exec_v6()</code></strong>: コマンドごとに <code>parse_redirects</code> / <code>handle_heredoc</code> / <code>expand</code> / <code>exec_handler</code></li>
+  <li><strong><code>exec_handler()</code></strong> 内で、ビルトインか外部コマンドかを判別して実行</li>
+  <li>ヒアドキュメントやリダイレクトは、適宜 <code>dup2()</code> で標準入出力を置き換え</li>
+  <li>終了時は <code>waitpid</code> で子プロセスを回収し、<code>parse_exit_status()</code> で終了コードを整形</li>
+</ul>
+
+<p>
+これにより、ミニシェルはユーザ入力を解析 (Lexer / Parser) → コマンド内部表現を作成 → リダイレクト等の前処理 → ビルトイン or 外部バイナリの実行 → 終了ステータスの反映、という一連の流れを実装しています。
+</p>
+
+</body>
+</html>

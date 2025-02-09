@@ -6,14 +6,12 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:37 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 11:49:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:42:42 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// エラー時にプロセスを終了
-// old_fdはもう使わないので閉じる
 void	redirect_fd(int old, int new)
 {
 	if (old != new)

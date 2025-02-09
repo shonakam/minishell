@@ -6,13 +6,14 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 18:40:06 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/24 05:47:14 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/08 07:32:44 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_CMD_H
 # define FT_CMD_H
 
+/* start & end */
 typedef struct s_state {
 	char		*result;
 	char		*v;

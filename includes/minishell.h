@@ -42,6 +42,7 @@ typedef struct	s_minishell	{
 # include "signal.h"
 
 void		print_tokens(t_token **tokens);
+char		*connect_and_free(char *s1, char *s2);
 t_token		**ft_lexer(char *line);
 char		*resolve_eos(char *line);
 

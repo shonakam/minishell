@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/24 11:15:38 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/08 07:24:22 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,6 @@ static void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
 	}
 }
 
-static int	handle_redirect_and_pipe(t_command *c, int *p, t_minishell *m)
-{
-	if (c->next)
-		handle_pipe(p, 0);
-	if (handle_heredoc(c, &m->hd_index, m->status, m->envlist) == 1)
-	{
-		m->status = 0;
-		if (c->next)
-			handle_pipe(p, 1);
-		return (1);
-	}
-	if (c->hd_list)
-		rebuild_args(c);
-	return (0);
-}
 
 static void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 {
@@ -90,6 +75,21 @@ static void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 	}
 }
 
+static int	handle_redirect_and_pipe(t_command *c, int *p, t_minishell *m)
+{
+	if (c->next)
+		handle_pipe(p, 0);
+	if (handle_heredoc(c, &m->hd_index, m->status, m->envlist) == 1)
+	{
+		m->status = 0;
+		if (c->next)
+			handle_pipe(p, 1);
+		return (1);
+	}
+	if (c->hd_list)
+		rebuild_args(c);
+	return (0);
+}
 /*
 	Handles the execution of commands by:
 	1. リダイレクトとパイプの処理

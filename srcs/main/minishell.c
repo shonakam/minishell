@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2025/02/04 10:27:05 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/08 07:38:02 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	mini = malloc(sizeof(t_minishell));
 	mini = init_mini(mini, envp);
 	if (!mini)
 	{
@@ -71,4 +72,10 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	minishell(mini);
+}
+#include <arm_acle.h>
+
+__attribute__((destructor))
+static void destructor() {
+	system("leaks -q minishell");
 }

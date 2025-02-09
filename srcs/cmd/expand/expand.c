@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 04:06:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/24 05:54:58 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/08 07:30:26 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	expand_ptn(const char *in, t_state *state, int s, t_envlist *e)
 	{
 		state->v = expand_env(in, state, e);
 		state->result = concat_and_free(state->result, state->v);
-		free(state->v);
+		// free(state->v);
 		state->s = state->e;
 		return (1);
 	}
