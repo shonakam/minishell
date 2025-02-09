@@ -6,27 +6,28 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 03:55:27 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/16 03:57:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:41:52 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-char *get_next_hd_filename(t_heredoc **hd)
+char	*get_next_hd_filename(t_heredoc **hd)
 {
-	char *filename = NULL;
+	char	*filename;
 
+	filename = NULL;
 	if (*hd)
 	{
 		filename = (*hd)->filename;
 		*hd = (*hd)->next;
 	}
-	return filename;
+	return (filename);
 }
 
 int	count_hd(t_heredoc *hd)
 {
-	int c;
+	int	c;
 
 	c = 0;
 	while (hd)

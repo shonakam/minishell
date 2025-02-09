@@ -6,14 +6,13 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 23:56:40 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/16 23:44:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:22:12 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
-// #include <stdio.h>
 
-static size_t get_total_length(int count, va_list args)
+static size_t	get_total_length(int count, va_list args)
 {
 	size_t		total_length;
 	int			i;
@@ -36,7 +35,7 @@ static void	concat_strings(char *dest, int count, va_list args)
 	int			i;
 	const char	*str;
 	char		*current_position;
-	
+
 	i = 0;
 	current_position = dest;
 	while (i < count)

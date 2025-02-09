@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   ft_strarr_size.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/19 08:34:03 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 11:50:57 by shonakam         ###   ########.fr       */
+/*   Created: 2024/10/03 13:34:39 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/09 04:22:59 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#include "../libft.h"
 
-void	handle_error(const char *message);
-void	syntax_err(int n);
-int		handle_exec_errors(char *path, int *p, int f);
-char	*static_err_msg(int n);
+size_t	ft_strarr_size(char **strarr)
+{
+	size_t	count;
 
-#endif
+	count = 0;
+	if (!strarr)
+		return (0);
+	while (strarr[count])
+		count++;
+	return (count);
+}

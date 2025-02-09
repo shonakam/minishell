@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:22:13 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 22:31:48 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 10:41:23 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@ void	ft_putenv(t_envlist **l, const char *k, const char *v)
 			tmp = ft_strdup(v);
 			if (!tmp)
 			{
+				printf("OUt\n");
 				perror("ft_putenv: malloc");
-				return;
+				return ;
 			}
 			free(current->value);
 			current->value = tmp;
@@ -92,8 +93,8 @@ char	*ft_getenv(t_envlist *list, char *key)
 	list = list->next;
 	while (list)
 	{
-		if ((ft_strlen(list->key) == ft_strlen(key)) &&
-			(ft_strncmp(list->key, key, ft_strlen(key)) == 0))
+		if ((ft_strlen(list->key) == ft_strlen(key))
+			&& (ft_strncmp(list->key, key, ft_strlen(key)) == 0))
 			return (list->value);
 		list = list->next;
 	}
@@ -104,7 +105,7 @@ t_envlist	*make_envlist(char **envp)
 {
 	t_envlist	*head;
 	char		**kv;
-	int	i;
+	int			i;
 
 	head = create_head_node();
 	i = 0;
@@ -114,7 +115,7 @@ t_envlist	*make_envlist(char **envp)
 		if (!kv)
 		{
 			perror("ft_split_by_eq");
-			// return (NULL);
+			return (NULL);
 		}
 		ft_putenv(&head, kv[0], kv[1]);
 		free(kv[0]);

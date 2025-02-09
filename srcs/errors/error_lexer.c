@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:35:56 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 08:36:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:45:14 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@ void	syntax_err(int n)
 			"minishell: syntax error near unexpected token `newline'",
 			STDERR_FILENO);
 	}
-	
 }

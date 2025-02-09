@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/18 22:40:10 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:58:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_command	*get_current_cmd(t_command *cmd, int depth)
 	return (current);
 }
 
-int		count_cmd(t_command *cmd)
+int	count_cmd(t_command *cmd)
 {
 	t_command	*current;
 	int			i;
@@ -53,7 +53,7 @@ void	cpy_args(t_command *cmd, char **a)
 			while (i > 0)
 				free(a[--i]);
 			free(a);
-			return;
+			return ;
 		}
 		i++;
 	}
@@ -68,6 +68,8 @@ void	free_argv(char	**argv)
 	int	i;
 
 	i = 0;
+	if (!argv || !argv[i])
+		return ;
 	while (argv[i])
 		free(argv[i++]);
 	free(argv);
@@ -77,14 +79,13 @@ void	free_commands(t_command *cmd)
 {
 	t_command	*current;
 	t_command	*next;
-	int			i;
 
 	current = cmd;
 	while (current)
 	{
 		next = current->next;
 		free_heredoc(current);
-		if (current->argv)
+		if (current && current->argv)
 			free_argv(current->argv);
 		free(current);
 		current = next;

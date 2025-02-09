@@ -6,14 +6,12 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 07:12:51 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 08:58:16 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 11:02:59 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// 入力リダイレクトがある場合は、標準入力をリダイレクト
-// 出力リダイレクトがある場合は、標準出力をリダイレクト
 void	apply_redirects(t_rdir *info)
 {
 	if (info->rdir_i != -1)
@@ -39,7 +37,7 @@ void	apply_redirects(t_rdir *info)
 char	**prepare_exec_argv(char **argv, int *argc)
 {
 	char	**new_argv;
-	int 	j;
+	int		j;
 	int		i;
 
 	new_argv = malloc((*argc + 1) * sizeof(char *));

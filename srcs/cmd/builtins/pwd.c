@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:56:47 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 13:21:34 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:32:29 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ int	cmd_pwd(t_command *cmd, int fd)
 	char	*s;
 
 	(void)cmd;
-	// if (cmd->argc > 1)
-	// {
-	// 	s = "pwd: too many arguments\n";
-	// 	write(2, s, ft_strlen(s));
-	// }
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
 		s = concat_vars(2, cwd, "\n");

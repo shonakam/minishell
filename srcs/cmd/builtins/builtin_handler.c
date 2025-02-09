@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 00:04:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 12:23:59 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 10:21:20 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ int	is_builtin(t_command *cmd)
 	return (0);
 }
 
-// ビルトインコマンドを実行する関数
 int	builtin_runner(t_command *cmd, int fd, t_envlist *envlist)
 {
 	if (!ft_strcmp(cmd->argv[0], "cd"))
-		return (cmd_cd(cmd));
+		return (cmd_cd(cmd, envlist));
 	else if (!ft_strcmp(cmd->argv[0], "echo"))
 		return (cmd_echo(cmd, fd));
 	else if (!ft_strcmp(cmd->argv[0], "env"))

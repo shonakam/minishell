@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 22:30:36 by kmoshker          #+#    #+#             */
-/*   Updated: 2024/09/18 22:49:02 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 03:49:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strtrim(char const *s1, char const *set);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	*ft_itoa(int n);
+void	free_split(char **split);
 char	**ft_split(char const *str, char charset);
 int		count_words(const char *s, char c);
 void	ft_lstadd_back(t_list **lst, t_list *new);
@@ -80,6 +81,8 @@ void	ft_lstclear(t_list **lst, void (*del)(int));
 void	ft_lstdelone(t_list *lst, void (*del)(int));
 void	ft_lstiter(t_list *lst, void (*f)(int));
 // t_list	*ft_lstmap(t_list *lst, void *(*f)(int), void (*del)(int));
+size_t	ft_strspn(const char *s, const char *accept);
+
 int		ft_abs(int num);
 char	*get_next_line(int fd);
 #endif

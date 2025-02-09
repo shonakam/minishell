@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoshker <kmoshker@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 01:40:32 by kmoshker          #+#    #+#             */
-/*   Updated: 2023/09/24 21:27:58 by kmoshker         ###   ########.fr       */
+/*   Updated: 2024/09/24 05:42:50 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,29 @@ char	*ft_itoa(int n)
 		return (NULL);
 	return (make_new(new, n, is_minus, count));
 }
+
+// #include <stdio.h>
+// #include <stdlib.h>
+// int main(int argc, char **argv)
+// {
+//     if (argc != 2) {
+//         printf("Usage: %s <integer>\n", argv[0]);
+//         return 1;
+//     }
+
+//     // コマンドライン引数を整数に変換
+//     int number = atoi(argv[1]);
+
+//     // ft_itoa を使って整数を文字列に変換
+//     char *result = ft_itoa(number);
+
+//     if (result) {
+//         // 結果を表示
+//         printf("The string representation of %d is: %s\n", number, result);
+//         free(result);  // メモリ解放
+//     } else {
+//         printf("Memory allocation failed\n");
+//     }
+
+//     return 0;
+// }

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:09:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 08:58:26 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:42:41 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	get_redirect_mode(char *arg)
 	int	mode;
 
 	if (ft_strcmp(arg, ">>") == 0)
-		mode =  O_CREAT | O_WRONLY | O_TRUNC;
+		mode = O_CREAT | O_WRONLY | O_TRUNC;
 	else if (ft_strcmp(arg, ">") == 0)
 		mode = O_CREAT | O_WRONLY | O_APPEND;
 	else if (ft_strcmp(arg, "<") == 0)

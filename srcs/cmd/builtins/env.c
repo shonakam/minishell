@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:57:33 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/14 22:46:24 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:30:15 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	cmd_env(int fd, t_envlist *envlist)
 	while (s[i])
 	{
 		ft_putstr_fd(s[i], fd);
-		ft_putstr_fd("\n", fd);	// 改行を追加
+		ft_putstr_fd("\n", fd);
 		i++;
 	}
 	i = 0;
 	while (s[i])
-		free(s[i++]);  // 各要素を解放
-	free(s); 
+		free(s[i++]);
+	free(s);
 	return (0);
 }

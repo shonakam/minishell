@@ -6,15 +6,35 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 20:26:20 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 05:03:04 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+int	is_valid_key(const char *key)
+{
+	size_t	i;
+
+	if (!key || !key[0])
+		return (0);
+	if (!ft_isascii(key[0]) || !(ft_isalpha(key[0]) || key[0] == '_'))
+		return (0);
+	i = 1;
+	while (key[i] != '\0')
+	{
+		if (!ft_isascii(key[i]) || !(ft_isalnum(key[i]) || key[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 t_envlist	*create_head_node(void)
 {
-	t_envlist *head = malloc(sizeof(t_envlist));
+	t_envlist	*head;
+
+	head = malloc(sizeof(t_envlist));
 	if (!head)
 	{
 		perror("create_head_node: malloc");
@@ -26,38 +46,10 @@ t_envlist	*create_head_node(void)
 	return (head);
 }
 
-
-char	*get_bin_path(t_envlist *list, char *cmd)
+void	free_envlist(t_envlist **l)
 {
-	char	**paths;
-	char	*path = NULL;
-	char	*r;
-	int		i;
-
-	if (ft_strchr(cmd, '/'))
-	{
-		if (is_executable(cmd))
-			return (cmd);
-	}
-	paths = ft_split(ft_getenv(list, "PATH"), ':');
-	if (!paths)
-		return (NULL);
-	r = NULL;
-	i = 0;
-	while (paths[i])
-	{
-		path = concat_vars(3, paths[i], "/", cmd);
-		if (is_executable(path))
-			r = path;
-		free(paths[i++]);
-	}
-	return (free(paths), r);
-}
-
-void free_envlist(t_envlist **l)
-{
-	t_envlist *current;
-	t_envlist *next;
+	t_envlist	*current;
+	t_envlist	*next;
 
 	current = *l;
 	while (current)
@@ -86,34 +78,4 @@ int	get_listsize(t_envlist **l)
 		current = current->next;
 	}
 	return (size);
-}
-
-/* 
->> r[0]=key, r[1]=value
->> Split key and value by replacing '=' with '\0'
-*/
-char	**ft_split_by_eq(char *s)
-{
-	char	*eq;
-	char	**r;
-
-	eq = ft_strchr(s, '=');
-	if (!eq)
-		return (NULL);
-	r = malloc(sizeof(char *) * 3);
-	if (!r)
-		return (NULL);
-	*eq = '\0';
-	r[0] = ft_strdup((const char *)s);
-	r[1] = ft_strdup((const char *)eq + 1);
-	*eq = '=';
-	r[2] = NULL;
-	if (!r[0] || !r[1])
-	{
-		free(r[0]);
-		free(r[1]);
-		free(r);
-		return (NULL);
-	}
-	return (r);
 }

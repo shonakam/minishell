@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:57:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 14:54:34 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:32:58 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	cmd_unset(t_command *cmd, t_envlist *envlist)
 	char	*s;
 
 	if (!cmd->argv[1])
-		return (0);	
+		return (0);
 	if (is_valid_identifier(cmd->argv[1]))
 	{
 		s = concat_vars(3, "minishell: unset: `",
-			cmd->argv[1], "': not a valid identifier\n");
+				cmd->argv[1], "': not a valid identifier\n");
 		ft_putstr_fd(s, STDERR_FILENO);
 		free(s);
 		return (1);

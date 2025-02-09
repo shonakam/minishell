@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:16:02 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/12 23:17:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:22:40 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	ft_is_numeric(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!str || !*str)
 		return (0);
 	while (str[i])

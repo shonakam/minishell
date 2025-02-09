@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosh <mosh@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 23:21:40 by kmoshker          #+#    #+#             */
-/*   Updated: 2024/03/07 01:57:23 by mosh             ###   ########.fr       */
+/*   Updated: 2025/02/09 04:09:07 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcat(char *dst, const char *src)
-{
-	int				num1;
-	size_t			i;
+// char	*ft_strcat(char *dst, const char *src)
+// {
+// 	int				num1;
+// 	size_t			i;
 
-	num1 = ft_strlen(dst);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dst[num1 + i] = src[i];
-		i++;
-	}
-	dst[num1 + i] = '\0';
-	return (dst);
-}
+// 	num1 = ft_strlen(dst);
+// 	i = 0;
+// 	while (src[i] != '\0')
+// 	{
+// 		dst[num1 + i] = src[i];
+// 		i++;
+// 	}
+// 	dst[num1 + i] = '\0';
+// 	return (dst);
+// }
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {

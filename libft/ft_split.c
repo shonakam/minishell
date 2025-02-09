@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kmoshker <kmoshker@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 09:07:58 by kmoshker          #+#    #+#             */
-/*   Updated: 2024/03/06 21:37:08 by kmoshker         ###   ########.fr       */
+/*   Updated: 2025/02/09 03:50:26 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	*free_split(char **split)
+void	free_split(char **split)
 {
 	int	i;
 
 	i = 0;
+	if (!split)
+		return ;
 	while (split[i])
-	{
-		free(split[i]);
-		i++;
-	}
+		free(split[i++]);
 	free(split);
-	return (NULL);
 }
 
 static char	*get_next_word(char const **s, char c)
@@ -61,7 +59,7 @@ char	**ft_split(char const *s, char c)
 		{
 			result[i] = get_next_word(&s, c);
 			if (!(result[i]))
-				return (free_split(result));
+				return (free_split(result), NULL);
 			i++;
 		}
 		else

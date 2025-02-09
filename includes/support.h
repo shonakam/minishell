@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   support.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/08 14:12:14 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/08 14:36:58 by shonakam         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SUPPORT_H
 # define SUPPORT_H
 
@@ -15,7 +27,7 @@ int			count_tokens(t_token **tokens);
 void		free_tokens(t_token **tokens);
 char		*connect_and_free(char *s1, char *s2);
 int			handle_special_char_size(const char *line, size_t position);
-TokenType	identify_metachar(const char *input, size_t pos);
+t_tokentype	identify_metachar(const char *input, size_t pos);
 
 /*  <=== parser/support ===>  */
 int			count_cmd(t_command *cmd);
@@ -35,5 +47,6 @@ char		*get_next_hd_filename(t_heredoc **hd);
 int			count_hd(t_heredoc *hd);
 int			is_here_doc_placeholder(const char *arg);
 char		*concat_and_free(char *result, char *tmp);
+int			is_cmd(char *cmd);
 
 #endif

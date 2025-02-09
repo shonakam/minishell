@@ -6,14 +6,12 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 21:39:37 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/19 20:26:15 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 04:29:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-// エラー時にプロセスを終了
-// old_fdはもう使わないので閉じる
 void	redirect_fd(int old, int new)
 {
 	if (old != new)
@@ -27,7 +25,7 @@ void	redirect_fd(int old, int new)
 	}
 }
 
-int		is_executable(const char *path)
+int	is_executable(const char *path)
 {
 	if (access(path, F_OK) != 0)
 		return (0);
@@ -36,11 +34,13 @@ int		is_executable(const char *path)
 	return (1);
 }
 
-void free_heredoc(t_command *cmd)
+void	free_heredoc(t_command *cmd)
 {
-	t_heredoc *current;
-	t_heredoc *next;
+	t_heredoc	*current;
+	t_heredoc	*next;
 
+	if (!cmd)
+		return ;
 	current = cmd->hd_list;
 	while (current)
 	{
@@ -65,5 +65,12 @@ void	handle_pipe(int *p, int f)
 	{
 		close(p[READ]);
 		close(p[WRITE]);
-	} 
+	}
+}
+
+int	is_cmd(char *cmd)
+{
+	if (!ft_strchr(cmd, '/'))
+		return (1);
+	return (0);
 }

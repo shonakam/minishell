@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 19:20:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 14:12:39 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 05:00:37 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**convert_to_envp(t_envlist	**l)
 	if (!r)
 	{
 		perror("convert_to_envp: malloc");
-		return(NULL);
+		return (NULL);
 	}
 	current = (*l)->next;
 	i = 0;
@@ -62,7 +62,7 @@ char	**convert_to_envp(t_envlist	**l)
 		r[i] = set_envvar(current->key, current->value);
 		if (!r[i])
 			return (free_envvar(r, i),
-					perror("convert_to_envp: maloc for set_envvar"), NULL);
+				perror("convert_to_envp: maloc for set_envvar"), NULL);
 		current = current->next;
 		i++;
 	}

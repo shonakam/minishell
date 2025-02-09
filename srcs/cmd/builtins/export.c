@@ -6,33 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:57:03 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/15 20:27:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/09 11:01:05 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-// 変数名はアルファベットまたはアンダースコアで始まるべき
-// 残りの文字はアルファベット、数字、またはアンダースコア
-// '='はスキップ
-static int	is_valid_identifier(const char *str)
-{
-	if (!str || !*str)
-		return (0);
-	if (!ft_isalpha(*str) && *str != '_')
-		return (0);
-	str++;
-	while (*str)
-	{
-		if (!ft_isalnum(*str) && *str != '_')
-		{
-			if (*str != '=')
-				return (0);
-		}
-		str++;
-	}
-	return (1);
-}
 
 static void	set_all_args(t_command *cmd, int fd, t_envlist *envlist)
 {
@@ -42,28 +20,25 @@ static void	set_all_args(t_command *cmd, int fd, t_envlist *envlist)
 	i = 1;
 	while (cmd->argv[i])
 	{
-		if (!ft_strchr(cmd->argv[i], '=') && i == 1)
+		kv = ft_split_by_eq(cmd->argv[i]);
+		if (kv)
 		{
-			ft_putstr_fd("bash: export: `", fd);
-			ft_putstr_fd(cmd->argv[i], fd);
-			ft_putendl_fd("': not a valid identifier", fd);
-		}
-		else if (is_valid_identifier(cmd->argv[i]))
-		{
-			kv = ft_split_by_eq(cmd->argv[i]);
-			if (kv)
+			if (!is_valid_key(kv[0]))
 			{
-				ft_putenv(&envlist, kv[0], kv[1]);
-				free(kv[0]);
-				free(kv[1]);
-				free(kv);
+				ft_putstr_fd("bash: export: `", fd);
+				ft_putstr_fd(kv[0], fd);
+				ft_putendl_fd("': not a valid identifier", fd);
 			}
+			else
+				ft_putenv(&envlist, kv[0], kv[1]);
+			free(kv[0]);
+			free(kv[1]);
+			free(kv);
 		}
 		i++;
 	}
 }
 
-// 引数がない場合、環境変数の一覧を表示
 int	cmd_export(t_command *cmd, int fd, t_envlist *envlist)
 {
 	char		**kv;
@@ -79,11 +54,9 @@ int	cmd_export(t_command *cmd, int fd, t_envlist *envlist)
 			ft_putendl_fd(kv[i], fd);
 			free(kv[i++]);
 		}
-		return (free(kv),0);
+		return (free(kv), 0);
 	}
 	else
-	{
 		set_all_args(cmd, fd, envlist);
-	}
 	return (0);
 }
