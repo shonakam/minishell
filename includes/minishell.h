@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 05:12:43 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 06:59:09 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <errno.h>
 # include <stdbool.h>
 # include <sys/ioctl.h>
-# include <signal.h>
 # include <termios.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 // # include <linux/limits.h>
@@ -86,6 +86,7 @@ void		handle_signal(int sig);
 void		quit_message(void);
 void		setup_signals(void);
 void		observe_signal(t_minishell *mini);
+int			handle_heredoc_signal(void);
 
 /* <=== ENVIROMENT ===> */
 char		*get_bin_path(t_envlist *list, char *cmd);

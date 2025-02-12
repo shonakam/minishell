@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:27:57 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 01:04:26 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 07:11:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,19 @@ static char	*read_heredoc_input(const char *delimiter)
 {
 	char	*line;
 
-	g_signal_flag |= (1 << 2);
+	rl_event_hook = handle_heredoc_signal;
+	g_signal_flag |= (1 << 3);
 	line = readline("heredoc> ");
-	g_signal_flag &= ~(1 << 2);
+	if (g_signal_flag & (1 << 7))
+	{
+		g_signal_flag &= ~(1 << 7);
+		g_signal_flag &= ~(1 << 3);
+		if (line)
+			free(line);
+		return (NULL);
+	}
+	g_signal_flag &= ~(1 << 3);
+	
 	if (line == NULL)
 	{
 		print_heredoc_error(delimiter);
@@ -80,8 +90,6 @@ void	*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 		return (print_syscall_error("malloc: heredoc_loop", ENOMEM), NULL);
 	while (1)
 	{
-		if (g_signal_flag & (1 << 0))
-			printf("hello\n");
 		line = read_heredoc_input(del);
 		if (line == NULL)
 			return (free(del), NULL);

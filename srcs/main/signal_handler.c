@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:46:22 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 05:14:55 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 07:11:38 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,35 @@ void	quit_message(void)
 	ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
 }
 
+int	handle_heredoc_signal(void)
+{
+	if (g_signal_flag & (1 << 7))
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_replace_line("", 0);
+		rl_redisplay();
+		rl_done = 0;
+	}
+	return (0);
+}
+
 void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
 		g_signal_flag |= (1 << 0);
-		write(STDOUT_FILENO, "\n", 1);
 		if (g_signal_flag & (1 << 2))
 		{
+			write(STDOUT_FILENO, "\n", 1);
 			rl_on_new_line();
 			rl_replace_line("", 0);
 			rl_redisplay();
+		}
+		else if (g_signal_flag & (1 << 3))
+		{
+			g_signal_flag |= (1 << 7);
+			g_signal_flag |= (1 << 3);
+			rl_done = 1;
 		}
 	}
 	else if (sig == SIGQUIT)

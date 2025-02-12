@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:23:17 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 00:14:42 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:58:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	free_heredoc(t_command *cmd)
 	current = cmd->hd_list;
 	while (current)
 	{
-		printf("here\n");
 		next = current->next;
 		if (current->hd_fd != -1)
 			close(current->hd_fd);
