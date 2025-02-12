@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/22 15:57:54 by mosh              #+#    #+#             */
-/*   Updated: 2025/02/09 06:38:22 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/11 09:01:24 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/12 23:08:44 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ volatile sig_atomic_t	g_signal_flag = 0b00000000;
 
 static t_minishell	*init_mini(t_minishell *mini, char **envp)
 {
+	mini = malloc(sizeof(t_minishell));
+	if (!mini)
+		return (NULL);
 	mini->line = NULL;
 	mini->token = NULL;
 	mini->cmd = NULL;
@@ -30,7 +33,7 @@ static t_minishell	*init_mini(t_minishell *mini, char **envp)
 
 static void	process_input(t_minishell *mini)
 {
-	if (mini->line == NULL)
+	if (!mini->line)
 		ft_clean_exit(mini);
 	if (mini->line[0] == '\0')
 	{
@@ -38,12 +41,14 @@ static void	process_input(t_minishell *mini)
 		mini->line = NULL;
 		return ;
 	}
-	mini->token = ft_lexer(mini->line);
-	if (mini->token == NULL)
+	mini->token = ft_lexer(mini->line, mini);
+	if (!mini->token)
 		return ;
 	mini->cmd = build_commands(mini->token, count_tokens(mini->token));
-	ft_exec_v6(mini);
-	ft_clean(mini, 0);
+	// print_commands(mini->cmd);
+	ft_exec_v7(mini);
+	ft_clean(mini, 2);
+	exit(0);
 }
 
 static void	minishell(t_minishell *mini)
@@ -59,23 +64,27 @@ static void	minishell(t_minishell *mini)
 	ft_clean_exit(mini);
 }
 
+/* https://www.gnu.org/software/bash/manual/html_node/Shell-Commands.html */
+/* https://www.gnu.org/software/bash/manual/html_node/Command-Search-and-Execution.html */
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*mini;
 
 	(void)argc;
 	(void)argv;
-	mini = malloc(sizeof(t_minishell));
-	if (!mini)
-	{
-		perror("minishell: lack of resources\n");
-		exit(EXIT_FAILURE);
-	}
 	mini = init_mini(mini, envp);
 	if (!mini)
 	{
-		perror("minishell: insufficient memory or system resources\n");
+		print_syscall_error(
+			"insufficient memory or system resources", ENOMEM);
 		exit(EXIT_FAILURE);
 	}
 	minishell(mini);
+}
+
+#include <arm_acle.h>
+
+__attribute__((destructor))
+static void destructor() {
+	system("leaks -q minishell");
 }

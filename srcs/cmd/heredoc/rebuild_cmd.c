@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 23:50:16 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 11:02:45 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:31:49 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	set_cmd(t_command *cmd, int nac, char **nav)
 {
-	int			i;
-	int			j;
 	char		*filename;
 	t_heredoc	*hd;
+	int			i;
+	int			j;
 
 	i = 0;
 	j = 0;

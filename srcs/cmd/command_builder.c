@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parser.c                                        :+:      :+:    :+:   */
+/*   command_builder.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2025/02/09 04:57:16 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 22:17:02 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,68 @@
 
 t_command	*create_command(void)
 {
-	t_command	*cmd;
-
-	cmd = (t_command *)malloc(sizeof(t_command));
+	t_command *cmd = (t_command *)malloc(sizeof(t_command));
 	if (!cmd)
-	{
-		perror("create_command: malloc");
-		exit(EXIT_FAILURE);
-	}
+		return (print_syscall_error("create_command: malloc", ENOMEM), NULL);
 	cmd->argv = NULL;
-	cmd->argc = 0;
+	cmd->argc = 1;
 	cmd->hd_list = NULL;
 	cmd->next = NULL;
 	return (cmd);
 }
 
-/*
--- 次のトークンが存在し、かつそのトークンのタイプが TOKEN_WORD であることを確認
--- 前のトークンのタイプに応じてリダイレクトを設定
--- 入力リダイレクトの場合 || 出力リダイレクトの場合
--- ファイル名が期待されているにも関わらず存在しない場合のエラーメッセージ
--- トークンのインデックスを進める
-失敗時のクリーン処理必要かも?
-*/
+void	cpy_args(t_command *cmd, char **a)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->argv[i])
+	{
+		a[i] = ft_strdup(cmd->argv[i]);
+		if (!a[i])
+		{
+			print_syscall_error("strdup: cpy_args", 0);
+			while (i > 0)
+				free(a[--i]);
+			free(a);
+			return ;
+		}
+		i++;
+	}
+	i = 0;
+	while (cmd->argv[i])
+		free(cmd->argv[i++]);
+}
+
+static char	**resize_args(t_command *cmd)
+{
+	char	**args;
+
+	args = malloc(sizeof(char *) * (cmd->argc + 1));
+	if (!args)
+		return (print_syscall_error("malloc: resize_args", ENOMEM), NULL);
+	if (cmd->argv)
+	{
+		cpy_args(cmd, args);
+		free(cmd->argv);
+	}
+	return (args);
+}
+
 t_command	*set_argument(t_command *cmd, char *token)
 {
 	char	**args;
 
-	cmd->argc += 1;
-	args = malloc(sizeof(char *) * (cmd->argc + 1));
+	args = resize_args(cmd);
 	if (!args)
-		return (perror("set_argument: malloc"), NULL);
-	if (cmd->argv)
-	{
-		cpy_args(cmd, args);
-		if (!args[cmd->argc - 2])
-			return (free(args), NULL);
-	}
+		return (print_syscall_error("malloc: set_argument", ENOMEM), NULL);
 	args[cmd->argc - 1] = ft_strdup(token);
 	if (!args[cmd->argc - 1])
-		return (free(args), perror("set_argument: malloc arg"), NULL);
+		return (print_syscall_error("malloc: set_argument", ENOMEM), NULL);
+	// printf("HELLO\n");
 	args[cmd->argc] = NULL;
 	cmd->argv = args;
+	cmd->argc++;
 	return (cmd);
 }
 
@@ -72,13 +92,18 @@ t_command	*build_commands(t_token **tokens, int count)
 	{
 		if (tokens[i]->type == METACHAR_PIPE)
 		{
-			if (!tokens[++i])
+			if (!(tokens[++i]))
 				return (head);
 			current->next = create_command();
 			current = current->next;
 		}
 		else
-			current = set_argument(current, tokens[i++]->word);
+		{
+			current = set_argument(current, tokens[i]->word);
+			if (!current)
+				return (head);
+			i++;
+		}
 	}
 	return (head);
 }

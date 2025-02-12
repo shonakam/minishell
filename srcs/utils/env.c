@@ -1,16 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   support.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 05:03:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 21:26:11 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+t_envlist	*create_head_node(void)
+{
+	t_envlist	*head;
+
+	head = malloc(sizeof(t_envlist));
+	if (!head)
+	{
+		perror("create_head_node: malloc");
+		return (NULL);
+	}
+	head->key = NULL;
+	head->value = NULL;
+	head->next = NULL;
+	return (head);
+}
 
 int	is_valid_key(const char *key)
 {
@@ -28,22 +44,6 @@ int	is_valid_key(const char *key)
 		i++;
 	}
 	return (1);
-}
-
-t_envlist	*create_head_node(void)
-{
-	t_envlist	*head;
-
-	head = malloc(sizeof(t_envlist));
-	if (!head)
-	{
-		perror("create_head_node: malloc");
-		return (NULL);
-	}
-	head->key = NULL;
-	head->value = NULL;
-	head->next = NULL;
-	return (head);
 }
 
 void	free_envlist(t_envlist **l)

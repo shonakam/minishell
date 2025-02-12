@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_handler.c                                     :+:      :+:    :+:   */
+/*   execute_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 07:38:45 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 22:42:01 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void	handle_builtin(t_command *c, int *p, t_minishell *m, t_rdir *i)
 	}
 }
 
-static void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
+void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
 {
-	set_bkp_fd(i);
+	set_backup_fd(i);
 	if (is_builtin(c))
 		return (handle_builtin(c, p, m, i));
 	apply_redirects(i);
@@ -56,23 +56,7 @@ static void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
 		exec_bin(c, NULL, m);
 }
 
-static int	handle_redirect_and_pipe(t_command *c, int *p, t_minishell *m)
-{
-	if (c->next)
-		handle_pipe(p, 0);
-	if (handle_heredoc(c, &m->hd_index, m->status, m->envlist) == 1)
-	{
-		m->status = 0;
-		if (c->next)
-			handle_pipe(p, 1);
-		return (1);
-	}
-	if (c->hd_list)
-		rebuild_args(c);
-	return (0);
-}
-
-static void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
+void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 {
 	int		i;
 	char	*tmp;
@@ -87,20 +71,16 @@ static void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 	}
 }
 
-int	exec_handler(t_command *c, t_minishell *m, int *p, t_rdir *i)
+int	process_heredoc(t_command *cmd, int *pipe, t_minishell *mini)
 {
-	if (handle_redirect_and_pipe(c, p, m))
-		return (1);
-	c->argv = prepare_exec_argv(c->argv, &c->argc);
-	expand_and_clean_args(c, m);
-	if (c->next)
+	handle_heredoc(cmd, &mini->hd_index, mini->status, mini->envlist);
+	if (cmd->hd_list && ft_strcmp(cmd->argv[0], "<<") == 0)
 	{
-		set_bkp_fd(i);
-		exec_pattern(c, p, m, i);
-		m->in_fd = p[READ];
+		mini->status = 0;
+		handle_pipe(cmd, pipe, 1);
+		return (1);
 	}
-	else
-		exec_pattern(c, NULL, m, i);
-	restore_io(i);
+	if (cmd->hd_list)
+		rebuild_args(cmd);
 	return (0);
 }

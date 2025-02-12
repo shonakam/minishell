@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirect_utils.c                                   :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 09:09:41 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 04:42:41 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/12 17:35:07 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/12 21:13:23 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-t_rdir	*init_redirect(void)
+void	handle_pipe(t_command *cmd, int *p, int flag)
 {
-	t_rdir	*new;
-
-	new = malloc(sizeof(t_rdir));
-	if (!new)
-		return (NULL);
-	new->file = NULL;
-	new->mode = -1;
-	new->i_bkp = -1;
-	new->o_bkp = -1;
-	new->rdir_i = -1;
-	new->rdir_o = -1;
-	return (new);
+	if (cmd->next)
+	{
+		if (flag == 0)
+		{
+			if (pipe(p) == -1)
+			{
+				print_syscall_error("pipe: handle_pipe", 0);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else if (flag == 1)
+		{
+			close(p[READ]);
+			close(p[WRITE]);
+		}
+	}
 }
 
 int	get_redirect_mode(char *arg)
@@ -41,4 +45,17 @@ int	get_redirect_mode(char *arg)
 	else
 		mode = -1;
 	return (mode);
+}
+
+void	redirect_fd(int old, int new)
+{
+	if (old != new)
+	{
+		if (dup2(old, new) == -1)
+		{
+			print_syscall_error("dup2: redirect_fd", 0);
+			exit(EXIT_FAILURE);
+		}
+		close(old);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 04:02:52 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 07:28:26 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:17:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*concat_path(const char *dir, const char *cmd)
 	len_cmd = ft_strlen(cmd);
 	full_path = malloc(len_dir + len_cmd + 2);
 	if (!full_path)
-		return (NULL);
+		return (print_syscall_error("concat_path: malloc", ENOMEM), NULL);
 	ft_strcpy(full_path, dir);
 	ft_strcat(full_path, "/");
 	ft_strcat(full_path, cmd);
@@ -54,16 +54,14 @@ static char	*find_executable_path(char **paths, char *cmd)
 char	*get_bin_path(t_envlist *list, char *cmd)
 {
 	char	**paths;
-	char	*r;
+	char	*path;
 
-	if (ft_strchr(cmd, '/') && is_executable(cmd))
-		return (cmd);
 	paths = ft_split(ft_getenv(list, "PATH"), ':');
 	if (!paths)
 		return (cmd);
-	r = find_executable_path(paths, cmd);
+	path = find_executable_path(paths, cmd);
 	free_split(paths);
-	if (!r)
+	if (!path)
 		return (cmd);
-	return (r);
+	return (path);
 }

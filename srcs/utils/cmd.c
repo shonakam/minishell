@@ -1,67 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   support.c                                          :+:      :+:    :+:   */
+/*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/05 03:38:04 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 04:58:13 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/11 13:16:02 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/12 22:14:33 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-t_command	*get_current_cmd(t_command *cmd, int depth)
-{
-	t_command	*current;
-	int			i;
-
-	current = cmd;
-	i = 0;
-	while (!current && i++ < depth)
-		current = current->next;
-	return (current);
-}
-
-int	count_cmd(t_command *cmd)
-{
-	t_command	*current;
-	int			i;
-
-	current = cmd;
-	i = 0;
-	while (current)
-	{
-		i += 1;
-		current = current->next;
-	}
-	return (i);
-}
-
-void	cpy_args(t_command *cmd, char **a)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->argv[i])
-	{
-		a[i] = ft_strdup(cmd->argv[i]);
-		if (!a[i])
-		{
-			perror("cpy_args: strdup");
-			while (i > 0)
-				free(a[--i]);
-			free(a);
-			return ;
-		}
-		i++;
-	}
-	i = 0;
-	while (cmd->argv[i])
-		free(cmd->argv[i++]);
-	free(cmd->argv);
-}
 
 void	free_argv(char	**argv)
 {
@@ -90,4 +39,31 @@ void	free_commands(t_command *cmd)
 		free(current);
 		current = next;
 	}
+}
+
+int	count_cmd(t_command *cmd)
+{
+	t_command	*current;
+	int			i;
+
+	current = cmd;
+	i = 0;
+	while (current)
+	{
+		i += 1;
+		current = current->next;
+	}
+	return (i);
+}
+
+t_command	*get_current_cmd(t_command *cmd, int depth)
+{
+	t_command	*current;
+	int			i;
+
+	current = cmd;
+	i = 0;
+	while (!current && i++ < depth)
+		current = current->next;
+	return (current);
 }

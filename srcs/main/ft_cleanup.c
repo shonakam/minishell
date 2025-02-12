@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 18:50:56 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/03 01:44:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:28:25 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ int	get_exit_status(t_minishell *mini)
 	return (mini->status);
 }
 
-void	ft_clean(t_minishell *mini, int flag)
+void	ft_clean(t_minishell *mini, int level)
 {
-	if (mini->line)
+	if (mini->line && level >= 0)
 		free(mini->line);
-	if (mini->token)
+	if (mini->token && level >= 1)
 		free_tokens(mini->token);
-	if (mini->cmd)
+	if (mini->cmd && level >= 2)
 		free_commands(mini->cmd);
-	if (mini->envlist && flag == 1)
+	if (mini->envlist && level >= 3)
 		free_envlist(&mini->envlist);
 	mini->in_fd = STDIN_FILENO;
 	mini->hd_index = 0;
@@ -34,9 +34,11 @@ void	ft_clean(t_minishell *mini, int flag)
 
 void	ft_clean_exit(t_minishell *mini)
 {
+	int	status;
+
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	free_envlist(&mini->envlist);
-	int (status) = mini->status;
+	status = mini->status;
 	free(mini);
 	exit(status);
 }

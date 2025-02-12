@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   support.c                                          :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/01 21:39:37 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 04:29:45 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/12 18:23:17 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/12 23:12:01 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
-void	redirect_fd(int old, int new)
-{
-	if (old != new)
-	{
-		if (dup2(old, new) == -1)
-		{
-			perror("dup2 failed");
-			exit(EXIT_FAILURE);
-		}
-		close(old);
-	}
-}
-
-int	is_executable(const char *path)
-{
-	if (access(path, F_OK) != 0)
-		return (0);
-	if (access(path, X_OK) != 0)
-		return (0);
-	return (1);
-}
 
 void	free_heredoc(t_command *cmd)
 {
@@ -45,32 +23,45 @@ void	free_heredoc(t_command *cmd)
 	while (current)
 	{
 		next = current->next;
+		if (current->hd_fd != -1)
+			close(current->hd_fd);
 		free(current->filename);
 		free(current);
 		current = next;
 	}
 }
 
-void	handle_pipe(int *p, int f)
+char	*get_next_hd_filename(t_heredoc **hd)
 {
-	if (f == 0)
+	char	*filename;
+
+	filename = NULL;
+	if (*hd)
 	{
-		if (pipe(p) == -1)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
+		filename = (*hd)->filename;
+		*hd = (*hd)->next;
 	}
-	else if (f == 1)
-	{
-		close(p[READ]);
-		close(p[WRITE]);
-	}
+	return (filename);
 }
 
-int	is_cmd(char *cmd)
+int	count_hd(t_heredoc *hd)
 {
-	if (!ft_strchr(cmd, '/'))
+	int	c;
+
+	c = 0;
+	while (hd)
+	{
+		hd = hd->next;
+		c++;
+	}
+	return (c);
+}
+
+int	is_here_doc_placeholder(const char *arg)
+{
+	if (!arg)
+		return (0);
+	if (ft_strcmp(arg, "<<") == 0)
 		return (1);
 	return (0);
 }

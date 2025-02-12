@@ -1,21 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.h                                           :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/19 08:34:03 by shonakam          #+#    #+#             */
-/*   Updated: 2024/10/03 11:50:57 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/11 13:20:01 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/12 21:30:16 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERRORS_H
-# define ERRORS_H
+#include "includes/minishell.h"
 
-void	handle_error(const char *message);
-void	syntax_err(int n);
-int		handle_exec_errors(char *path, int *p, int f);
-char	*static_err_msg(int n);
+int	count_tokens(t_token **tokens)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (tokens[i])
+		i++;
+	return (i);
+}
+
+void	free_tokens(t_token **tokens)
+{
+	int	i;
+
+	if (tokens == NULL)
+		return ;
+	i = 0;
+	while (tokens[i])
+	{
+		free(tokens[i]->word);
+		free(tokens[i]);
+		tokens[i++] = NULL;
+	}
+	free(tokens);
+}

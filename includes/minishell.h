@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 10:21:00 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 21:38:47 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <linux/limits.h>
+// # include <linux/limits.h>
 # include "libft/libft.h"
 
-# include "errors.h"
 # include "token.h"
 # include "parser.h"
 # include "envlist.h"
-# include "support.h"
+# include "util.h"
 
 # define READ	0
 # define WRITE	1
+# define SYNTAX_ERRNO	2
 
 extern volatile sig_atomic_t	g_signal_flag;
 
@@ -68,18 +68,24 @@ typedef struct s_rdir {
 	int		i_bkp;
 }				t_rdir;
 
+/* <=== ERROR_HANDLER ===> */
+void		print_syntax_error(const char *token);
+void		print_syscall_error(const char *msg, const int e);
+void		print_permission_error(const char *target, t_minishell *mini);
+void		print_exec_error(
+	const char *cmd, const char *pattern, int code, t_minishell *mini);
+void		print_heredoc_error(const char *delimiter);
+
 /*  <=== SIGNALHANDLER ===>  */
 void		handle_signal(int sig);
 void		setup_signals(void);
 int			observe_signal(t_minishell *mini);
 
+/* <=== ENVIROMENT ===> */
+char		*get_bin_path(t_envlist *list, char *cmd);
+
 /*  <=== TOKENIZER ===>  */
-t_token		*create_token(t_tokentype t, const char *l, size_t p, size_t s);
-size_t		get_token_size(const char *line, size_t position);
-void		extract_token(const char *line,
-				t_token **toks, size_t pos, size_t c);
-t_token		**ft_lexer(char *line);
-char		*resolve_eos(char *line);
+t_token		**ft_lexer(char *line, t_minishell *mini);
 
 /*  <=== BUILTINS ===>  */
 int			is_builtin(t_command *cmd);
@@ -94,15 +100,19 @@ int			cmd_unset(t_command *cmd, t_envlist *envlist);
 
 /*  <=== HEREDOCUMENTS ===>  */
 t_command	*build_commands(t_token **tokens, int count);
-int			handle_heredoc(t_command *cmd, int *index, int s, t_envlist *e);
+t_heredoc	*create_hd_node(char *filename, int fd);
+char		**rebuild_args(t_command *cmd);
+void		*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e);
+void		append_hd_node(t_heredoc **head, t_heredoc *new_node);
+void		handle_heredoc(t_command *cmd, int *index, int status, t_envlist *env);
 
 /*  <=== REDIRECTION ===>  */
 t_rdir		*init_redirect(void);
-void		parse_redirects(t_command *cmd, t_rdir *info);
+int			parse_redirects(t_command *cmd, t_rdir *info);
 void		apply_redirects(t_rdir *info);
-char		**prepare_exec_argv(char **argv, int *argc);
-void		set_bkp_fd(t_rdir *info);
-void		restore_io(t_rdir *info);
+char		**prepare_exec_argv(char **argv, int *argc, int i, int j);
+void		set_backup_fd(t_rdir *info);
+void		restore_backup_io(t_rdir *info);
 int			get_redirect_mode(char *arg);
 
 /*  <=== EXPASION ===>  */
@@ -111,16 +121,16 @@ char		*expand_variables(const char *input, int status, t_envlist *e);
 char		*expand_special_variable(const char *str, int status);
 char		*remove_quotes(const char *input);
 void		state_toggle(t_state *state, int flag);
-int			exec_handler(t_command *c, t_minishell *m, int *p, t_rdir *i);
-void		exec_bin(t_command *cmd, int *p, t_minishell *mini);
 
 /*  <=== EXECUTION ===>  */
-int			resolve_script(t_command *cmd, t_minishell *mini);
-int			is_last_arg_minishell(char *cmd);
-int			exec_hd_support(t_command *cmd, t_minishell *m, int *p);
 int			parse_exit_status(int status);
-void		ft_exec_v6(t_minishell *mini);
+void		exec_bin(t_command *cmd, int *p, t_minishell *mini);
+void		expand_and_clean_args(t_command *cmd, t_minishell *mini);
+void		exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i);
+int			process_heredoc(t_command *cmd, int *pipe, t_minishell *mini);
+int			parse_exit_status(int status);
 int			get_exit_status(t_minishell *mini);
+void		ft_exec_v7(t_minishell *mini);
 
 /*  <=== CLEANUP ===>  */
 void		ft_clean(t_minishell *mini, int flag);
