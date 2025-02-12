@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:38:06 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 05:13:25 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:37:12 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ static int	handle_exec_err(
 	struct stat	sb;
 
 	if (stat(path, &sb) == -1)
-		print_exec_error(cmd, ": No such file or directory", 127, mini);
+	{
+		if (cmd[0] != '/'
+			&& (ft_strlen(cmd) > 1 && cmd[0] != '.' && cmd[1] != '/'))
+			print_exec_error(cmd, ": command not found", 127, mini);
+		else
+			print_exec_error(cmd, ": No such file or directory", 127, mini);
+	}
 	else
 	{
 		if (S_ISDIR(sb.st_mode))
@@ -66,10 +72,10 @@ static void	*try_exec_bin(t_command *cmd, int *pipe, t_minishell *mini)
 	}
 	path = set_path(cmd, mini);
 	if (handle_exec_err(cmd->argv[0], path, mini))
-		return (free(path), NULL);
+		return (free(path), ft_clean(mini, 3), free(mini), NULL);
 	envp = convert_to_envp(&mini->envlist);
 	execve(path, cmd->argv, envp);
-	print_syscall_error("try_exec_bin: execve", 0);
+	print_syscall_error("execve: try_exec_bin", 0);
 	return (free(path), free_split(envp), exit(EXIT_FAILURE), NULL);
 }
 

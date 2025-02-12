@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 04:02:52 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/11 19:17:45 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:35:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*concat_path(const char *dir, const char *cmd)
 	len_cmd = ft_strlen(cmd);
 	full_path = malloc(len_dir + len_cmd + 2);
 	if (!full_path)
-		return (print_syscall_error("concat_path: malloc", ENOMEM), NULL);
+		return (print_syscall_error("malloc: concat_path", ENOMEM), NULL);
 	ft_strcpy(full_path, dir);
 	ft_strcat(full_path, "/");
 	ft_strcat(full_path, cmd);
@@ -51,6 +51,7 @@ static char	*find_executable_path(char **paths, char *cmd)
 	return (r);
 }
 
+/*  unset $PATH == */
 char	*get_bin_path(t_envlist *list, char *cmd)
 {
 	char	**paths;
@@ -58,10 +59,22 @@ char	*get_bin_path(t_envlist *list, char *cmd)
 
 	paths = ft_split(ft_getenv(list, "PATH"), ':');
 	if (!paths)
-		return (cmd);
+	{
+		path = ft_strdup(cmd);
+		if (!path)
+			return (print_syscall_error("malloc: get_bin_path",
+				ENOMEM), NULL);
+		return (path);
+	}
 	path = find_executable_path(paths, cmd);
 	free_split(paths);
 	if (!path)
-		return (cmd);
+	{
+		path = ft_strdup(cmd);
+		if (!path)
+			return (print_syscall_error("malloc: get_bin_path",
+				ENOMEM), NULL);
+		return (path);
+	}
 	return (path);
 }
