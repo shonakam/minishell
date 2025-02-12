@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:38:47 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:12:43 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # include <string.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <sys/ioctl.h>
 # include <signal.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 // # include <linux/limits.h>
@@ -68,6 +70,9 @@ typedef struct s_rdir {
 	int		i_bkp;
 }				t_rdir;
 
+// void		set_terminal_flags(int fd, int disable_signals);
+// void		reset_terminal_flags(int fd, struct termios *old_tio);
+
 /* <=== ERROR_HANDLER ===> */
 void		print_syntax_error(const char *token);
 void		print_syscall_error(const char *msg, const int e);
@@ -78,8 +83,9 @@ void		print_heredoc_error(const char *delimiter);
 
 /*  <=== SIGNALHANDLER ===>  */
 void		handle_signal(int sig);
+void		quit_message(void);
 void		setup_signals(void);
-int			observe_signal(t_minishell *mini);
+void		observe_signal(t_minishell *mini);
 
 /* <=== ENVIROMENT ===> */
 char		*get_bin_path(t_envlist *list, char *cmd);

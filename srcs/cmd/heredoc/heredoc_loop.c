@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:27:57 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 00:28:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 01:04:26 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 		return (print_syscall_error("malloc: heredoc_loop", ENOMEM), NULL);
 	while (1)
 	{
+		if (g_signal_flag & (1 << 0))
+			printf("hello\n");
 		line = read_heredoc_input(del);
 		if (line == NULL)
 			return (free(del), NULL);
@@ -91,6 +93,5 @@ void	*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 			ft_putendl_fd(line, fd);
 		free(line);
 	}
-	free(del);
-	return (NULL);
+	return (free(del), NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 16:46:22 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 05:00:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:14:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,19 @@ void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-int	observe_signal(t_minishell *mini)
+void	observe_signal(t_minishell *mini)
 {
 	if (g_signal_flag & (1 << 0))
 	{
 		mini->status = 130;
 		g_signal_flag &= ~(1 << 0);
-		return (1);
 	}
-	if (g_signal_flag & (1 << 1))
-	{
-		mini->status = 131;
-		g_signal_flag &= ~(1 << 1);
-		return (1);
-	}
-	return (0);
+}
+
+void	quit_message(void)
+{
+	write(STDOUT_FILENO, "\b\b", 2);
+	ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
 }
 
 void	handle_signal(int sig)

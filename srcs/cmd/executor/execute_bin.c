@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:38:06 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:06:58 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:13:25 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	*try_exec_bin(t_command *cmd, int *pipe, t_minishell *mini)
 	}
 	path = set_path(cmd, mini);
 	if (handle_exec_err(cmd->argv[0], path, mini))
-		return (ft_clean(mini, 2), free(path), NULL);
+		return (free(path), NULL);
 	envp = convert_to_envp(&mini->envlist);
 	execve(path, cmd->argv, envp);
 	print_syscall_error("try_exec_bin: execve", 0);
@@ -75,11 +75,14 @@ static void	*try_exec_bin(t_command *cmd, int *pipe, t_minishell *mini)
 
 void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 {
-	pid_t	pid;
+	pid_t			pid;
 
 	pid = fork();
 	if (pid == 0)
+	{
+		signal(SIGQUIT, SIG_DFL);
 		try_exec_bin(cmd, p, mini);
+	}
 	else
 	{
 		if (cmd->next)
@@ -87,7 +90,5 @@ void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 		if (mini->in_fd != 0)
 			close(mini->in_fd);
 	}
-	g_signal_flag = (sig_atomic_t)pid;
-	mini->status = parse_exit_status(mini->status);
 	g_signal_flag = 0b00000000;
 }

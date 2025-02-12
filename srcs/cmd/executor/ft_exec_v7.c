@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 23:49:24 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 05:12:52 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,6 @@ void	ft_exec_v7(t_minishell *mini)
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
 	mini->status = parse_exit_status(mini->status);
+	if (mini->status == 131)
+		quit_message();
 }
