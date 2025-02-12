@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 07:44:40 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 22:37:33 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:51:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ static t_heredoc	*set_heredoc(char *del, int *index, int s, t_envlist *e)
 	{
 		idx = ft_itoa(*index);
 		filename = set_filename(idx);
+		free(idx);
 		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
 		{
 			free(filename);
-			free(idx);
 			(*index)++;
 		}
 	}
 	(*index)++;
 	heredoc_loop(fd, del, s, e);
-	return (free(idx), create_hd_node(filename, fd));
+	return (create_hd_node(filename, fd));
 }
 
 /* Process heredocs in commands and build a heredoc list */

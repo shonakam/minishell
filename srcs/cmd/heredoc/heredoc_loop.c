@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:27:57 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 23:02:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:28:27 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ static char	*read_heredoc_input(const char *delimiter)
 	return (line);
 }
 
-static int	check_delimiter(char *line, char *delimiter)
-{
-	return (ft_strlen(line) == ft_strlen(delimiter)) &&
-		(ft_strncmp(line, delimiter, ft_strlen(line)) == 0);
-}
-
 static void	process_heredoc_line(char *line, int fd, int s, t_envlist *e)
 {
 	char	*processed_line;
@@ -47,22 +41,56 @@ static void	process_heredoc_line(char *line, int fd, int s, t_envlist *e)
 	free(processed_line);
 }
 
+static char	*remove_delimiter_quotes(const char *str, int *have_quote)
+{
+	size_t	len;
+	size_t	i;
+	size_t	j;
+	char	*result;
+
+	len = strlen(str);
+	result = malloc(len + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	*have_quote = 0;
+	while (i < len)
+	{
+		if ((str[i] == '"' || str[i] == '\''))
+		{
+			i++;
+			*have_quote = 1;
+			continue ;
+		}
+		result[j++] = str[i++];
+	}
+	result[j] = '\0';
+	return (result);
+}
+
 void	*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e)
 {
 	char	*line;
+	char	*del;
+	int		have_quote;
 
+	del = remove_delimiter_quotes(delimiter, &have_quote);
+	if (!del)
+		return (print_syscall_error("malloc: heredoc_loop", ENOMEM), NULL);
 	while (1)
 	{
-		line = read_heredoc_input(delimiter);
+		line = read_heredoc_input(del);
 		if (line == NULL)
-			return (NULL);
-		if (check_delimiter(line, delimiter))
-		{
-			free(line);
-			return (NULL);
-		}
-		process_heredoc_line(line, fd, s, e);
+			return (free(del), NULL);
+		if (check_delimiter(line, del))
+			return (free(line), free(del), NULL);
+		if (have_quote == 0)
+			process_heredoc_line(line, fd, s, e);
+		else
+			ft_putendl_fd(line, fd);
 		free(line);
 	}
+	free(del);
 	return (NULL);
 }

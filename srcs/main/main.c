@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:01:24 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 23:08:44 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:25:52 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ static void	process_input(t_minishell *mini)
 	if (!mini->token)
 		return ;
 	mini->cmd = build_commands(mini->token, count_tokens(mini->token));
-	// print_commands(mini->cmd);
 	ft_exec_v7(mini);
 	ft_clean(mini, 2);
-	exit(0);
 }
 
 static void	minishell(t_minishell *mini)

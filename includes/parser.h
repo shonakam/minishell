@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 23:54:54 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/08 14:34:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/12 23:16:15 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 typedef struct s_heredoc {
 	char				*filename;
 	int					hd_fd;
-	struct s_heredoc	*prev;
 	struct s_heredoc	*next;
 }				t_heredoc;
 

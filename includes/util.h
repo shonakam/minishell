@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:11:37 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:30:14 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:15:00 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		free_heredoc(t_command *cmd);
 int			count_hd(t_heredoc *hd);
 int			is_here_doc_placeholder(const char *arg);
 char		*get_next_hd_filename(t_heredoc **hd);
+int			check_delimiter(char *line, char *delimiter);
 
 /* <=== REDIRECT ===> */
 void		handle_pipe(t_command *cmd, int *p, int flag);

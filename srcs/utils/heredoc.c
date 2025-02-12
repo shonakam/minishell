@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:23:17 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 23:12:01 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 00:14:42 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_heredoc(t_command *cmd)
 	current = cmd->hd_list;
 	while (current)
 	{
+		printf("here\n");
 		next = current->next;
 		if (current->hd_fd != -1)
 			close(current->hd_fd);
@@ -64,4 +65,10 @@ int	is_here_doc_placeholder(const char *arg)
 	if (ft_strcmp(arg, "<<") == 0)
 		return (1);
 	return (0);
+}
+
+int	check_delimiter(char *line, char *delimiter)
+{
+	return (ft_strlen(line) == ft_strlen(delimiter))
+		&& (ft_strncmp(line, delimiter, ft_strlen(line)) == 0);
 }
