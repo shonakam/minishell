@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:29:58 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 22:24:30 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 08:25:21 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_commands(t_command *cmd)
 	if (!cmd)
 	{
 		printf("\033[1;31mERROR: cmmond is NULL\033[0m\n");
-		printf("\033[1;34m==== END TOKENS ====\033[0m\n\n");
+		printf("\033[1;34m==== END COMMANDS ====\033[0m\n\n");
 		return;
 	}
 
@@ -48,4 +48,21 @@ void	print_commands(t_command *cmd)
 	}
 
 	printf("\033[1;34m==== END COMMANDS ====\033[0m\n\n");
+}
+
+void	print_argv(char **argv)
+{
+	printf("\n\033[1;34m==== START ARGV ====\033[0m\n");
+	if (!argv)
+	{
+		printf("\033[1;31mERROR: argv is NULL\033[0m\n");
+		printf("\033[1;34m==== END ARGV ====\033[0m\n\n");
+		return;
+	}
+
+	for (size_t i = 0; argv[i]; i++) {
+		printf("\033[1;32mcmd[%ld] argv[%ld]:\033[0m '\033[1;33m%s\033[0m'\n", i, 0, argv[i]);
+	}
+
+	printf("\033[1;34m==== END ARGV ====\033[0m\n\n");
 }

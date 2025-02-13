@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:01:24 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 07:12:02 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 08:02:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ int	main(int argc, char **argv, char **envp)
 	minishell(mini);
 }
 
-#include <arm_acle.h>
+// #include <arm_acle.h>
 
-__attribute__((destructor))
-static void destructor() {
-	system("leaks -q minishell");
-}
+// __attribute__((destructor))
+// static void destructor() {
+// 	system("leaks -q minishell");
+// }

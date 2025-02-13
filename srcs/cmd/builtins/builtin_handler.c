@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 00:04:41 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 10:21:20 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 07:56:22 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_builtin(t_command *cmd)
 {
+	if (!cmd->argv[0])
+		return (0);
 	if (!ft_strcmp(cmd->argv[0], "cd"))
 		return (1);
 	else if (!ft_strcmp(cmd->argv[0], "echo"))

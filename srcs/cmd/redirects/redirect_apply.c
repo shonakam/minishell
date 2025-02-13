@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 07:12:51 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:50:52 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:07:50 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,48 @@ void	apply_redirects(t_rdir *info)
 
 /* resize argv and and free */
 /* init argc = 1 */
+// char	**prepare_exec_argv(char **argv, int *argc, int i, int j)
+// {
+// 	char	**new_argv;
+
+// 	new_argv = malloc((*argc + 1) * sizeof(char *));
+// 	if (!new_argv)
+// 	{
+// 		print_syscall_error("malloc: prepare_exec_argv", ENOMEM);
+// 		return (free_argv(argv), NULL);
+// 	}
+// 	while (i < *argc - 1)
+// 	{
+// 		if (!ft_strcmp(argv[i], ">") || !ft_strcmp(argv[i], "<") 
+// 			|| !ft_strcmp(argv[i], ">>") == 0)
+// 		{
+// 			if (++i < *argc)
+// 				i++;
+// 		}
+// 		else
+// 			new_argv[j++] = ft_strdup(argv[i++]);
+// 	}
+// 	new_argv[j] = NULL;
+// 	*argc = j;
+// 	return (free_argv(argv), new_argv);
+// }
+
+static int	handle_redirects(char **argv, int *i, int *argc)
+{
+	if (ft_strcmp(argv[*i], ">") == 0
+		|| ft_strcmp(argv[*i], "<") == 0
+		|| ft_strcmp(argv[*i], ">>") == 0)
+	{
+		if (*i + 1 < *argc)
+			(*i)++;
+		return (1);
+	}
+	return (0);
+}
+
 char	**prepare_exec_argv(char **argv, int *argc, int i, int j)
 {
-	char	**new_argv;
+	char **new_argv;
 
 	new_argv = malloc((*argc + 1) * sizeof(char *));
 	if (!new_argv)
@@ -64,12 +103,10 @@ char	**prepare_exec_argv(char **argv, int *argc, int i, int j)
 	}
 	while (i < *argc - 1)
 	{
-		if (ft_strcmp(argv[i], ">") == 0
-			|| ft_strcmp(argv[i], "<") == 0
-			|| ft_strcmp(argv[i], ">>") == 0)
+		if (handle_redirects(argv, &i, argc))
 		{
-			if (++i < *argc)
-				i++;
+			i++;
+			continue ;
 		}
 		else
 			new_argv[j++] = ft_strdup(argv[i++]);

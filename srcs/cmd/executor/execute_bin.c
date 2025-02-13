@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:38:06 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/13 05:37:12 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:43:20 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	handle_exec_err(
 			&& (ft_strlen(cmd) > 1 && cmd[0] != '.' && cmd[1] != '/'))
 			print_exec_error(cmd, ": command not found", 127, mini);
 		else
-			print_exec_error(cmd, ": No such file or directory", 127, mini);
+			print_exec_error(cmd, ": No such file or directory", 1, mini);
 	}
 	else
 	{
@@ -47,6 +47,13 @@ static char *set_path(t_command *cmd, t_minishell *mini)
 {
 	char	*path;
 
+	if (!cmd->argv || !cmd->argv[0])
+	{
+		path = ft_strdup("");
+		if (!path)
+			print_syscall_error("malloc: set_path", ENOMEM);
+		return (path);
+	}
 	if (cmd->argv[0][0] == '/')
 		path = ft_strdup(cmd->argv[0]);
 	else if (ft_strlen(cmd->argv[0]) > 1
@@ -55,6 +62,8 @@ static char *set_path(t_command *cmd, t_minishell *mini)
 		path = ft_strdup(cmd->argv[0]);
 	else
 		path = get_bin_path(mini->envlist, cmd->argv[0]);
+	if (!path)
+		print_syscall_error("malloc: set_path", ENOMEM);
 	return (path);
 }
 
@@ -62,6 +71,7 @@ static void	*try_exec_bin(t_command *cmd, int *pipe, t_minishell *mini)
 {
 	char	*path;
 	char	**envp;
+	int		err_s;
 
 	if (mini->in_fd != STDIN_FILENO)
 		redirect_fd(mini->in_fd, STDIN_FILENO);
@@ -70,9 +80,13 @@ static void	*try_exec_bin(t_command *cmd, int *pipe, t_minishell *mini)
 		close(pipe[READ]);
 		redirect_fd(pipe[WRITE], STDOUT_FILENO);
 	}
+	err_s = mini->status;
+	if (!cmd->argv || !cmd->argv[0])
+		return (ft_clean(mini, 3), free(mini), exit(err_s), NULL);
 	path = set_path(cmd, mini);
 	if (handle_exec_err(cmd->argv[0], path, mini))
-		return (free(path), ft_clean(mini, 3), free(mini), NULL);
+		return (free(path), ft_clean(mini, 3),
+			free(mini), exit(err_s), NULL);
 	envp = convert_to_envp(&mini->envlist);
 	execve(path, cmd->argv, envp);
 	print_syscall_error("execve: try_exec_bin", 0);
@@ -96,5 +110,4 @@ void	exec_bin(t_command *cmd, int *p, t_minishell *mini)
 		if (mini->in_fd != 0)
 			close(mini->in_fd);
 	}
-	g_signal_flag = 0b00000000;
 }

@@ -13,7 +13,7 @@ ARGUMENT_SIZE := $(shell expr $(shell getconf ARG_MAX) / 8)
 CFLAGS += -DARGUMENT_SIZE=$(ARGUMENT_SIZE)
 
 # debug
-# CFLAGS += -fsanitize=address -g -fno-omit-frame-pointer
+CFLAGS += -fsanitize=address -g -fno-omit-frame-pointer
 # CFLAGS += -g -fsanitize=address
 # CFLAGS += -g -fsanitize=leak
 

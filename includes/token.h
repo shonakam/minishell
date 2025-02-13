@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:20 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:29:35 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 08:10:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct s_token {
 	char			*word;
 }				t_token;
 
-t_token		**check_unexpected_token(t_token **t);
+// t_token		**check_unexpected_token(t_token **t);
 int			valid_quote(const char *s);
 int			validate_tokens(t_token **tokens);
 void		tokenizer(t_token **toks, char *line, size_t pos, size_t index);
-char		*resolve_eos(char *line);
+// char		*resolve_eos(char *line);
 
 #endif

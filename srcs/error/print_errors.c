@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:09:19 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:37:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:18:21 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	print_exec_error(
 		return ;
 	}
 	ft_putendl_fd(msg, STDERR_FILENO);
-	mini->status = code;
+	if (mini)
+		mini->status = code;
 	free(cause);
 	free(msg);
 }

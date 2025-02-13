@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 04:06:16 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 11:02:00 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 08:09:06 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*expand_env(const char *in, t_state *state, t_envlist *e)
 		state->e++;
 	state->v = ft_strndup(in + s, (state->e - s));
 	if (!state->v)
-		return (perror("malloc"), NULL);
+		return (print_syscall_error("malloc: expand_env", ENOMEM), NULL);
 	value = ft_getenv(e, state->v);
 	if (!value)
 		return (free(state->v), ft_strdup(""));

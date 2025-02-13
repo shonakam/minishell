@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:42:13 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 21:54:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:19:32 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	open_file(const char *file, int f, int *rdir_fd)
 	fd = open(file, f, 0644);
 	if (fd == -1)
 	{
-		print_syscall_error("open: open_file", 0);
+		print_exec_error(file, ": No such file or directory", 1, NULL);
 		*rdir_fd = INT_MIN;
 		return (1);
 	}
