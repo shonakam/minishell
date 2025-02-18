@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 14:31:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:47:41 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,17 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <linux/limits.h>
 # include "libft/libft.h"
+
+# if defined(__linux__)
+# if defined(__UBUNTU__) || defined(__DEBIAN__) || defined(__gnu_linux__)
+# include <linux/limits.h>
+# else
+# include <limits.h>
+# endif
+# elif defined(__APPLE__)
+# include <sys/syslimits.h>
+# endif
 
 # include "token.h"
 # include "parser.h"
