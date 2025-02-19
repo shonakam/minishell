@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 22:02:02 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 23:42:33 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/20 01:17:25 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ static void	set_out(t_rdir *i, t_command *c, int *p, t_minishell *m)
 
 void	fd_navigate(t_rdir *i, t_command *c, int *p, t_minishell *m)
 {
-	dprintf(STDERR_FILENO, "[setup_child_fds] in_fd: %d, rdir_i: %d, rdir_o: %d\n",
-			m->in_fd, i->rdir_i, i->rdir_o);
 	set_in(i, c, p, m);
 	set_out(i, c, p, m);
 }
