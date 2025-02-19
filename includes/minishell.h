@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 14:13:54 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:56:46 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,6 @@ typedef struct s_state {
 	size_t		in_single;
 	size_t		in_double;
 }				t_state;
-
-// typedef struct s_pipe {
-// 	int	read_end;
-// 	int	write_end;
-// }				t_pipe;
 
 typedef struct s_rdir {
 	char	*file;

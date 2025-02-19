@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 22:25:51 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 14:48:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:39:18 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ t_token	**ft_lexer(char *line, t_minishell *mini)
 	tokenizer(tokens, line, 0, 0);
 	mini->status = check_syntax(tokens);
 	if (mini->status == SYNTAX_ERRNO)
-	{
-		ft_clean(mini, 1);
-		return (NULL);
-	}
+		return (free(mini->line), free_tokens(tokens), NULL);
 	return (tokens);
 }

@@ -6,15 +6,15 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:29:58 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 18:52:32 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:40:58 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	pe(void)
+void	d(void)
 {
-	printf("<=== HERE ===>\n");
+	printf("\033[1;31m<=== HERE ===>\033[0m\n");
 }
 
 void	print_tokens(t_token **tokens)

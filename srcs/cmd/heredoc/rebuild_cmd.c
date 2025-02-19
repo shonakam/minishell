@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 23:50:16 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/14 21:23:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:06:29 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	set_cmd(t_command *cmd, int nac, char **nav)
 				nav[j++] = ft_strdup(filename);
 		}
 		else if (cmd->argv[i] && j < nac)
-			nav[j++] = strdup(cmd->argv[i]);
+			nav[j++] = ft_strdup(cmd->argv[i]);
 		i++;
 	}
 	nav[j] = NULL;

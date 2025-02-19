@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 19:17:48 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:20:03 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	free_info(t_rdir *info)
 {
-	if (info->rdir_i != -1)
+	if (info->rdir_i != -1 && info->rdir_i != INT_MIN)
 		close(info->rdir_i);
-	if (info->rdir_o != -1)
+	if (info->rdir_o != -1 && info->rdir_o != INT_MIN)
 		close(info->rdir_o);
 	free(info);
 }

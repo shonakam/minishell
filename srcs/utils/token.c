@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:20:01 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/14 18:47:18 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:31:05 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	free_tokens(t_token **tokens)
 {
 	int	i;
 
-	if (tokens == NULL)
+	if (!tokens || !*tokens)
 		return ;
 	i = 0;
 	while (tokens[i])
@@ -66,4 +66,5 @@ void	free_tokens(t_token **tokens)
 		tokens[i++] = NULL;
 	}
 	free(tokens);
+	tokens = NULL;
 }

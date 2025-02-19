@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:11:37 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/14 22:34:21 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:33:10 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ char		*concat_and_free(char *result, char *tmp);
 void		print_tokens(t_token **tokens);
 void		print_commands(t_command *cmd);
 void		print_argv(char **argv);
-void		pe(void);
+void		d(void);
 
 #endif
