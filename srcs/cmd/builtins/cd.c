@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 21:56:15 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/09 10:51:55 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/20 00:30:34 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,21 @@ static void	update_pwd(t_envlist *envlist)
 		perror("minishell: getcwd failed");
 }
 
+static char	*faild_cd_msg(const char *path)
+{
+	char	*tmp;
+	char	*result;
+
+	tmp = ft_strjoin("cd: ", path);
+	result = ft_strjoin(tmp, ": ");
+	free(tmp);
+	return (result);
+}
+
 int	cmd_cd(t_command *cmd, t_envlist *envlist)
 {
 	const char	*path;
-	char		*s;
+	char		*faild;
 
 	if (cmd->argv[1] == NULL)
 	{
@@ -55,9 +66,10 @@ int	cmd_cd(t_command *cmd, t_envlist *envlist)
 	update_oldpwd(envlist);
 	if (chdir(path) != 0)
 	{
-		s = concat_vars(4, "cd: ", path, ": ", "\n");
-		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		return (free(s), 1);
+		faild = faild_cd_msg(path);
+		print_exec_error(faild, strerror(errno), 1, NULL);
+		free(faild);
+		return (1);
 	}
 	update_pwd(envlist);
 	return (0);

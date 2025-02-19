@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 08:21:18 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 23:46:08 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/20 00:37:18 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void	free_info(t_rdir *info)
 	if (info->rdir_o != -1 && info->rdir_o != INT_MIN)
 		close(info->rdir_o);
 	free(info);
+}
+
+static void	set_is_builtin(t_command *cmd, int *f)
+{
+	if (is_builtin(cmd))
+		*f = 1;
+	else
+		*f = 0;
 }
 
 static void setup_pipe_or_redirect(t_command *c, int *p, t_rdir *i)
@@ -60,6 +68,7 @@ void	ft_exec_v7(t_minishell *mini)
 	t_command	*cmd;
 	t_rdir		*info;
 	int			pipe[2];
+	int			last_is_builtin;
 
 	cmd = mini->cmd;
 	while (cmd)
@@ -71,9 +80,11 @@ void	ft_exec_v7(t_minishell *mini)
 			exec_handler(cmd, mini, pipe, info);
 		}
 		free_info(info);
+		set_is_builtin(cmd, &last_is_builtin);
 		cmd = cmd->next;
 	}
 	while (waitpid(-1, &mini->status, 0) > 0)
 		;
-	mini->status = parse_exit_status(mini->status);
+	if (!last_is_builtin)
+		mini->status = parse_exit_status(mini->status);
 }

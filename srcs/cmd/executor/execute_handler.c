@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 23:20:54 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/20 00:03:55 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	process_heredoc(t_command *cmd, t_minishell *mini)
 void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
 {
 	if (is_builtin(c))
+	{
 		return (handle_builtin(c, p, m, i));
+	}
 	exec_bin(i, c, p, m);
 }
