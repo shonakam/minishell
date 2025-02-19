@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:16:02 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/14 21:11:53 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:15:15 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,29 @@ void	free_argv(char	**argv)
 	while (argv[i])
 		free(argv[i++]);
 	free(argv);
+}
+
+void	cpy_args(t_command *cmd, char **a)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->argv[i])
+	{
+		a[i] = ft_strdup(cmd->argv[i]);
+		if (!a[i])
+		{
+			print_syscall_error("ft_strdup: cpy_args", 0);
+			while (i > 0)
+				free(a[--i]);
+			free(a);
+			return ;
+		}
+		i++;
+	}
+	i = 0;
+	while (cmd->argv[i])
+		free(cmd->argv[i++]);
 }
 
 void	free_commands(t_command *cmd)

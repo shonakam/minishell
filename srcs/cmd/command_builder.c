@@ -6,47 +6,25 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 00:52:47 by mosh              #+#    #+#             */
-/*   Updated: 2025/02/14 21:05:04 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:15:00 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-t_command	*create_command(void)
+static t_command	*create_command(int track)
 {
 	t_command	*cmd;
 
 	cmd = (t_command *)malloc(sizeof(t_command));
 	if (!cmd)
 		return (print_syscall_error("create_command: malloc", ENOMEM), NULL);
+	cmd->track = track;
 	cmd->argv = NULL;
 	cmd->argc = 0;
 	cmd->hd_list = NULL;
 	cmd->next = NULL;
 	return (cmd);
-}
-
-void	cpy_args(t_command *cmd, char **a)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->argv[i])
-	{
-		a[i] = ft_strdup(cmd->argv[i]);
-		if (!a[i])
-		{
-			print_syscall_error("strdup: cpy_args", 0);
-			while (i > 0)
-				free(a[--i]);
-			free(a);
-			return ;
-		}
-		i++;
-	}
-	i = 0;
-	while (cmd->argv[i])
-		free(cmd->argv[i++]);
 }
 
 /* NEW SIZE = CAURRENT + NEXT + NULL */
@@ -65,7 +43,7 @@ static char	**resize_args(t_command *cmd)
 	return (args);
 }
 
-t_command	*set_argument(t_command *cmd, char *token)
+static t_command	*set_argument(t_command *cmd, char *token)
 {
 	char	**args;
 
@@ -87,7 +65,7 @@ t_command	*build_commands(t_token **tokens, int count)
 	t_command	*current;
 	int			i;
 
-	head = create_command();
+	head = create_command(0);
 	current = head;
 	i = 0;
 	while (i < count && tokens[i])
@@ -96,7 +74,7 @@ t_command	*build_commands(t_token **tokens, int count)
 		{
 			if (!(tokens[++i]))
 				return (head);
-			current->next = create_command();
+			current->next = create_command(i);
 			current = current->next;
 		}
 		else

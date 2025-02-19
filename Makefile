@@ -26,6 +26,7 @@ SRCS := \
     $(SRC_PATH)cmd/executor/execute_bin.c \
     $(SRC_PATH)cmd/executor/execute_handler.c \
     $(SRC_PATH)cmd/executor/ft_exec_v7.c \
+    $(SRC_PATH)cmd/executor/parse_status.c \
 \
     $(SRC_PATH)cmd/expand/expand.c \
     $(SRC_PATH)cmd/expand/rm_quote.c \
@@ -41,7 +42,6 @@ SRCS := \
 	$(SRC_PATH)cmd/redirects/valid_redirect_sequence.c \
 \
     $(SRC_PATH)cmd/command_builder.c \
-    $(SRC_PATH)cmd/parse_status.c \
 \
     $(SRC_PATH)error/handler.c \
     $(SRC_PATH)error/print_errors.c \

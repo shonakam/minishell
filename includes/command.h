@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   command.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 23:54:54 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/12 23:16:15 by shonakam         ###   ########.fr       */
+/*   Created: 2025/02/19 14:00:46 by shonakam          #+#    #+#             */
+/*   Updated: 2025/02/19 14:13:16 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef COMMAND_H
+# define COMMAND_H
+
+typedef struct s_token	t_token;
 
 typedef struct s_heredoc {
 	char				*filename;
@@ -20,17 +22,11 @@ typedef struct s_heredoc {
 }				t_heredoc;
 
 typedef struct s_command {
+	unsigned int		track;
 	char				**argv;
 	int					argc;
 	t_heredoc			*hd_list;
 	struct s_command	*next;
 }				t_command;
-
-typedef struct s_pipe {
-	int	read_end;
-	int	write_end;
-}				t_pipe;
-
-t_command	*set_argument(t_command *cmd, char *token);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 20:47:41 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:13:54 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 # include <sys/syslimits.h>
 # endif
 
-# include "token.h"
-# include "parser.h"
-# include "envlist.h"
+# include "command.h"
 # include "util.h"
+# include "envlist.h"
+# include "token.h"
 
 # define READ	0
 # define WRITE	1
@@ -71,6 +71,11 @@ typedef struct s_state {
 	size_t		in_double;
 }				t_state;
 
+// typedef struct s_pipe {
+// 	int	read_end;
+// 	int	write_end;
+// }				t_pipe;
+
 typedef struct s_rdir {
 	char	*file;
 	int		mode;
@@ -79,9 +84,6 @@ typedef struct s_rdir {
 	int		o_bkp;
 	int		i_bkp;
 }				t_rdir;
-
-// void		set_terminal_flags(int fd, int disable_signals);
-// void		reset_terminal_flags(int fd, struct termios *old_tio);
 
 /* <=== ERROR_HANDLER ===> */
 void		print_syntax_error(const char *token);
@@ -122,16 +124,16 @@ int			cmd_export(t_command *cmd, int fd, t_envlist *envlist);
 int			cmd_pwd(t_command *cmd, int fd);
 int			cmd_unset(t_command *cmd, t_envlist *envlist);
 
-/*  <=== HEREDOCUMENTS ===>  */
+/*  <=== COMMAND AND HEREDOCUMENTS ===>  */
 t_command	*build_commands(t_token **tokens, int count);
 t_heredoc	*create_hd_node(char *filename, int fd);
 char		**rebuild_args(t_command *cmd);
 void		*heredoc_loop(int fd, char *delimiter, int s, t_envlist *e);
 void		append_hd_node(t_heredoc **head, t_heredoc *new_node);
 void		handle_heredoc(t_command *cmd,
-				int *index, int status, t_envlist *env);
-
-/*  <=== REDIRECTION ===>  */
+	int *index, int status, t_envlist *env);
+	
+	/*  <=== REDIRECTION ===>  */
 t_rdir		*init_redirect(void);
 int			parse_redirects(t_command *cmd, t_rdir *info);
 int			valid_redirect_sequence(char **av);
