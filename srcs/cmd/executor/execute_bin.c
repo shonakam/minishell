@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:38:06 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 14:45:41 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 23:12:07 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,15 @@ static void	*try_exec_bin(
 	char	*path;
 	char	**envp;
 
-	if (mini->in_fd != STDIN_FILENO)
-		redirect_fd(mini->in_fd, STDIN_FILENO);
-	if (pipe && cmd->next)
-	{
-		close(pipe[READ]);
-		redirect_fd(pipe[WRITE], STDOUT_FILENO);
-	}
+	fd_navigate(i, cmd, pipe, mini);
 	path = set_path(cmd, mini);
 	if (handle_exec_err(cmd->argv[0], path, mini))
-	{
-		return (restore_backup_io(i), free(path), free_info(i),
-			ft_clean_child(mini), NULL);
-	}
+		return (free(path), free_info(i), ft_clean_child(mini), NULL);
 	envp = convert_to_envp(&mini->envlist);
 	execve(path, cmd->argv, envp);
 	print_syscall_error("execve: try_exec_bin", 0);
 	mini->status = 127;
-	return (restore_backup_io(i), free(path),
-		free_split(envp), ft_clean_child(mini), NULL);
+	return (free(path), free_split(envp), ft_clean_child(mini), NULL);
 }
 
 void	exec_bin(t_rdir *i, t_command *cmd, int *p, t_minishell *mini)

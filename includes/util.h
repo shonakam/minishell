@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:11:37 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 15:33:10 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 22:14:49 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ char		*get_next_hd_filename(t_heredoc **hd);
 int			check_delimiter(char *line, char *delimiter);
 
 /* <=== REDIRECT ===> */
-void		handle_pipe(t_command *cmd, int *p, int flag);
-void		redirect_fd(int old, int new);
+// void		handle_pipe(int *p, int flag);
+// void		redirect_fd(int old, int new);
 int			get_redirect_mode(char *arg);
+int			check_fd(int fd);
 
 /* <=== EXPAND ===> */
 char		*concat_and_free(char *result, char *tmp);
+void		spinlock(void);
 
 /* <=== DEBUG ===> */
 void		print_tokens(t_token **tokens);

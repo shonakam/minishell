@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:29:58 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 14:40:58 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 21:19:10 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	d(void)
 {
-	printf("\033[1;31m<=== HERE ===>\033[0m\n");
+	dprintf(STDERR_FILENO, "\033[1;31m<=== HERE ===>\033[0m\n");
 }
 
 void	print_tokens(t_token **tokens)

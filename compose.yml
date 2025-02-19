@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     container_name: minishell
     volumes:
-      - .:/app
-    working_dir: /app
+      - .:/workspace
+    working_dir: /workspace
     stdin_open: true
     tty: true

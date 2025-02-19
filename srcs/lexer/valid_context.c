@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:23:31 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 17:41:50 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:09:58 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	handle_only_metachar(t_token **tokens)
 		print_syntax_error(tokens[0]->word);
 		return (1);
 	}
-	else if (is_redirects(tokens[0]->type))
+	else if (!tokens[1] && is_redirects(tokens[0]->type))
 	{
 		if (tokens[0]->type == METACHAR_HEREDOC)
 			return (0);

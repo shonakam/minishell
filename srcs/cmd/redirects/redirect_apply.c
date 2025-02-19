@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 07:12:51 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 13:21:19 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 23:43:54 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,6 @@ t_rdir	*init_redirect(void)
 	new->rdir_i = -1;
 	new->rdir_o = -1;
 	return (new);
-}
-
-int	apply_redirects(t_rdir *info)
-{
-	if (info->rdir_i != -1)
-	{
-		if (dup2(info->rdir_i, STDIN_FILENO) == -1)
-		{
-			print_syscall_error("dup2: apply_redirects", 0);
-			return (1);
-		}
-		close(info->rdir_i);
-	}
-	if (info->rdir_o != -1)
-	{
-		if (dup2(info->rdir_o, STDOUT_FILENO) == -1)
-		{
-			print_syscall_error("dup2: apply_redirects", 0);
-			return (1);
-		}
-		close(info->rdir_o);
-	}
-	return (0);
 }
 
 /* skips over redirection operators and their arguments */

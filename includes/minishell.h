@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 14:12:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/19 14:56:46 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 22:15:38 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,10 +128,9 @@ void		append_hd_node(t_heredoc **head, t_heredoc *new_node);
 void		handle_heredoc(t_command *cmd,
 	int *index, int status, t_envlist *env);
 	
-	/*  <=== REDIRECTION ===>  */
+/*  <=== REDIRECTION ===>  */
 t_rdir		*init_redirect(void);
 int			parse_redirects(t_command *cmd, t_rdir *info);
-int			valid_redirect_sequence(char **av);
 int			apply_redirects(t_rdir *info);
 char		**prepare_exec_argv(char **argv, int *argc, int i, int j);
 void		set_backup_fd(t_rdir *info);
@@ -150,11 +149,12 @@ int			parse_exit_status(int status);
 void		exec_bin(t_rdir *i,	t_command *cmd, int *p, t_minishell *mini);
 void		expand_and_clean_args(t_command *cmd, t_minishell *mini);
 void		exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i);
-int			process_heredoc(t_command *cmd, int *pipe, t_minishell *mini);
+int			process_heredoc(t_command *cmd, t_minishell *mini);
 int			parse_exit_status(int status);
 void		free_info(t_rdir *info);
 int			get_exit_status(t_minishell *mini);
 void		ft_exec_v7(t_minishell *mini);
+void		fd_navigate(t_rdir *i, t_command *c, int *p, t_minishell *m);
 
 /*  <=== CLEANUP ===>  */
 void		ft_clean(t_minishell *mini, int flag);

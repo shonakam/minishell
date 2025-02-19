@@ -1,6 +1,7 @@
+
 NAME = minishell
 
-# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./minishell
+# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes ./minishell
 
 HEADERS := -I./ -I/opt/homebrew/Cellar/readline/8.2.13/include
 RL := -L/opt/homebrew/Cellar/readline/8.2.13/lib -lreadline
@@ -36,10 +37,9 @@ SRCS := \
     $(SRC_PATH)cmd/heredoc/heredoc_setup.c \
     $(SRC_PATH)cmd/heredoc/rebuild_cmd.c \
 \
-    $(SRC_PATH)cmd/redirects/redilect_io.c \
+    $(SRC_PATH)cmd/redirects/fd_navigate.c \
     $(SRC_PATH)cmd/redirects/redirect_apply.c \
     $(SRC_PATH)cmd/redirects/redirect_parse.c \
-	$(SRC_PATH)cmd/redirects/valid_redirect_sequence.c \
 \
     $(SRC_PATH)cmd/command_builder.c \
 \
@@ -67,6 +67,7 @@ SRCS := \
     $(SRC_PATH)utils/heredoc.c \
     $(SRC_PATH)utils/redirect.c \
     $(SRC_PATH)utils/env.c \
+    $(SRC_PATH)utils/exec.c \
     $(SRC_PATH)utils/file_and_dir.c \
     $(SRC_PATH)utils/token.c \
 	$(SRC_PATH)utils/print_debug.c \

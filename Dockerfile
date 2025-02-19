@@ -6,7 +6,7 @@
 #    By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/18 20:50:21 by shonakam          #+#    #+#              #
-#    Updated: 2025/02/18 20:50:22 by shonakam         ###   ########.fr        #
+#    Updated: 2025/02/19 15:44:31 by shonakam         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,6 @@ RUN apk update && apk add --no-cache \
     gdb \
     && rm -rf /var/cache/apk/*
 
-WORKDIR /app
+WORKDIR /workspace
 
-CMD ["sh"]
+CMD ["bash"]

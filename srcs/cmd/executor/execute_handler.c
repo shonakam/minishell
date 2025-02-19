@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 10:27:26 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 14:46:23 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/19 23:20:54 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ static void	handle_builtin(t_command *c, int *p, t_minishell *m, t_rdir *i)
 	}
 }
 
-void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
-{
-	set_backup_fd(i);
-	if (is_builtin(c))
-	{
-		return (handle_builtin(c, p, m, i));
-	}
-	if (apply_redirects(i))
-	{
-		return (ft_clean(m, 3));
-	}
-	if (c->next)
-	{
-		exec_bin(i, c, p, m);
-		m->in_fd = p[READ];
-	}
-	else
-		exec_bin(i, c, NULL, m);
-}
-
 void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 {
 	int		i;
@@ -70,14 +50,14 @@ void	expand_and_clean_args(t_command *cmd, t_minishell *mini)
 	while (cmd->argv && cmd->argv[i])
 	{
 		tmp = expand_variables(
-				cmd->argv[i], mini->backup_status, mini->envlist);
+			cmd->argv[i], mini->backup_status, mini->envlist);
 		free(cmd->argv[i]);
 		cmd->argv[i++] = remove_quotes(tmp);
 		free(tmp);
 	}
 }
 
-int	process_heredoc(t_command *cmd, int *pipe, t_minishell *mini)
+int	process_heredoc(t_command *cmd, t_minishell *mini)
 {
 	handle_heredoc(
 		cmd, &mini->hd_index, mini->backup_status, mini->envlist);
@@ -86,10 +66,16 @@ int	process_heredoc(t_command *cmd, int *pipe, t_minishell *mini)
 	if (cmd->hd_list && ft_strcmp(cmd->argv[0], "<<") == 0)
 	{
 		mini->status = 0;
-		handle_pipe(cmd, pipe, 1);
 		return (1);
 	}
 	if (cmd->hd_list)
 		rebuild_args(cmd);
 	return (0);
+}
+
+void	exec_pattern(t_command *c, int *p, t_minishell *m, t_rdir *i)
+{
+	if (is_builtin(c))
+		return (handle_builtin(c, p, m, i));
+	exec_bin(i, c, p, m);
 }
