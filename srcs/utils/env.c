@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:40:25 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 19:55:07 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:36:21 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	free_envlist(t_envlist **l)
 	t_envlist	*current;
 	t_envlist	*next;
 
+	if (!l || !*l)
+		return ;
 	current = *l;
 	while (current)
 	{

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:01:24 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/18 15:22:54 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:38:48 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_minishell	*init_mini(char **envp)
 	mini->hd_index = 0;
 	mini->status = 0;
 	mini->backup_status = 0;
-	mini->envlist = make_envlist(envp);
+	mini->envlist = make_envlist(envp);;
 	if (!mini->envlist)
 		return (NULL);
 	return (mini);
