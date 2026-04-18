@@ -1,0 +1,24 @@
+PARSER_FILES := \
+ast_node_attach.c \
+ast_node_free.c \
+ast_node_new.c \
+expand_args_array.c \
+parse_command_utils.c \
+parse_command.c \
+parse_list.c \
+parse_pipeline.c \
+parse_subshell.c \
+parser_checks.c \
+parser_syntx_error.c \
+parser_valid_token.c \
+parser.c \
+pipeline_free.c \
+pipeline_new.c \
+redirect_free.c \
+redirect_new.c \
+simple_command_free.c \
+simple_command_new.c \
+subshell_free.c \
+subshell_new.c \
+token_consume.c \
+token_peek.c \
