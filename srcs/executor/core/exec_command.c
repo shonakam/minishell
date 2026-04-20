@@ -61,7 +61,7 @@ void	exec_command(t_context *ctx, t_ast_node *node)
 	cmd = node->data.command;
 	builtin = get_builtin_func(ctx, get_cmd_name(cmd->args));
 	if (ctx->in_pipeline)
-		oneshot(ctx, node);
+		return ((void)oneshot(ctx, node));
 	if (!should_fork(ctx, builtin))
 		return ((void)in_main_process(ctx, cmd, builtin));
 	cmd_line = ast_to_str(node);

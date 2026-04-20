@@ -16,6 +16,7 @@ expander/expand_variable.c \
 expander/expand_wildcard.c \
 expander/handle_node_expansion.c \
 expander/remove_quote.c \
+expander/scan_files.c \
 expander/substitute_variables.c \
 find_path.c \
 job/ast_to_str_utils.c \
