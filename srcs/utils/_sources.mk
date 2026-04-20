@@ -5,6 +5,7 @@ core/stack_utils.c \
 free_matrix.c \
 is_operator.c \
 is_redirect.c \
+join_three.c \
 safe_exit.c \
 x_calloc.c \
 x_dup.c \
