@@ -50,7 +50,6 @@ static bool	is_syntax_valid(t_list **tokens)
 t_ast_node	*parser(t_context *ctx, t_list **tokens)
 {
 	t_ast_node	*ast;
-	// t_token		*token;
 
 	if (!tokens || !*tokens)
 		return (NULL);

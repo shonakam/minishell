@@ -23,7 +23,7 @@ static int	update_env_or_add(
 	new_node = env_new(key, value, has_value);
 	if (!new_node)
 		return (EXIT_FAILURE);
-	ft_lstadd_back(&ctx->env_list, ft_lstnew(new_node));
+	ft_lstadd_back(&ctx->env_list, x_lstnew(new_node));
 	return (EXIT_SUCCESS);
 }
 

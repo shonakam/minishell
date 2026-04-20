@@ -73,6 +73,7 @@ void	exec_command(t_context *ctx, t_ast_node *node)
 	signal_set_mode(SIG_MODE_EXEC);
 	job_add_pid(ctx->job.current, pid);
 	job_wait(ctx, ctx->job.current);
+	job_free(ctx->job.current);
 	signal_set_mode(SIG_MODE_IDLE);
 
 	ctx->job.current = NULL;

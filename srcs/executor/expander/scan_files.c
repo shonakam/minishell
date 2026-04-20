@@ -65,7 +65,7 @@ static t_list	*get_matched_files(DIR *dir, char *path, char *pattern)
 
 /*
  * NOTE: This function supports only single-level wildcard expansion.
- * (e.g., "srcs/*.c" works, but "srcs/[*]/[*.c]" is not supported).
+ * (e.g., "srcs/[*.c]" works, but "srcs/[*]/[*.c]" is not supported).
  * To support multi-level expansion, a recursive directory traversal
  * implementation is required in the future.
  */

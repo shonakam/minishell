@@ -14,7 +14,7 @@ void	ast_node_free(t_ast_node *node)
 		pipeline_free(node->data.pipeline);
 	else if (node->type == NODE_SUBSHELL)
 		subshell_free(node->data.subshell);
-	else if (node->type == NODE_COMMAND)
+	else if (node->type == NODE_COMMAND || node->type == NODE_BACKGROUND)
 		simple_command_free(node->data.command);
 	free(node);
 }

@@ -7,6 +7,8 @@ void		redirect_free(void *content)
 	if (!content)
 		return ;
 	redir = (t_redirect *)content;
+	if (redir->tmp_filename)
+		free(redir->tmp_filename);
 	free(redir->target);
 	free(redir);
 }

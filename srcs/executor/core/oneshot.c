@@ -23,5 +23,5 @@ void	oneshot(t_context *ctx, t_ast_node *node)
 	f = get_builtin_func(ctx, argv[0]);
 	if (f)
 		exit(f(ctx, argv));
-	invoke_execve(ctx, cmd);
+	invoke_execve(ctx, argv);
 }
