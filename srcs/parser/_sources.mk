@@ -1,8 +1,11 @@
 PARSER_FILES := \
+add_arg_to_list.c \
+arg_free.c \
+arg_new.c \
 ast_node_attach.c \
 ast_node_free.c \
 ast_node_new.c \
-expand_args_array.c \
+parse_command_heredoc.c \
 parse_command_utils.c \
 parse_command.c \
 parse_list.c \

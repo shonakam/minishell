@@ -2,6 +2,9 @@
 # define PARSER_INTERNAL_H
 
 # include "error.h"
+# include "utils.h"
+# include "session.h"
+# include "lexer.h"
 # include "parser.h"
 
 typedef bool (*t_token_rule)(t_token_type);
@@ -30,6 +33,8 @@ t_ast_node	*ast_node_attach(
 t_pipeline	*pipeline_new(void);
 void		pipeline_free(t_pipeline *pipeline);
 
+t_arg		*arg_new(char *str, t_qstate state);
+
 t_simple_command	*simple_command_new(void);
 void				simple_command_free(void *content);
 
@@ -48,7 +53,8 @@ bool		is_logical_operator(t_token *token);
 bool		is_empty_command(t_simple_command *cmd);
 bool		parse_redirect_into_cmd(t_simple_command *cmd, t_list **tokens);
 bool		parse_arg_into_cmd(t_simple_command *cmd, t_list **tokens);
+void		set_heredoc_delimiter(t_redirect *redir, t_token *token);
 
-char		**expand_args_array(char **args, char *new_arg);
+bool		add_arg_to_list(t_list **args_head, t_token *token);
 
 #endif /* PARSER_INTERNAL_H */
