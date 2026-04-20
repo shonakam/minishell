@@ -51,7 +51,6 @@ t_job	*job_create(t_context *ctx, char *cmd_line, bool is_background);
 char	*ast_to_str(t_ast_node *node);
 char	*get_redir_symbol(t_redir_type type);
 size_t	get_total_len(t_list *args);
-char	*join_three(char *s1, char *s2, char *s3);
 void	job_list_append(t_context *ctx, t_job *new_job);
 bool	job_add_pid(t_job *job, pid_t pid);
 void	job_free(t_job *job);
@@ -79,6 +78,8 @@ bool	handle_word_splitting(t_list **curr, t_list *prev,
 t_list	*arg_node_new(char *content);
 
 bool	expand_wildcard(t_simple_command *cmd);
+t_list	*scan_files(char *pattern);
+
 bool	remove_quotes(t_simple_command *cmd);
 
 #endif /* EXECUTOR_INTERNAL_H */

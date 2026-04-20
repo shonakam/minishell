@@ -30,17 +30,3 @@ size_t	get_total_len(t_list *args)
 	return (len);
 }
 
-char	*join_three(char *s1, char *s2, char *s3)
-{
-	char	*tmp;
-	char	*res;
-
-	tmp = ft_strjoin(s1, s2);
-	if (!tmp)
-		return (ft_dprintf(STDERR_FILENO, ERR_MALLOC), NULL);
-	res = ft_strjoin(tmp, s3);
-	if (!res)
-		return (ft_dprintf(STDERR_FILENO, ERR_MALLOC), free(tmp), NULL);
-	return (free(tmp), res);
-}
-

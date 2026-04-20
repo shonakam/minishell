@@ -16,6 +16,7 @@ x_open.c \
 x_pipe.c \
 x_realloc.c \
 x_strdup.c \
+x_strndup.c \
 x_substr.c \
 
 ifeq ($(DEBUG), 1)
