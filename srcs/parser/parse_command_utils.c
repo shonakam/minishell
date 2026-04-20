@@ -36,10 +36,10 @@ bool	parse_redirect_into_cmd(t_simple_command *cmd, t_list **tokens)
 	if (!redir)
 		return (false);
 	if (redir->type == REDIR_HEREDOC)
-        set_heredoc_delimiter(redir, file);
-    else
-        redir->target = ft_strdup(file->str);
-	ft_lstadd_back(&cmd->redirects, ft_lstnew(redir));
+		set_heredoc_delimiter(redir, file);
+	else
+		redir->target = ft_strdup(file->str);
+	ft_lstadd_back(&cmd->redirects, x_lstnew(redir));
 	return (true);
 }
 

@@ -1,8 +1,11 @@
 #ifndef LEXER_INTERNAL_H
 # define LEXER_INTERNAL_H
 
+# include <stdbool.h>
+# include "../libft/libft.h"
 # include "error.h"
 # include "lexer.h"
+# include "utils.h"
 
 t_token			*token_new(t_token_type type, t_qstate state, char *str);
 t_token_type	get_token_type(const char *str);

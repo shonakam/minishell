@@ -33,8 +33,6 @@ t_ast_node	*ast_node_attach(
 t_pipeline	*pipeline_new(void);
 void		pipeline_free(t_pipeline *pipeline);
 
-t_arg		*arg_new(char *str, t_qstate state);
-
 t_simple_command	*simple_command_new(void);
 void				simple_command_free(void *content);
 

@@ -12,7 +12,7 @@ bool	add_arg_to_list(t_list **args_head, t_token *token)
 	if (!new_arg->str)
 		return (false);
 	new_arg->state = token->state;
-	new_node = ft_lstnew(new_arg);
+	new_node = x_lstnew(new_arg);
 	if (!new_node)
 		return (free(new_arg->str), free(new_arg), false);
 	ft_lstadd_back(args_head, new_node);

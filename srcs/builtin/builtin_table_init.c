@@ -1,23 +1,18 @@
 #include "builtin_internal.h"
 
-static void	register_builtin(t_builtin *entry, char *name, t_builtin_func func)
-{
-	entry->name = name;
-	entry->len = ft_strlen(name);
-	entry->func = func;
-}
-
 bool	builtin_table_init(t_context *ctx)
 {
-	ctx->builtins = x_calloc(BUILTIN_SIZE + 1, sizeof(t_builtin));
-	if (!ctx->builtins)
-		return (false);
-	register_builtin(&ctx->builtins[B_ECHO], "echo", ft_echo);
-	register_builtin(&ctx->builtins[B_CD], "cd", ft_cd);
-	register_builtin(&ctx->builtins[B_PWD], "pwd", ft_pwd);
-	register_builtin(&ctx->builtins[B_EXPORT], "export", ft_export);
-	register_builtin(&ctx->builtins[B_UNSET], "unset", ft_unset);
-	register_builtin(&ctx->builtins[B_ENV], "env", ft_env);
-	register_builtin(&ctx->builtins[B_EXIT], "exit", ft_exit);
+	static const t_builtin	g_builtin_table[] = {
+		[B_ECHO] = {"echo", 4, ft_echo},
+		[B_CD]   = {"cd", 2, ft_cd},
+		[B_PWD]  = {"pwd", 3, ft_pwd},
+		[B_EXPORT] = {"export", 6, ft_export},
+		[B_UNSET] = {"unset", 5, ft_unset},
+		[B_ENV]  = {"env", 3, ft_env},
+		[B_EXIT] = {"exit", 4, ft_exit},
+		{NULL, 0, NULL}
+	};
+
+	ctx->builtins = g_builtin_table;
 	return (true);
 }
