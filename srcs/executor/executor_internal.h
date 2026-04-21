@@ -7,6 +7,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 
+# include "ft_readline.h"
 # include "lexer.h"
 # include "parser.h"
 # include "executor.h"
