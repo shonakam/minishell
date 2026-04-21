@@ -14,8 +14,8 @@ static t_ast_node	*parse_logical_ops(t_context *ctx, t_list **tokens)
 	t_ast_node	*new_node;
 
 	node = parse_pipeline(ctx, tokens);
-	while (token_peek(tokens) &&
-		is_logical_operator((t_token *)(*tokens)->content))
+	while (token_peek(tokens)
+		&& is_logical_operator((t_token *)(*tokens)->content))
 	{
 		op = token_consume(tokens);
 		new_node = ast_node_new(get_node_type(op->type));

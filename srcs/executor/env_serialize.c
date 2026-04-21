@@ -10,23 +10,23 @@ static char	*build_string(t_list *env)
 	if (!content || !content->key)
 		return (NULL);
 	tmp = ft_strjoin(content->key, "=");
-    if (!tmp)
-        return (ft_dprintf(STDERR_FILENO, ERR_MALLOC), NULL);
-    if (content->has_value && content->value)
-    {
-        s = ft_strjoin(tmp, content->value);
-        return (free(tmp), ft_dprintf(STDERR_FILENO, ERR_MALLOC), NULL);
-    }
-    else
-        s = tmp;
-    return (s);
+	if (!tmp)
+		return (ft_dprintf(STDERR_FILENO, ERR_MALLOC), NULL);
+	if (content->has_value && content->value)
+	{
+		s = ft_strjoin(tmp, content->value);
+		return (free(tmp), ft_dprintf(STDERR_FILENO, ERR_MALLOC), NULL);
+	}
+	else
+		s = tmp;
+	return (s);
 }
 
 char	**env_serialize(t_list *env)
 {
 	char	**envp;
 	size_t	i;
-	t_list  *curr;
+	t_list	*curr;
 
 	envp = (char **)x_calloc(1, ft_lstsize(env) * sizeof(char *));
 	if (!envp)

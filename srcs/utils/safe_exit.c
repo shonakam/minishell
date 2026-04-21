@@ -10,4 +10,3 @@ void	safe_exit(t_context *ctx, int status)
 		close(ctx->fd_save[1]);
 	exit(status);
 }
-

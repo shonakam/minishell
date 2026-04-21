@@ -20,7 +20,7 @@ static bool	is_numeric(char *str)
 	return (true);
 }
 
-int ft_exit(t_context *ctx, char **argv)
+int	ft_exit(t_context *ctx, char **argv)
 {
 	if (!ctx->in_pipeline)
 		ft_putendl_fd("exit", STDERR_FILENO);
@@ -29,7 +29,7 @@ int ft_exit(t_context *ctx, char **argv)
 	if (!is_numeric(argv[1]))
 	{
 		ft_dprintf(STDERR_FILENO, ERR_EXIT_NUMERIC, argv[1]);
-		return(STATUS_SYNTAX_ERR);
+		return (STATUS_SYNTAX_ERR);
 	}
 	if (argv[2])
 	{

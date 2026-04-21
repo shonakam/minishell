@@ -1,6 +1,6 @@
 #include "builtin_internal.h"
 
-static void print_declare(t_env *env)
+static void	print_declare(t_env *env)
 {
 	ft_printf("declare -x %s", env->key);
 	if (env->has_value)
