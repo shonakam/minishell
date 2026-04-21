@@ -26,4 +26,5 @@ ifeq ($(DEBUG), 1)
 	UTILS_FILES += debug/debug_print_job.c
 	UTILS_FILES += debug/debug_print_list.c
 	UTILS_FILES += debug/debug_print_token.c
+	UTILS_FILES += debug/debug_print_memory.c
 endif
