@@ -1,6 +1,6 @@
 #include "parser_internal.h"
 
-void		redirect_free(void *content)
+void	redirect_free(void *content)
 {
 	t_redirect	*redir;
 

@@ -4,33 +4,25 @@ void	sig_handle_idle_int(int sig)
 {
 	(void)sig;
 	g_signal_flag = SIGINT;
-
 	ft_putstr_fd("\r", STDOUT_FILENO);
 	ft_putstr_fd(PS1, STDOUT_FILENO);
 	ft_putstr_fd("^C\033[K", STDOUT_FILENO);
-
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	ioctl(STDIN_FILENO, TIOCSTI, "\x04");
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 
 void	sig_handle_heredoc_int(int sig)
 {
 	(void)sig;
 	g_signal_flag = SIGINT;
-
 	ft_putstr_fd("\r", STDOUT_FILENO);
 	ft_putstr_fd(PS2, STDOUT_FILENO);
 	ft_putstr_fd("^C\033[K", STDOUT_FILENO);
-
-	rl_on_new_line();
-	rl_replace_line("", 0);
 	ioctl(STDIN_FILENO, TIOCSTI, "\x04");
 }
 
 void	sig_handle_blocking_int(int sig)
 {
-    (void)sig;
+	(void)sig;
 	g_signal_flag = SIGINT;
 	write(STDOUT_FILENO, "^C\n", 3);
 }

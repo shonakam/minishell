@@ -13,9 +13,9 @@ t_env	*env_find(t_list *lst, char *target)
 	while (lst)
 	{
 		content = (t_env *)lst->content;
-		if (content && content->key &&
-			ft_strlen(content->key) == n &&
-			ft_strncmp(target, content->key, n) == 0)
+		if (content && content->key
+			&& ft_strlen(content->key) == n
+			&& ft_strncmp(target, content->key, n) == 0)
 		{
 			return (content);
 		}

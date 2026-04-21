@@ -16,19 +16,18 @@ static t_node_type	token_to_node_type(t_token_type type)
 static t_ast_node	*parse_list_element(
 	t_context *ctx, t_list **tokens, t_ast_node *left)
 {
-	t_token			*op_token;
-	t_ast_node		*right;
-	t_node_type		type;
+	t_token		*op_token;
+	t_ast_node	*right;
+	t_node_type	type;
 
 	op_token = token_consume(tokens);
 	if (!is_next_token_valid(ctx, tokens, is_ok_list))
 		return (ast_node_free(left), NULL);
 	right = parse_pipeline(ctx, tokens);
-	if (!right &&
-			(op_token->type == TOKEN_AMPERSAND ||
-			op_token->type == TOKEN_SEMICOLON))
+	if (!right && (op_token->type == TOKEN_AMPERSAND
+			|| op_token->type == TOKEN_SEMICOLON))
 		return (ast_node_attach(
-			token_to_node_type(op_token->type), left, NULL));
+				token_to_node_type(op_token->type), left, NULL));
 	if (!right)
 		return (ast_node_free(left), NULL);
 	type = token_to_node_type(op_token->type);
@@ -38,7 +37,7 @@ static t_ast_node	*parse_list_element(
 t_ast_node	*parse_list(t_context *ctx, t_list **tokens)
 {
 	t_ast_node	*node;
-	t_token     *token;
+	t_token		*token;
 
 	node = parse_pipeline(ctx, tokens);
 	if (!node)

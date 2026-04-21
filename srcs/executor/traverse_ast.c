@@ -9,7 +9,7 @@
 void	traverse_ast(t_context *ctx, t_ast_node *node)
 {
 	if (!node)
-		return;
+		return ;
 	exec_engine(ctx, node->left);
 	if (node->type == NODE_AND && ctx->last_status != STATUS_SUCCESS)
 		return ;

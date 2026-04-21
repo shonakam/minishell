@@ -20,6 +20,6 @@ t_env	*env_parse_line(char *line)
 		has_val = false;
 	}
 	if (!kv[0] || (has_val && !kv[1]))
-        return (free(kv[0]), free(kv[1]), NULL);
+		return (free(kv[0]), free(kv[1]), NULL);
 	return (env_new(kv[0], kv[1], has_val));
 }

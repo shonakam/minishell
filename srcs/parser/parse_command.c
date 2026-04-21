@@ -1,14 +1,14 @@
 #include "parser_internal.h"
 
-static bool is_terminator(t_token *token)
+static bool	is_terminator(t_token *token)
 {
-	if (is_logical_operator(token) ||
-		token->type == TOKEN_SEMICOLON ||
-		token->type == TOKEN_NEWLINE ||
-		token->type == TOKEN_PIPE ||
-		token->type == TOKEN_AMPERSAND ||
-		token->type == TOKEN_RPAREN ||
-		token->type == TOKEN_EOF)
+	if (is_logical_operator(token)
+		|| token->type == TOKEN_SEMICOLON
+		|| token->type == TOKEN_NEWLINE
+		|| token->type == TOKEN_PIPE
+		|| token->type == TOKEN_AMPERSAND
+		|| token->type == TOKEN_RPAREN
+		|| token->type == TOKEN_EOF)
 	{
 		return (true);
 	}

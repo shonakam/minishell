@@ -8,8 +8,8 @@ int	is_redirect(const char *str)
 		return (str[0] == '>' || str[0] == '<');
 	if (ft_strlen(str) == 2)
 	{
-		return ((str[0] == '>' && str[1] == '>') ||
-				(str[0] == '<' && str[1] == '<'));
+		return ((str[0] == '>' && str[1] == '>')
+			|| (str[0] == '<' && str[1] == '<'));
 	}
 	return (0);
 }

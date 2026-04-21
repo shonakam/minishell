@@ -17,8 +17,8 @@ void	signal_set_mode(t_sig_mode mode)
 	}
 	else if (mode == SIG_MODE_HEREDOC)
 	{
-    	signal(SIGINT, sig_handle_heredoc_int);
-    	signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sig_handle_heredoc_int);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (mode == SIG_MODE_EXEC)
 	{

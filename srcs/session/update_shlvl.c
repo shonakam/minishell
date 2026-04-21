@@ -19,7 +19,7 @@ static bool	set_lvl_to_env(t_list *lst, int lvl)
 {
 	char	*lvl_str;
 	char	*line;
-	bool    res;
+	bool	res;
 
 	lvl_str = ft_itoa(lvl);
 	if (!lvl_str)
@@ -29,7 +29,7 @@ static bool	set_lvl_to_env(t_list *lst, int lvl)
 		return (ft_dprintf(STDERR_FILENO, ERR_MALLOC), false);
 	free(lvl_str);
 	res = env_set(&lst, line);
-    return (free(line), res);
+	return (free(line), res);
 }
 
 bool	update_shlvl(t_list *lst)

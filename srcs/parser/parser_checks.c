@@ -11,19 +11,19 @@ bool	is_list_operator(t_token *token)
 {
 	if (!token)
 		return (false);
-	return (token->type == TOKEN_SEMICOLON ||
-			token->type == TOKEN_AMPERSAND ||
-			token->type == TOKEN_NEWLINE);
+	return (token->type == TOKEN_SEMICOLON
+		|| token->type == TOKEN_AMPERSAND
+		|| token->type == TOKEN_NEWLINE);
 }
 
 bool	is_token_redirect(t_token *token)
 {
 	if (!token)
 		return (false);
-	return (token->type == TOKEN_REDIRECT_IN ||
-			token->type == TOKEN_REDIRECT_OUT ||
-			token->type == TOKEN_APPEND ||
-			token->type == TOKEN_HEREDOC);
+	return (token->type == TOKEN_REDIRECT_IN
+		|| token->type == TOKEN_REDIRECT_OUT
+		|| token->type == TOKEN_APPEND
+		|| token->type == TOKEN_HEREDOC);
 }
 
 bool	is_token_word(t_token *token)

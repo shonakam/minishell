@@ -1,6 +1,6 @@
 #include "session_internal.h"
 
-static void job_control_destroy(t_job_control *job_ctrl)
+static void	job_control_destroy(t_job_control *job_ctrl)
 {
 	t_job	*curr;
 	t_job	*next;
@@ -32,6 +32,5 @@ void	context_destroy(t_context *ctx)
 	if (ctx->fd_save[1] >= 0)
 		close(ctx->fd_save[1]);
 	job_control_destroy(&ctx->job);
-	tcsetattr(STDIN_FILENO, TCSANOW, &ctx->original);
 	ft_memset(ctx, 0, sizeof(t_context));
 }

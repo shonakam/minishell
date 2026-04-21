@@ -37,7 +37,7 @@ static bool heredoc_write_content(t_context *ctx, t_redirect *redir, int wfd)
 	signal_set_mode(SIG_MODE_HEREDOC);
 	while (true)
 	{
-		line = readline(PS2);
+		line = ft_readline(PS2);
 		if (should_stop_heredoc(line, line_no, redir->target))
 			break ;
 		if (ft_strlen(line) == len && ft_strncmp(line, redir->target, len) == 0)
