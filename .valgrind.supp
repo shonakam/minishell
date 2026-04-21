@@ -1,0 +1,14 @@
+{
+   ignore_libtinfo_all_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:*/libtinfo.so.*
+}
+{
+   ignore_libncurses_all_reachable
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:*/libncurses.so.*
+}

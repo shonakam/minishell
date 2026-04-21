@@ -1,0 +1,17 @@
+services:
+  minishell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: minishell
+    volumes:
+      - ..:/workspace
+    environment:
+      - TERM=xterm-256color
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+
+  minishell-test:
+    container_name: minishell
+    profiles: [test]
