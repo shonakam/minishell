@@ -23,6 +23,7 @@ ifeq ($(DEBUG), 1)
 	UTILS_FILES += debug/d.c
 	UTILS_FILES += debug/debug_print_ast.c
 	UTILS_FILES += debug/debug_print_env.c
+	UTILS_FILES += debug/debug_print_green_line.c
 	UTILS_FILES += debug/debug_print_job.c
 	UTILS_FILES += debug/debug_print_list.c
 	UTILS_FILES += debug/debug_print_token.c
