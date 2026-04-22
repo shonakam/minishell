@@ -1,9 +1,10 @@
 LEXER_FILES := \
-fsm.c \
-get_token_type.c \
-handle_operator.c \
-handle_word.c \
-lexer_error.c \
+interface/token.c \
+interface/token_utils.c \
+lexer_actions_common.c \
+lexer_actions_special.c \
+lexer_actions_state.c \
+lexer_controller.c \
 lexer.c \
-token_free.c \
-token_new.c \
+tokenize_stream.c \
+transition_table.c \
