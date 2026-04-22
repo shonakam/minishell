@@ -2,5 +2,5 @@
 
 void	d(void)
 {
-	printf("\033[35m== DEBUG ==\033[0m\n");
+	printf("\033[35m== DEBUG ==\033[0m\r\n");
 }

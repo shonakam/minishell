@@ -1,34 +1,30 @@
 #include "../lexer_internal.h"
 
-// t_token	*token_new(t_token_type type, t_qstate state, char *str)
-// {
-// 	t_token	*new;
-
-// 	new = (t_token *)x_calloc(1, sizeof(t_token));
-// 	if (!new)
-// 		return (NULL);
-// 	new->type = type;
-// 	new->state = state;
-// 	new->str = str;
-// 	return (new);
-// }
-
 t_token	*token_new(t_lexer *l)
 {
 	t_token	*tok;
 
-	// バッファが空で、かつエラーも起きていないならトークンを返さない
-	//（例：連続する空白を飛ばした直後など）
 	if (l->buf_idx == 0 && !l->is_err)
 		return (NULL);
-
-	tok = ft_calloc(1, sizeof(t_token));
+	tok = x_calloc(1, sizeof(t_token));
 	if (!tok)
 		return (NULL);
-	
-	tok->str = ft_strdup(l->buffer);
-	tok->type = l->current_type; // アクション関数がセットした型
-	
+	tok->str = x_strdup(l->buffer);
+	tok->type = l->current_type;
+	return (tok);
+}
+
+t_token	*token_create(t_token_type type, const char *str)
+{
+	t_token	*tok;
+
+	tok = x_calloc(1, sizeof(t_token));
+	if (!tok)
+		return (NULL);
+	tok->str = x_strdup(str);
+	if (!tok->str)
+		return (free(tok), NULL);
+	tok->type = type;
 	return (tok);
 }
 

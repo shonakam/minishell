@@ -1,7 +1,7 @@
 #ifndef FT_READLINE_H
 # define FT_READLINE_H
 
-# include "../libft/libft.h"
+# include "libft.h"
 # include "session.h"
 # include "utils.h"
 

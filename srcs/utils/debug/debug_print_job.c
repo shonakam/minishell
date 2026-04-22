@@ -17,15 +17,12 @@ void	debug_print_job(t_context *ctx)
 	}
 	while (curr)
 	{
-		// ジョブの基本情報
 		ft_printf("[%zd] %s | %s | Count: %zu / Cap: %zu\n",
 			curr->job_id,
 			curr->is_background ? "BACK" : "FORE",
 			curr->cmd_line ? curr->cmd_line : "(NULL)",
 			curr->count,
 			curr->capacity);
-
-		// PID配列のスキャン
 		ft_printf("  PIDs: ");
 		if (!curr->pids)
 		{
