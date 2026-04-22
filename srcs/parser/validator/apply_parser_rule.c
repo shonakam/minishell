@@ -1,8 +1,8 @@
 #include "../parser_internal.h"
 
-bool	apply_parser_rule(t_token_rule rule, t_list *tokens)
+bool	apply_parser_rule(const t_token_rule rule, t_list *tokens)
 {
-	t_token	*token;
+	const t_token	*token;
 
 	if (!tokens || !tokens->content)
 		return (rule(TOKEN_EOF));

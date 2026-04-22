@@ -14,7 +14,7 @@ static char	*strip_quotes(const char *src)
 
 void	set_heredoc_delimiter(t_redirect *redir, t_token *token)
 {
-	if (token->state != QUOTE_NONE)
+	if (token->state != TOKEN_NONE)
 	{
 		redir->need_expand = false;
 		redir->target = strip_quotes(token->str);

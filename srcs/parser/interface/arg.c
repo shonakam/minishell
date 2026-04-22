@@ -1,6 +1,6 @@
 #include "../parser_internal.h"
 
-t_arg	*arg_new(char *str, t_qstate state)
+t_arg	*arg_new(char *str, t_token_state state)
 {
 	t_arg	*arg;
 

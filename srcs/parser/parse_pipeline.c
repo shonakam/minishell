@@ -31,7 +31,7 @@ t_ast_node	*parse_pipeline(t_context *ctx, t_list **tokens)
 		if (token_peek_type(tokens) != TOKEN_PIPE)
 			break ;
 		token_consume(tokens);
-		if (!is_next_token_valid(ctx, tokens, is_ok_pipeline))
+		if (!is_unexpected_at_contextual(ctx, tokens, is_ok_pipeline))
 			return (ast_node_free(node), NULL);
 		right = parse_command(ctx, tokens);
 		node = create_pipeline_node(node, right);

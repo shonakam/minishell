@@ -66,8 +66,8 @@ typedef struct s_pipeline
 }	t_pipeline;
 
 typedef struct s_arg {
-	char		*str; // Command + Arguments
-	t_qstate	state;
+	char			*str; // Command + Arguments
+	t_token_state	state;
 }	t_arg;
 
 typedef struct s_simple_command
@@ -87,7 +87,28 @@ typedef struct s_redirect
 
 t_ast_node	*parser(t_context *ctx, t_list **tokens);
 void		ast_node_free(t_ast_node *node);
-t_arg		*arg_new(char *str, t_qstate state);
+
+/* interface section */
+t_arg		*arg_new(char *str, t_token_state state);
 void		arg_free(void *content);
+bool		arg_append(t_list **args_head, t_token *token);
+bool		arg_is_empty(t_arg *arg);
+t_ast_node	*ast_node_new(t_node_type type);
+void		ast_node_free(t_ast_node *node);
+t_ast_node	*ast_node_attach(
+	t_node_type type, t_ast_node *left, t_ast_node *right);
+bool		ast_node_is_empty(t_ast_node *node);
+t_pipeline	*pipeline_new(void);
+void		pipeline_free(t_pipeline *pipeline);
+bool		pipeline_is_empty(t_pipeline *pipeline);
+t_redirect	*redirect_new(t_redir_type type, char *target);
+void		redirect_free(void *content);
+bool		redirect_is_empty(t_redirect *redir);
+t_simple_command	*simple_command_new(void);
+void		simple_command_free(void *content);
+bool		simple_command_is_empty(t_simple_command *cmd);
+t_subshell	*subshell_new(t_ast_node *inner_ast);
+void		subshell_free(t_subshell *sub);
+bool		subshell_is_empty(t_subshell *sub);
 
 #endif /* PARSER_H */

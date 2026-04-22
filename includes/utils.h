@@ -25,10 +25,6 @@ char	*x_strdup(const char *s);
 char	*x_strndup(const char *s, size_t n);
 char	*x_substr(char const *s, unsigned int start, size_t len);
 
-
-int	is_operator(const char *str);
-int	is_redirect(const char *str);
-
 bool	is_stack_overflow(void *base);
 
 # ifdef DEBUG_MODE
