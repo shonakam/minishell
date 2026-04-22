@@ -1,12 +1,15 @@
 #include "parser_internal.h"
 
-bool	parse_redirect_into_cmd(t_simple_command *cmd, t_list **tokens)
+bool	parse_redirect_into_cmd(
+	t_context *ctx, t_simple_command *cmd, t_list **tokens)
 {
 	t_token		*op;
 	t_token		*file;
 	t_redirect	*redir;
 
 	op = token_consume(tokens);
+	if (is_unexpected_at_contextual(ctx, tokens, is_word))
+		return (false);
 	file = token_consume(tokens);
 	if (!file || file->type != TOKEN_WORD)
 		return (false);

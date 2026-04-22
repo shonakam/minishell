@@ -3,10 +3,7 @@
 
 # include <stdio.h>
 # include <stdbool.h>
-// # include <readline/readline.h>
-// # include <readline/history.h>
-
-# include "../libft/libft.h"
+# include "libft.h"
 # include "session.h"
 
 # define PROGRAM_NAME "minishell"

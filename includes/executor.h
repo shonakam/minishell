@@ -2,7 +2,7 @@
 # define EXECUTOR_H
 
 # include <limits.h>
-# include "../libft/libft.h"
+# include "libft.h"
 # include "error.h"
 # include "builtin.h"
 # include "session.h"

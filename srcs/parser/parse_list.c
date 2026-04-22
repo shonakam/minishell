@@ -8,7 +8,7 @@ static t_ast_node	*parse_list_element(
 	t_node_type	type;
 
 	op_token = token_consume(tokens);
-	if (!is_unexpected_at_contextual(ctx, tokens, is_command_start))
+	if (is_unexpected_at_contextual(ctx, tokens, is_command_start))
 		return (ast_node_free(left), NULL);
 	right = parse_logical(ctx, tokens);
 	if (!right &&  is_list_op(op_token->type))
@@ -35,7 +35,7 @@ t_ast_node	*parse_list(t_context *ctx, t_list **tokens)
 		}
 		if (!apply_parser_rule(is_list_op, *tokens))
 			break ;
-		if (!is_unexpected_at_contextual(ctx, tokens, is_command_start))
+		if (is_unexpected_at_contextual(ctx, tokens, is_command_start))
 			return (ast_node_free(node), NULL);
 		node = parse_list_element(ctx, tokens, node);
 		if (!node)

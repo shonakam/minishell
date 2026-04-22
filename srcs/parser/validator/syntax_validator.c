@@ -4,45 +4,45 @@ bool	is_unexpected_at_start(t_context *ctx, t_list **tokens)
 {
 	t_token	*t;
 
+	if (!tokens || !*tokens)
+		return (true);
 	t = token_peek(tokens);
-	if (t && (is_control_op(t->type) || is_subshell_end(t->type)))
+	if (is_control_op(t->type) || is_subshell_end(t->type))
 	{
 		parser_syntax_error(ctx, t->str);
-		return (false);
+		return (true);
 	}
-    return (true);
+    return (false);
 }
 
 bool	is_unexpected_at_end(t_context *ctx, t_list **tokens)
 {
 	t_token	*t;
 
+	if (!tokens || !*tokens)
+		return (true);
 	t = token_peek(tokens);
 	if (is_control_op(t->type) || is_io(t->type) || is_subshell_start(t->type))
 	{
 		parser_syntax_error(ctx, t->str);
-		return (false);
+		return (true);
 	}
-	return (true);
+	return (false);
 }
 
 bool	is_unexpected_at_contextual(
 	t_context *ctx, t_list **tokens, t_token_rule is_ok)
 {
 	t_token	*next;
-	char	*err_str;
 
 	next = token_peek(tokens);
+	printf("DEBUG: %s\r\n", next->str);
 	if (!next || !is_ok(next->type))
 	{
-		if (!next || next->type == TOKEN_NEWLINE)
-			err_str = "newline";
-		else
-			err_str = next->str;
-		parser_syntax_error(ctx, err_str);
-		return (false);
+		parser_syntax_error(ctx, next->str);
+		return (true);
 	}
-	return (true);
+	return (false);
 }
 
 /**

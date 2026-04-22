@@ -27,7 +27,7 @@ void	debug_print_token(void *content)
 	};
 
 	printf("Token: [%-10s] | State: %d | Str: [", names[token->type], token->state);
-	s = token->str; // ポインタをコピー
+	s = token->str;
 	while (s && *s)
 	{
 		if (*s == '\n')
@@ -38,5 +38,5 @@ void	debug_print_token(void *content)
 			putchar(*s);
 		s++;
 	}
-	printf("]\n");
+	printf("]\r\n");
 }

@@ -7,7 +7,7 @@ static t_ast_node	*parse_logical_element(
 	t_ast_node	*right;
 
 	op_token = token_consume(tokens);
-	if (!is_unexpected_at_contextual(ctx, tokens, is_command_start))
+	if (is_unexpected_at_contextual(ctx, tokens, is_command_start))
 		return (ast_node_free(left), NULL);
 	right = parse_pipeline(ctx, tokens);
 	if (!right)

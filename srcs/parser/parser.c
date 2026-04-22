@@ -17,22 +17,6 @@ static void	skip_trailing_newlines(t_list **tokens)
 	}
 }
 
-/**
- * Validate if the parsing finished correctly.
- * If tokens remain (other than EOF), it's a syntax error.
- */
-static bool	is_syntax_valid(t_list **tokens)
-{
-	t_token	*token;
-
-	if (!tokens || !*tokens)
-		return (true);
-	token = (t_token *)(*tokens)->content;
-	if (token->type == TOKEN_EOF)
-		return (true);
-	return (false);
-}
-
 /*
  * Parses the list of tokens into an Abstract Syntax Tree (AST).
  *
@@ -53,14 +37,13 @@ t_ast_node	*parser(t_context *ctx, t_list **tokens)
 
 	if (!tokens || !*tokens)
 		return (NULL);
+	if(is_unexpected_at_start(ctx, tokens))
+		return (NULL);
 	ast = parse_list(ctx, tokens);
 	if (!ast)
 		return (NULL);
 	skip_trailing_newlines(tokens);
-	if (!is_syntax_valid(tokens))
-	{
-		// TODO: handle_syntax_error(ast, (*tokens)->content);
+	if (is_unexpected_at_end(ctx, tokens))
 		return (ast_node_free(ast), NULL);
-	}
 	return (ast);
 }

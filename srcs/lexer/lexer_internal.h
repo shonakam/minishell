@@ -52,6 +52,7 @@ void	act_quote_close(t_lexer *l, t_token_state *next);
 
 t_trans_matrix	*get_transition_table(void);
 t_token	*token_new(t_lexer *l);
+t_token	*token_create(t_token_type type, const char *str);
 t_token	*tokenize_stream(t_lexer *l);
 void	lexer_advance(t_lexer *l);
 char	lexer_peek(t_lexer *l);

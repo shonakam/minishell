@@ -5,7 +5,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <stdbool.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 # ifndef WCOREDUMP
 #  define WCOREDUMP(status) ((status) & 0x80)

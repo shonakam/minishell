@@ -4,11 +4,7 @@ static bool	append_command_element(
 	t_context *ctx, t_simple_command *cmd, t_list **tokens)
 {
 	if (apply_parser_rule(is_io, *tokens))
-	{
-		if (!is_unexpected_at_contextual(ctx, tokens, is_ok_command))
-			return (false);
-		return (parse_redirect_into_cmd(cmd, tokens));
-	}
+		return (parse_redirect_into_cmd(ctx, cmd, tokens));
 	if (apply_parser_rule(is_word, *tokens))
 		return (parse_arg_into_cmd(cmd, tokens));
 	return (false);
