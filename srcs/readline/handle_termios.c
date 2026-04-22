@@ -31,14 +31,15 @@ bool	termios_change_to_shell_default(void)
 
 bool	termios_ctl(bool is_init)
 {
-	static struct termios	original;
-	static bool				is_saved = false;
+	struct termios	*storage;
+	static bool		is_saved = false;
 
+	storage = get_term_storage();
 	if (is_init)
 	{
 		if (is_saved)
 			return (true);
-		if (tcgetattr(STDIN_FILENO, &original) == -1)
+		if (tcgetattr(STDIN_FILENO, storage) == -1)
 			return (false);
 		is_saved = true;
 		return (true);
@@ -47,6 +48,6 @@ bool	termios_ctl(bool is_init)
 	{
 		if (!is_saved)
 			return (false);
-		return (tcsetattr(STDIN_FILENO, TCSAFLUSH, &original) == 0);
+		return (tcsetattr(STDIN_FILENO, TCSAFLUSH, storage) == 0);
 	}
 }

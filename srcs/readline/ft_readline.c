@@ -37,6 +37,7 @@ char	*ft_readline(const char *prompt)
 
 	init_readline_state(&s, prompt);
 	termios_change_to_raw();
+	write(STDOUT_FILENO, "\r", 1);
 	write(STDOUT_FILENO, prompt, ft_strlen(prompt));
 	while (true)
 	{
