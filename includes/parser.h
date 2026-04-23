@@ -17,6 +17,7 @@ typedef enum e_node_type
 	NODE_BACKGROUND,
 	NODE_SUBSHELL,
 	NODE_COMMAND,
+	NODE_EOF,
 	NODE_SIZE
 }	t_node_type;
 
@@ -56,6 +57,7 @@ typedef struct s_ast_node
 	t_node_type			type;
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
+	t_list				*redirects;
 	t_node_data			data;
 	bool				is_background;
 }	t_ast_node;
@@ -80,7 +82,7 @@ typedef struct s_redirect
 {
 	t_redir_type	type;
 	char			*target;     /* Filename or heredoc delimiter */
-	char            *tmp_filename;
+	char			*tmp_filename;
 	int				fd;          /* Target file descriptor (e.g., 2 for 2>), defaults to -1 */
 	bool			need_expand; /* True if heredoc content requires expansion */
 }	t_redirect;

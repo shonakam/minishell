@@ -51,6 +51,8 @@ void		subshell_free(t_subshell *sub);
 
 bool		parse_redirect_into_cmd(
 	t_context *ctx, t_simple_command *cmd, t_list **tokens);
+bool		parse_redirect_into_node(
+	t_context *ctx, t_ast_node *node, t_list **tokens);
 bool		parse_arg_into_cmd(t_simple_command *cmd, t_list **tokens);
 void		set_heredoc_delimiter(t_redirect *redir, t_token *token);
 

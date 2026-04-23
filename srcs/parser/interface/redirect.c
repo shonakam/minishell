@@ -8,7 +8,9 @@ t_redirect	*redirect_new(t_redir_type type, char *target)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
-	redir->target = target;
+	redir->target = x_strdup(target);
+	if (!redir->target)
+		return (free(redir), NULL);
 	redir->fd = -1;
 	return (redir);
 }
@@ -21,7 +23,10 @@ void	redirect_free(void *content)
 		return ;
 	redir = (t_redirect *)content;
 	if (redir->tmp_filename)
+	{
+		unlink(redir->tmp_filename);
 		free(redir->tmp_filename);
+	}
 	free(redir->target);
 	free(redir);
 }

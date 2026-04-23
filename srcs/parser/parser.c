@@ -35,6 +35,7 @@ t_ast_node	*parser(t_context *ctx, t_list **tokens)
 {
 	t_ast_node	*ast;
 
+	ctx->is_err_detected = false;
 	if (!tokens || !*tokens)
 		return (NULL);
 	if(is_unexpected_at_start(ctx, tokens))

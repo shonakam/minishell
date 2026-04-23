@@ -4,6 +4,7 @@
 # include <sys/ioctl.h>
 # include "session.h"
 # include "builtin.h"
+# include "parser.h"
 # include "executor.h"
 # include "error.h"
 # include "utils.h"

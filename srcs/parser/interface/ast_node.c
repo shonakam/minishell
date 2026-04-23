@@ -21,6 +21,8 @@ void	ast_node_free(t_ast_node *node)
 		return ;
 	ast_node_free(node->left);
 	ast_node_free(node->right);
+	if (node->redirects)
+		ft_lstclear(&node->redirects, (void *)redirect_free);
 	if (node->type == NODE_PIPELINE)
 		pipeline_free(node->data.pipeline);
 	else if (node->type == NODE_SUBSHELL)

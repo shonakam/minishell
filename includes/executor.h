@@ -31,7 +31,9 @@ typedef struct s_job
 
 int		executor(t_context *ctx, t_ast_node *ast);
 void	invoke_execve(t_context *ctx, char **argv);
-void    job_observe(t_context *ctx);
+ssize_t	get_next_job_id(t_context *ctx);
+void    job_sync(t_context *ctx);
 void	job_free(t_job *job);
+void	job_clear_all(t_context *ctx);
 
 #endif /* EXECUTOR_H */

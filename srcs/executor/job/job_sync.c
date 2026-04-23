@@ -52,16 +52,16 @@ static void	print_job_status(t_job *job)
 	{
 		cmd = "";
 	}
-	printf("[%zd] Done\t\t%s\n", job->job_id, cmd);
+	printf("[%zd] Done\t\t%s\r\n", job->job_id, cmd);
 }
 
-void	job_observe(t_context *ctx)
+void	job_sync(t_context *ctx)
 {
 	t_job	*curr;
 	t_job	*prev;
 	t_job	*next;
 
-	curr = ctx->job.head;
+	curr = ctx->job.all;
 	prev = NULL;
 	while (curr)
 	{
@@ -72,7 +72,7 @@ void	job_observe(t_context *ctx)
 			if (prev)
 				prev->next = next;
 			else
-				ctx->job.head = next;
+				ctx->job.all = next;
 			job_free(curr);
 		}
 		else

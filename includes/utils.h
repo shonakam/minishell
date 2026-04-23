@@ -29,6 +29,7 @@ bool	is_stack_overflow(void *base);
 
 # ifdef DEBUG_MODE
 void	d(void);
+void	debug_print_arg(void *content);
 void	debug_print_ast(t_ast_node *ast);
 void	debug_print_env(void *content);
 void	debug_print_job(t_context *ctx);
@@ -38,6 +39,7 @@ void	*debug_print_memory(void *addr, unsigned int size);
 void	debug_print_green_line(void);
 # else
 # define d() ((void)0)
+# define debug_print_arg(content) ((void)0)
 # define debug_print_ast(ast) ((void)0)
 # define debug_print_env(content) ((void)0)
 # define debug_print_job(t_context) ((void)0)

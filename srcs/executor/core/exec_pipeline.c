@@ -79,15 +79,14 @@ void	exec_pipeline(t_context *ctx, t_ast_node *node)
 	if (!cmds)
 		return ;
 	cmd_line = ast_to_str(node);
-	ctx->job.current = job_create(ctx, cmd_line, false);
+	ctx->job.current = job_new(get_next_job_id(ctx), cmd_line, false);
 	free(cmd_line);
-
 	signal_set_mode(SIG_MODE_EXEC);
 	ctx->in_pipeline = true;
 	pipeline_loop(ctx, cmds, n);
+	free(cmds);
 	job_wait(ctx, ctx->job.current);
+	job_free(ctx->job.current);
 	signal_set_mode(SIG_MODE_IDLE);
-
 	ctx->job.current = NULL;
-	ctx->in_pipeline = false;
 }

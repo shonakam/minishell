@@ -9,7 +9,7 @@ t_list	*arg_node_new(char *content)
 	arg->str = x_strdup(content);
 	if (!arg->str)
 		return (NULL);
-	arg->state = QUOTE_NONE;
+	arg->state = TOKEN_NONE;
 	node = x_lstnew(arg);
 	if (!node)
 		return (arg_free(arg), NULL);

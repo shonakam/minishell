@@ -36,5 +36,6 @@ int	ft_exit(t_context *ctx, char **argv)
 		ft_dprintf(STDERR_FILENO, ERR_TOO_MANY_ARGS, "exit");
 		return (STATUS_SYNTAX_ERR);
 	}
-	exit((unsigned char)ft_atoi(argv[1]));
+	ctx->exit = true;
+	return ((unsigned char)ft_atoi(argv[1]));
 }
