@@ -63,5 +63,5 @@ bool	handle_word_splitting(t_list **curr, t_list *prev,
 	}
 	insert_split_words(*curr, words);
 	free_matrix(words);
-	return (false);
+	return (true);
 }

@@ -7,9 +7,14 @@ static void	update_pwd_env(t_context *ctx)
 
 	old_pwd = env_get_value(ctx->env_list, "PWD");
 	if (old_pwd)
+	{
 		env_set_pair(&ctx->env_list, "OLDPWD", old_pwd);
+		free(old_pwd);
+	}
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	{
 		env_set_pair(&ctx->env_list, "PWD", cwd);
+	}
 }
 
 static int	resolve_cd_path(t_context *ctx, char **argv, char **path)
