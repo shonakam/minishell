@@ -26,7 +26,7 @@ t_ast_node	*parse_pipeline(t_context *ctx, t_list **tokens)
 	node = parse_command(ctx, tokens);
 	if (!node)
 		return (NULL);
-	while (*tokens)
+	while (apply_parser_rule(is_pipe_op, *tokens))
 	{
 		if (token_peek_type(tokens) != TOKEN_PIPE)
 			break ;

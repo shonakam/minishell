@@ -8,9 +8,9 @@ void	debug_print_job(t_context *ctx)
 	if (!ctx)
 		return ;
 	ft_printf("\n--- 🛠 Job Control Debug Start ---\n");
-	ft_printf("Next ID to assign: %zd\n", ctx->job.next_id);
+	ft_printf("Next ID to assign: %zd\n", ctx->job.id_counter);
 	
-	curr = ctx->job.head;
+	curr = ctx->job.all;
 	if (!curr)
 	{
 		ft_printf("Status: (No active jobs in list)\n");

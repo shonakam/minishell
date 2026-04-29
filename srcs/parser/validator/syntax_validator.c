@@ -9,21 +9,21 @@ bool	is_unexpected_at_start(t_context *ctx, t_list **tokens)
 	t = token_peek(tokens);
 	if (is_control_op(t->type) || is_subshell_end(t->type))
 	{
+		ctx->is_err_detected = true;
 		parser_syntax_error(ctx, t->str);
 		return (true);
 	}
-    return (false);
+	return (false);
 }
 
 bool	is_unexpected_at_end(t_context *ctx, t_list **tokens)
 {
 	t_token	*t;
 
-	if (!tokens || !*tokens)
-		return (true);
 	t = token_peek(tokens);
-	if (is_control_op(t->type) || is_io(t->type) || is_subshell_start(t->type))
+	if (t && t->type != TOKEN_EOF)
 	{
+		ctx->is_err_detected = true;
 		parser_syntax_error(ctx, t->str);
 		return (true);
 	}
@@ -36,9 +36,9 @@ bool	is_unexpected_at_contextual(
 	t_token	*next;
 
 	next = token_peek(tokens);
-	printf("DEBUG: %s\r\n", next->str);
 	if (!next || !is_ok(next->type))
 	{
+		ctx->is_err_detected = true;
 		parser_syntax_error(ctx, next->str);
 		return (true);
 	}

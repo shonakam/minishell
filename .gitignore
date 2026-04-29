@@ -1,6 +1,5 @@
 .vscode
-.out
-.out_debug
+.out*
 .DS_Store
 
 minishell

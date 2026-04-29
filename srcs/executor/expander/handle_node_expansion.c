@@ -6,7 +6,7 @@ static bool	apply_result_to_list(t_list **curr, t_list *prev,
 	t_arg	*arg;
 
 	arg = (t_arg *)(*curr)->content;
-	if (arg->state == QUOTE_NONE && exp)
+	if (arg->state == TOKEN_NONE && exp)
 	{
 		if (handle_word_splitting(curr, prev, cmd, exp))
 			return (true);
@@ -26,7 +26,7 @@ bool	handle_node_expansion(t_context *ctx, t_simple_command *cmd,
 	char	*exp;
 
 	arg = (t_arg *)(*curr)->content;
-	if (arg->state == QUOTE_SINGLE)
+	if (arg->state == TOKEN_IN_SINGLE)
 	{
 		*prev = *curr;
 		*curr = (*curr)->next;

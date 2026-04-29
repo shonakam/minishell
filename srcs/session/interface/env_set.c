@@ -1,4 +1,4 @@
-#include "session_internal.h"
+#include "../session_internal.h"
 
 static void	update_existing_env(t_env *existing, t_env *new_data)
 {
@@ -21,6 +21,43 @@ static bool	append_new_env(t_list **lst, t_env *new_data)
 	}
 	ft_lstadd_back(lst, new_node);
 	return (true);
+}
+
+t_env	*env_parse_line(char *line)
+{
+	char	*sep;
+	char	*kv[2];
+	bool	has_val;
+
+	sep = ft_strchr(line, '=');
+	if (sep)
+	{
+		kv[0] = x_substr(line, 0, sep - line);
+		kv[1] = x_strdup(sep + 1);
+		has_val = true;
+	}
+	else
+	{
+		kv[0] = x_strdup(line);
+		kv[1] = NULL;
+		has_val = false;
+	}
+	if (!kv[0] || (has_val && !kv[1]))
+		return (free(kv[0]), free(kv[1]), NULL);
+	return (env_new(kv[0], kv[1], has_val));
+}
+
+bool	env_set_pair(t_list **lst, char *key, char *value)
+{
+	char	*line;
+	bool	res;
+
+	line = join_three(key, "=", value);
+	if (!line)
+		return (false);
+	res = env_set(lst, line);
+	free(line);
+	return (res);
 }
 
 bool	env_set(t_list **lst, char *line)

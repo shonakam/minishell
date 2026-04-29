@@ -5,8 +5,8 @@ bool	is_ok_background(t_token_type type)
 	if (is_command_start(type))
 		return (true);
 	return (type == TOKEN_NEWLINE
-			|| type == TOKEN_EOF
-			|| type == TOKEN_RPAREN);
+		|| type == TOKEN_EOF
+		|| type == TOKEN_RPAREN);
 }
 
 bool	is_ok_list(t_token_type type)

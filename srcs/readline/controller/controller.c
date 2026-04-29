@@ -16,11 +16,16 @@ static bool	expand_buffer(t_readline_state *s)
 
 /*
 ** [action_insert flow]
-** 1. Check buffer capacity: Ensure there is space for the new char + null terminator.
-** 2. Shift memory: Move existing characters (including \0) from index one slot to the right.
-** 3. Insert character: Place the new character into the gap created at the current index.
-** 4. Redraw screen: Write the inserted character and the shifted suffix to the terminal.
-** 5. Restore cursor: Move the cursor back to the right of the newly inserted character.
+** 1. Check buffer capacity: Ensure there is space for the
+**    new char + null terminator.
+** 2. Shift memory: Move existing characters (including \0)
+**    from index one slot to the right.
+** 3. Insert character: Place the new character
+**    into the gap created at the current index.
+** 4. Redraw screen: Write the inserted character
+**    and the shifted suffix to the terminal.
+** 5. Restore cursor:
+**      Move the cursor back to the right of the newly inserted character.
 */
 static bool	action_insert(t_readline_state *s)
 {

@@ -3,13 +3,9 @@
 static void	update_last_status(t_context *ctx, int status)
 {
 	if (WIFEXITED(status))
-	{
 		ctx->last_status = WEXITSTATUS(status);
-	}
 	else if (WIFSIGNALED(status))
-	{
 		ctx->last_status = STATUS_SIGNAL_INTERRUPT + WTERMSIG(status);
-	}
 }
 
 static void	handle_single_process(
@@ -20,27 +16,21 @@ static void	handle_single_process(
 		update_last_status(ctx, status);
 }
 
-static void wait_foreground_job(t_context *ctx, t_job *job)
+static void	wait_foreground_job(t_context *ctx, t_job *job)
 {
 	int		status;
-	pid_t	wait_pid;
-	size_t	finished_count;
+	size_t	i;
 
-	finished_count = 0;
-	while (finished_count < job->count)
+	i = 0;
+	while (i < job->count)
 	{
-		wait_pid = waitpid(-1, &status, 0);
-		if (wait_pid <= 0)
-			break;
-		finished_count++;
-		handle_single_process(ctx, job, wait_pid, status);
-		while (finished_count < job->count)
+		if (waitpid(job->pids[i], &status, 0) > 0)
+			handle_single_process(ctx, job, job->pids[i++], status);
+		else
 		{
-			wait_pid = waitpid(-1, &status, WNOHANG);
-			if (wait_pid <= 0)
-				break;
-			finished_count++;
-			handle_single_process(ctx, job, wait_pid, status);
+			if (errno == EINTR)
+				continue ;
+			break ;
 		}
 	}
 }

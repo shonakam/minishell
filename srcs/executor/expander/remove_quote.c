@@ -43,7 +43,7 @@ bool	remove_quotes(t_simple_command *cmd)
 			return (false);
 		free(arg->str);
 		arg->str = cleaned;
-		arg->state = QUOTE_NONE;
+		arg->state = TOKEN_NONE;
 		curr = curr->next;
 	}
 	return (true);

@@ -2,16 +2,20 @@
 
 t_node_type	get_node_type(t_token_type type)
 {
+	if (type == TOKEN_SEMICOLON)
+		return (NODE_SEMICOLON);
+	if (type == TOKEN_AMPERSAND)
+		return (NODE_BACKGROUND);
 	if (type == TOKEN_AND_IF)
 		return (NODE_AND);
 	if (type == TOKEN_OR_IF)
 		return (NODE_OR);
 	if (type == TOKEN_PIPE)
 		return (NODE_PIPELINE);
-	if (type == TOKEN_AMPERSAND)
-		return (NODE_BACKGROUND);
 	if (type == TOKEN_LPAREN)
 		return (NODE_SUBSHELL);
+	if (type == TOKEN_NEWLINE || type == TOKEN_EOF)
+		return (NODE_EOF);
 	return (NODE_COMMAND);
 }
 

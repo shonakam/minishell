@@ -3,7 +3,8 @@
 /*
  * is_valid_identifier:
  * Check if the string is a valid shell identifier.
- * Must start with a letter or underscore, followed by letters, numbers, or underscores.
+ * Must start with a letter or underscore,
+ * followed by letters, numbers, or underscores.
  */
 bool	is_valid_identifier(const char *s)
 {

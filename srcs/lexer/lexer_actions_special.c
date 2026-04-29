@@ -29,7 +29,7 @@ void	act_handle_meta(t_lexer *l, t_token_state *next)
 
 void	act_err_unclosed(t_lexer *l, t_token_state *next)
 {
-	char    *missing_char;
+	char	*missing_char;
 
 	if (*next == TOKEN_IN_SINGLE)
 		missing_char = "'";

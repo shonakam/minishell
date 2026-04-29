@@ -7,14 +7,15 @@ static void debug_print_ast_recursive(t_ast_node *node, int depth)
 	for (int i = 0; i < depth; i++)
 		printf("  ");
 
-	static const char *node_names[] = {
+	static const char *node_names[NODE_SIZE] = {
 		[NODE_COMMAND] = "COMMAND",
 		[NODE_PIPELINE] = "PIPELINE",
 		[NODE_AND] = "AND",
 		[NODE_OR] = "OR",
 		[NODE_SEMICOLON] = "SEMICOLON",
 		[NODE_BACKGROUND] = "BACKGROUND",
-		[NODE_SUBSHELL] = "SUBSHELL"
+		[NODE_SUBSHELL] = "SUBSHELL",
+		[NODE_EOF] = "EOF"
 	};
 
 	printf("|- %s", node_names[node->type]);

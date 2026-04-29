@@ -12,3 +12,18 @@
    ...
    obj:*/libncurses.so.*
 }
+{
+   <External_Binaries_Catch_All>
+   Memcheck:Leak
+   match-leak-kinds: reachable,definite,indirect,possible
+   ...
+   obj:*/bin/*
+}
+{
+   <External_Binaries_Specific_Libc_Start>
+   Memcheck:Leak
+   match-leak-kinds: reachable,definite,indirect,possible
+   ...
+   fun:__libc_start_main
+   ...
+}

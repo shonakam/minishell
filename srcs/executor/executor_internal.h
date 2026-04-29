@@ -42,27 +42,29 @@ typedef void (*t_engine_func)(t_context *ctx, t_ast_node *node);
 void	traverse_ast(t_context *ctx, t_ast_node *node);
 void	exec_engine(t_context *ctx, t_ast_node *node);
 
+void	safe_exit(t_context *ctx, char **e, char **a, int status);
+void	pipeline_connect_io(t_context *ctx);
+void	flatten_pipeline(t_ast_node *node, t_ast_node ***cmds, int *count);
+void	prepare_pipe_fds(t_context *ctx, t_pipeline_manager *pm, int o, int n);
+void	update_pipe_state(t_context *ctx, t_pipeline_manager *pm, int i, int n);
 void	oneshot(t_context *ctx, t_ast_node *node);
 void	exec_command(t_context *ctx, t_ast_node *cmd);
 void    exec_pipeline(t_context *ctx, t_ast_node *cmd);
 void    exec_subshell(t_context *ctx, t_ast_node *cmd);
 void	exec_background(t_context *ctx, t_ast_node *node);
 
-t_job	*job_create(t_context *ctx, char *cmd_line, bool is_background);
 char	*ast_to_str(t_ast_node *node);
-char	*get_redir_symbol(t_redir_type type);
-size_t	get_total_len(t_list *args);
-void	job_list_append(t_context *ctx, t_job *new_job);
 bool	job_add_pid(t_job *job, pid_t pid);
+t_job	*job_new(ssize_t id, char *cmd_line, bool is_background);
 void	job_free(t_job *job);
-void	job_clear(t_context *ctx);
 void	job_wait(t_context *ctx, t_job *job);
+void	job_register(t_context *ctx, t_job *job);
+void	job_discard(t_context *ctx, t_job *target);
 
 bool	redirect_apply(t_list *redirects);
 bool	heredoc_prepare_all(t_context *ctx, t_ast_node *node, int *hd_index);
 char	*generate_hd_filename(int *hd_index);
-bool	save_stdio(t_context *ctx);
-void	restore_stdio(t_context *ctx);
+bool	stdio_manager(int stdfds[2], bool restore);
 
 char	**env_serialize(t_list *env);
 char	*find_path(char *cmd, t_context *ctx);

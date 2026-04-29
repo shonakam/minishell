@@ -1,35 +1,19 @@
 #include "parser_internal.h"
 
-static t_ast_node	*parse_logical_ops(t_context *ctx, t_list **tokens)
-{
-	t_ast_node	*node;
-	t_token		*op;
-	t_ast_node	*new_node;
-
-	node = parse_pipeline(ctx, tokens);
-	while (apply_parser_rule(is_logical_op, *tokens))
-	{
-		op = token_consume(tokens);
-		new_node = ast_node_new(get_node_type(op->type));
-		if (!new_node)
-			return (ast_node_free(node), NULL);
-		new_node->left = node;
-		new_node->right = parse_pipeline(ctx, tokens);
-		node = new_node;
-	}
-	return (node);
-}
-
+/*
+ * It must call parse_list to allow the full command grammar
+ * (including ; and &) inside the parentheses.
+ */
 t_ast_node	*parse_subshell(t_context *ctx, t_list **tokens)
 {
 	t_ast_node	*inner_ast;
 	t_ast_node	*node;
 
 	token_consume(tokens);
-	inner_ast = parse_logical_ops(ctx, tokens);
+	inner_ast = parse_list(ctx, tokens);
 	if (!inner_ast)
 		return (NULL);
-	if (!token_peek(tokens) || token_peek(tokens)->type != TOKEN_RPAREN)
+	if (is_unexpected_at_contextual(ctx, tokens, is_subshell_end))
 		return (ast_node_free(inner_ast), NULL);
 	token_consume(tokens);
 	node = ast_node_new(NODE_SUBSHELL);

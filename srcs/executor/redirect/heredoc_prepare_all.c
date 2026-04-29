@@ -1,17 +1,7 @@
 #include "../executor_internal.h"
 
-static bool	should_stop_heredoc(char *line, int line_no, char *target)
-{
-	if (!line)
-	{
-		if (g_signal_flag != SIGINT)
-			ft_dprintf(STDERR_FILENO, ERR_HEREDOC_EOF, line_no, target);
-		return (true);
-	}
-	return (false);
-}
-
-static void	process_and_write_line(t_context *ctx, t_redirect *redir, int wfd, char *line)
+static void	write_expanded_line(
+	t_context *ctx, t_redirect *redir, int fd, char *line)
 {
 	char	*expanded;
 
@@ -21,32 +11,35 @@ static void	process_and_write_line(t_context *ctx, t_redirect *redir, int wfd, c
 		expanded = x_strdup(line);
 	if (expanded)
 	{
-		ft_putendl_fd(expanded, wfd);
+		ft_putendl_fd(expanded, fd);
 		free(expanded);
 	}
 }
 
-static bool heredoc_write_content(t_context *ctx, t_redirect *redir, int wfd)
+static bool	write_content(t_context *ctx, t_redirect *redir, int fd)
 {
 	char	*line;
-	int		line_no;
-	size_t	len;
+	int		no;
 
-	line_no = 1;
-	len = ft_strlen(redir->target);
+	no = 0;
 	signal_set_mode(SIG_MODE_HEREDOC);
-	while (true)
+	while (++no)
 	{
 		line = ft_readline(PS2);
-		if (should_stop_heredoc(line, line_no, redir->target))
+		if (!line)
+		{
+			if (g_signal_flag != SIGINT)
+				ft_dprintf(STDERR_FILENO, ERR_HEREDOC_EOF, no, redir->target);
 			break ;
-		if (ft_strlen(line) == len && ft_strncmp(line, redir->target, len) == 0)
+		}
+		if (ft_strlen(line) == ft_strlen(redir->target)
+			&& ft_strncmp(line, redir->target, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;
 		}
-		process_and_write_line(ctx, redir, wfd, line);
-		line_no++;
+		write_expanded_line(ctx, redir, fd, line);
+		free(line);
 	}
 	signal_set_mode(SIG_MODE_IDLE);
 	return (g_signal_flag != SIGINT);
@@ -67,32 +60,42 @@ static bool	heredoc_init(t_context *ctx, t_redirect *redir, int *hd_index)
 		redir->tmp_filename = NULL;
 		return (false);
 	}
-	heredoc_write_content(ctx, redir, fd);
+	write_content(ctx, redir, fd);
 	close(fd);
 	(*hd_index)++;
 	return (true);
 }
 
-bool	heredoc_prepare_all(t_context *ctx, t_ast_node *node, int *hd_index)
+static bool	prepare_redir_list(t_context *ctx, t_list *curr, int *hd_index)
 {
-	t_list		*curr;
 	t_redirect	*redir;
 
+	while (curr)
+	{
+		redir = (t_redirect *)curr->content;
+		if (redir->type == REDIR_HEREDOC)
+		{
+			if (!heredoc_init(ctx, redir, hd_index))
+				return (false);
+		}
+		curr = curr->next;
+	}
+	return (true);
+}
+
+bool	heredoc_prepare_all(t_context *ctx, t_ast_node *node, int *hd_index)
+{
 	if (!node)
 		return (true);
 	if (node->type == NODE_COMMAND)
 	{
-		curr = node->data.command->redirects;
-		while (curr)
-		{
-			redir = (t_redirect *)curr->content;
-			if (redir->type == REDIR_HEREDOC)
-			{
-				if (!heredoc_init(ctx, redir, hd_index))
-					return (false);
-			}
-			curr = curr->next;
-		}
+		if (!prepare_redir_list(ctx, node->data.command->redirects, hd_index))
+			return (false);
+	}
+	if (node->type == NODE_SUBSHELL)
+	{
+		if (!prepare_redir_list(ctx, node->redirects, hd_index))
+			return (false);
 	}
 	if (!heredoc_prepare_all(ctx, node->left, hd_index))
 		return (false);

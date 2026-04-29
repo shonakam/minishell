@@ -22,7 +22,7 @@ t_ast_node	*parse_logical(t_context *ctx, t_list **tokens)
 	node = parse_pipeline(ctx, tokens);
 	if (!node)
 		return (NULL);
-	while (*tokens && apply_parser_rule(is_logical_op, *tokens))
+	while (apply_parser_rule(is_logical_op, *tokens))
 	{
 		node = parse_logical_element(ctx, tokens, node);
 		if (!node)

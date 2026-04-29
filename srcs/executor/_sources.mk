@@ -1,10 +1,11 @@
 EXECUTOR_FILES := \
+core/pipeline_connect_io.c \
 core/exec_background.c \
 core/exec_command.c \
 core/exec_pipeline.c \
 core/exec_subshell.c \
-core/invoke_execve.c \
 core/oneshot.c \
+core/safe_exit.c \
 convert_args_to_argv.c \
 env_serialize.c \
 exec_engine.c \
@@ -19,16 +20,12 @@ expander/remove_quote.c \
 expander/scan_files.c \
 expander/substitute_variables.c \
 find_path.c \
-job/ast_to_str_utils.c \
 job/ast_to_str.c \
-job/job_add_pid.c \
-job/job_clear.c \
-job/job_create.c \
-job/job_free.c \
-job/job_is_finished.c \
-job/job_list_append.c \
-job/job_observe.c \
+job/job_sync.c \
+job/job_controller.c \
+job/job_utils.c \
 job/job_wait.c \
+job/job.c \
 redirect/generate_hd_filename.c \
 redirect/heredoc_prepare_all.c \
 redirect/redirect_apply.c \

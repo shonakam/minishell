@@ -8,6 +8,11 @@ char	**convert_args_to_argv(t_list *args)
 
 	size = ft_lstsize(args);
 	argv = x_calloc(1, sizeof(char *) * (size + 1));
+	if (!argv)
+	{
+		ft_lstclear(&args, arg_free);
+		return (ft_dprintf(STDERR_FILENO, ERR_MALLOC), NULL);
+	}
 	i = 0;
 	while (args)
 	{
@@ -15,5 +20,5 @@ char	**convert_args_to_argv(t_list *args)
 		args = args->next;
 	}
 	argv[i] = NULL;
-	return (argv);
+	return (ft_lstclear(&args, arg_free), argv);
 }

@@ -3,6 +3,8 @@
 
 # include <curses.h>
 # include <term.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 # include <stdlib.h>
 
 # include "../libft/libft.h"
@@ -74,7 +76,7 @@ typedef struct s_caps
 	char	*ce; // Clear to End of line
 	char	*ks; // Keypad Transmit Mode
 	char	*ke; // Keypad Local Mode
-}   t_caps;
+}	t_caps;
 
 typedef struct s_readline_state {
 	char			*prompt;          /* Pointer to the prompt string for redrawing */

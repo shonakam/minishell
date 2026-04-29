@@ -16,7 +16,7 @@ static bool	open_and_dup2(
 	if (fd == -1)
 		return (false);
 	if (should_unlink)
-        unlink(path);
+		unlink(path);
 	if (x_dup2(fd, target_fd) < 0)
 		return (close(fd), false);
 	return (close(fd), true);
@@ -33,11 +33,11 @@ static bool	apply_single_redirect(t_redirect *redir)
 	if (redir->type == REDIR_IN)
 		return (open_and_dup2(redir->target, O_RDONLY, target_fd, false));
 	if (redir->type == REDIR_OUT)
-		return (open_and_dup2(
-			redir->target, O_WRONLY | O_CREAT | O_TRUNC, target_fd, false));
+		return (open_and_dup2(redir->target,
+				O_WRONLY | O_CREAT | O_TRUNC, target_fd, false));
 	if (redir->type == REDIR_APPEND)
-		return (open_and_dup2(
-			redir->target, O_WRONLY | O_CREAT | O_APPEND, target_fd, false));
+		return (open_and_dup2(redir->target,
+				O_WRONLY | O_CREAT | O_APPEND, target_fd, false));
 	if (redir->type == REDIR_HEREDOC)
 		return (open_and_dup2(redir->tmp_filename, O_RDONLY, target_fd, true));
 	return (true);
