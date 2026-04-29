@@ -37,7 +37,7 @@ static char	*extract_and_join_var(
 {
 	size_t	len;
 	char	*val;
-	char	*joined;;
+	char	*joined;
 
 	len = get_var_len(&str[*i + 1]);
 	val = get_expanded_val(ctx, &str[*i + 1], len);

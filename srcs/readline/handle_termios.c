@@ -7,13 +7,13 @@ static struct termios	*get_term_storage(void)
 	return (&saved);
 }
 
+// raw.c_oflag &= ~(OPOST);
 bool	termios_change_to_raw(void)
 {
 	struct termios	raw;
 
 	raw = *get_term_storage();
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	raw.c_oflag &= ~(OPOST);
 	raw.c_lflag &= ~(ICANON | ECHO | IEXTEN | ECHOCTL);
 	raw.c_cc[VMIN] = 1;
 	raw.c_cc[VTIME] = 0;

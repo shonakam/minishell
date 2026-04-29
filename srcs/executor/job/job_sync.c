@@ -43,40 +43,36 @@ static bool	is_job_completed(t_context *ctx, t_job *job)
 	return (!still_running);
 }
 
-static void	print_job_status(t_job *job)
+static void	print_job_status(t_context *ctx, t_job *job)
 {
+	char	mark;
 	char	*cmd;
 
+	mark = ' ';
+	if (job == ctx->job.current)
+		mark = '+';
+	else if (job == ctx->job.previous)
+		mark = '-';
 	cmd = job->cmd_line;
 	if (cmd == NULL)
-	{
 		cmd = "";
-	}
-	printf("[%zd] Done\t\t%s\r\n", job->job_id, cmd);
+	printf("[%zd]%c Done\t\t%s\r\n", job->job_id, mark, cmd);
 }
 
 void	job_sync(t_context *ctx)
 {
 	t_job	*curr;
-	t_job	*prev;
 	t_job	*next;
 
 	curr = ctx->job.all;
-	prev = NULL;
 	while (curr)
 	{
 		next = curr->next;
 		if (is_job_completed(ctx, curr))
 		{
-			print_job_status(curr);
-			if (prev)
-				prev->next = next;
-			else
-				ctx->job.all = next;
-			job_free(curr);
+			print_job_status(ctx, curr);
+			job_discard(ctx, curr);
 		}
-		else
-			prev = curr;
 		curr = next;
 	}
 }

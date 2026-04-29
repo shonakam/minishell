@@ -13,7 +13,7 @@ bool	is_unexpected_at_start(t_context *ctx, t_list **tokens)
 		parser_syntax_error(ctx, t->str);
 		return (true);
 	}
-    return (false);
+	return (false);
 }
 
 bool	is_unexpected_at_end(t_context *ctx, t_list **tokens)

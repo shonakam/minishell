@@ -56,6 +56,6 @@ bool	ast_node_is_empty(t_ast_node *node)
 		|| node->type == NODE_OR)
 		return (pipeline_is_empty(node->data.pipeline));
 	if (node->type == NODE_SUBSHELL)
-        return (subshell_is_empty(node->data.subshell));
+		return (subshell_is_empty(node->data.subshell));
 	return (false);
 }

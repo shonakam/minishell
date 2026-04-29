@@ -1,32 +1,42 @@
 #include "../executor_internal.h"
 
-bool	save_stdio(t_context *ctx)
+static bool	save_stdfds(int stdfds[2])
 {
-	ctx->fd_save[0] = x_dup(STDIN_FILENO);
-	if (ctx->fd_save[0] == -1)
+	stdfds[0] = x_dup(STDIN_FILENO);
+	if (stdfds[0] == -1)
 		return (false);
-	ctx->fd_save[1] = x_dup(STDOUT_FILENO);
-	if (ctx->fd_save[1] == -1)
+	stdfds[1] = x_dup(STDOUT_FILENO);
+	if (stdfds[1] == -1)
 	{
-		close(ctx->fd_save[0]);
-		ctx->fd_save[0] = -1;
+		close(stdfds[0]);
+		stdfds[0] = -1;
 		return (false);
 	}
 	return (true);
 }
 
-static void	restore_specific_fd(int *saved_fd, int target_fd)
+static void	restore_stdfds(int stdfds[2])
 {
-	if (*saved_fd != -1)
+	if (stdfds[0] != -1)
 	{
-		x_dup2(*saved_fd, target_fd);
-		close(*saved_fd);
-		*saved_fd = -1;
+		x_dup2(stdfds[0], STDIN_FILENO);
+		close(stdfds[0]);
+		stdfds[0] = -1;
+	}
+	if (stdfds[1] != -1)
+	{
+		x_dup2(stdfds[1], STDOUT_FILENO);
+		close(stdfds[1]);
+		stdfds[1] = -1;
 	}
 }
 
-void	restore_stdio(t_context *ctx)
+bool	stdio_manager(int stdfds[2], bool restore)
 {
-	restore_specific_fd(&ctx->fd_save[0], STDIN_FILENO);
-	restore_specific_fd(&ctx->fd_save[1], STDOUT_FILENO);
+	if (restore)
+	{
+		restore_stdfds(stdfds);
+		return (true);
+	}
+	return (save_stdfds(stdfds));
 }

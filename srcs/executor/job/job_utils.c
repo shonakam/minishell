@@ -32,10 +32,10 @@ bool	job_add_pid(t_job *job, pid_t pid)
 	{
 		new_cap = job->capacity * 2;
 		new_pids = x_realloc(
-			job->pids,
-			job->capacity * sizeof(pid_t),
-			new_cap * sizeof(pid_t)
-		);
+				job->pids,
+				job->capacity * sizeof(pid_t),
+				new_cap * sizeof(pid_t)
+				);
 		if (!new_pids)
 			return (false);
 		job->pids = new_pids;

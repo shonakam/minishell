@@ -1,6 +1,7 @@
 #include "../executor_internal.h"
 
-static void	write_expanded_line(t_context *ctx, t_redirect *redir, int fd, char *line)
+static void	write_expanded_line(
+	t_context *ctx, t_redirect *redir, int fd, char *line)
 {
 	char	*expanded;
 
@@ -65,7 +66,7 @@ static bool	heredoc_init(t_context *ctx, t_redirect *redir, int *hd_index)
 	return (true);
 }
 
-static bool	prepare_redirect_list(t_context *ctx, t_list *curr, int *hd_index)
+static bool	prepare_redir_list(t_context *ctx, t_list *curr, int *hd_index)
 {
 	t_redirect	*redir;
 
@@ -88,12 +89,12 @@ bool	heredoc_prepare_all(t_context *ctx, t_ast_node *node, int *hd_index)
 		return (true);
 	if (node->type == NODE_COMMAND)
 	{
-		if (!prepare_redirect_list(ctx, node->data.command->redirects, hd_index))
+		if (!prepare_redir_list(ctx, node->data.command->redirects, hd_index))
 			return (false);
 	}
 	if (node->type == NODE_SUBSHELL)
 	{
-		if (!prepare_redirect_list(ctx, node->redirects, hd_index))
+		if (!prepare_redir_list(ctx, node->redirects, hd_index))
 			return (false);
 	}
 	if (!heredoc_prepare_all(ctx, node->left, hd_index))

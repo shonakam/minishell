@@ -5,7 +5,8 @@
  * 1. External commands: Always require fork for execve.
  * 2. Pipeline: Each command must run in parallel within its own process.
  * 3. Background: Must fork to prevent the main shell from blocking.
- * Otherwise (e.g., a single builtin command), it executes in the current process.
+ * Otherwise (e.g., a single builtin command),
+ * it executes in the current process.
  */
 static bool	should_fork(t_context *ctx, t_builtin_func builtin)
 {
@@ -29,11 +30,14 @@ void	exec_builtin_main(
 	t_context *ctx, t_simple_command *cmd, t_builtin_func func)
 {
 	char	**argv;
+	int		local[2];
 
-	save_stdio(ctx);
+	if (!stdio_manager(local, false))
+		return ;
 	if (expand_command(ctx, cmd) && redirect_apply(cmd->redirects))
 	{
-		if ((argv = convert_args_to_argv(cmd->args)))
+		argv = convert_args_to_argv(cmd->args);
+		if (argv)
 		{
 			ctx->last_status = func(ctx, argv);
 			free_matrix(argv);
@@ -41,7 +45,7 @@ void	exec_builtin_main(
 	}
 	else
 		ctx->last_status = EXIT_FAILURE;
-	restore_stdio(ctx);
+	stdio_manager(local, true);
 }
 
 static void	exec_external_parent(t_context *ctx, t_ast_node *node, pid_t pid)
@@ -54,15 +58,14 @@ static void	exec_external_parent(t_context *ctx, t_ast_node *node, pid_t pid)
 	if (!job)
 		return ((void)free(cmd_line));
 	free(cmd_line);
-	job->pids[0] = pid;
-	job->count = 1;
-	ctx->job.all = job;
-	ctx->job.fg = job;
-	signal_set_mode(SIG_MODE_EXEC);
-	job_wait(ctx, job);
-	signal_set_mode(SIG_MODE_IDLE);
-	job_discard(ctx, job);
-	scope_clear(&ctx->scope);
+	job_add_pid(job, pid);
+	job_register(ctx, job);
+	if (!ctx->in_pipeline)
+	{
+		signal_set_mode(SIG_MODE_EXEC);
+		job_wait(ctx, job);
+		signal_set_mode(SIG_MODE_IDLE);
+	}
 }
 
 /**

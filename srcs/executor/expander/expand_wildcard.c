@@ -20,8 +20,8 @@ void	lstsort(t_list *lst, size_t n)
 		cur = lst;
 		while (cur && cur->next)
 		{
-			if (cur->content && cur->next->content &&
-				ft_strncmp(cur->content, cur->next->content, n) > 0)
+			if (cur->content && cur->next->content
+				&& ft_strncmp(cur->content, cur->next->content, n) > 0)
 			{
 				tmp = cur->content;
 				cur->content = cur->next->content;

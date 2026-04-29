@@ -5,6 +5,8 @@ void	scope_init(t_scope *scope)
 	if (!scope)
 		return ;
 	ft_memset(scope, 0, sizeof(t_scope));
+	scope->fd_stdio[0] = STDIN_FILENO;
+	scope->fd_stdio[1] = STDOUT_FILENO;
 }
 
 void	scope_clear(t_scope *scope)

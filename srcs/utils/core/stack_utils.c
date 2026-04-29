@@ -1,6 +1,7 @@
 #include "../utils_internal.h"
 
-// https://man7.org/linux/man-pages/man1/bash.1.html#:~:text=Values%20are%20in,a%20new%20limit.
+// https://man7.org/linux/man-pages/man1/
+//   bash.1.html#:~:text=Values%20are%20in,a%20new%20limit.
 // bool	is_stack_overflow(void *base)
 // {
 // 	int		current;

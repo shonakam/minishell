@@ -9,6 +9,6 @@ int	executor(t_context *ctx, t_ast_node *ast)
 		return (STATUS_SIGINT);
 	if (!ast)
 		return (EXIT_SUCCESS);
-	exec_engine(ctx, ast);
+	traverse_ast(ctx, ast);
 	return (ctx->last_status);
 }

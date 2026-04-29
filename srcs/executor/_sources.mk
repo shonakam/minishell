@@ -1,4 +1,5 @@
 EXECUTOR_FILES := \
+core/pipeline_connect_io.c \
 core/exec_background.c \
 core/exec_command.c \
 core/exec_pipeline.c \
@@ -19,7 +20,6 @@ expander/remove_quote.c \
 expander/scan_files.c \
 expander/substitute_variables.c \
 find_path.c \
-job/ast_to_str_utils.c \
 job/ast_to_str.c \
 job/job_sync.c \
 job/job_controller.c \

@@ -22,7 +22,8 @@ static t_redirect	*parse_redirect(t_context *ctx, t_list **tokens)
 }
 
 /* Simple Command (ls > file) */
-bool	parse_redirect_into_cmd(t_context *ctx, t_simple_command *cmd, t_list **tokens)
+bool	parse_redirect_into_cmd(
+	t_context *ctx, t_simple_command *cmd, t_list **tokens)
 {
 	t_redirect	*redir;
 
@@ -34,7 +35,8 @@ bool	parse_redirect_into_cmd(t_context *ctx, t_simple_command *cmd, t_list **tok
 }
 
 /* Subshell ((ls) > file) */
-bool	parse_redirect_into_node(t_context *ctx, t_ast_node *node, t_list **tokens)
+bool	parse_redirect_into_node(
+	t_context *ctx, t_ast_node *node, t_list **tokens)
 {
 	t_redirect	*redir;
 	t_list		*new_node;

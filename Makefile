@@ -8,17 +8,20 @@ CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
 # --- Build Modes ---
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-	OBJS_DIR	:= .out_debug
-	CFLAGS      := $(filter-out -Werror, $(CFLAGS))
-	CFLAGS      += -Wno-unused-variable -Wno-unused-parameter
+	OBJS_DIR	:= .out_debug_asan
+	CFLAGS		:= $(filter-out -Werror, $(CFLAGS))
 	MODE_FLAGS	:= -g3 -O0 -DDEBUG_MODE -fsanitize=address
-	MODE_MSG	:= $(YELLOW)$(BOLD)Debug Mode$(RESET) (No Optimization, GDB ready)
+	MODE_MSG	:= $(YELLOW)$(BOLD)Debug Mode (ASAN)$(RESET)
+else ifeq ($(DEBUG), 2)
+	OBJS_DIR	:= .out_debug_valgrind
+	CFLAGS		:= $(filter-out -Werror, $(CFLAGS))
+	MODE_FLAGS	:= -g3 -O0 -DDEBUG_MODE
+	MODE_MSG	:= $(MAGENTA)$(BOLD)Debug Mode (Valgrind)$(RESET)
 else
 	OBJS_DIR	:= .out
 	MODE_FLAGS	:= -O3
-	MODE_MSG	:= $(CYAN)$(BOLD)Release Mode$(RESET) (High Optimization)
+	MODE_MSG	:= $(CYAN)$(BOLD)Release Mode$(RESET)
 endif
-
 
 # ==============================================================================
 #                               PATHS & FILES
@@ -26,7 +29,7 @@ endif
 SRCS_DIR        := srcs
 LIBFT_DIR       := libft
 LIBFT           := $(LIBFT_DIR)/libft.a
-INCLUDES        := -I./includes -I$(LIBFT_DIR)/includes
+INCLUDES        := -I./includes -I$(LIBFT_DIR)
 LDFLAGS			:= -ltermcap
 SRCS_DIR		:= srcs
 MODULES			:= lexer parser executor utils builtin session readline
@@ -74,6 +77,7 @@ help:
 	@echo ""
 	@echo "$(BOLD)Testing & Quality:$(RESET)"
 	@echo "  $(BLUE)make norm$(RESET)        - Run Norminette (filtered) via Docker"
+	@echo "  $(BLUE)make asan$(RESET)        - Build & Run with AddressSanitizer (detects overflows/UAF)"
 	@echo "  $(BLUE)make valgrind$(RESET)    - Run Valgrind memory check"
 	@echo ""
 	@echo "$(BOLD)Cleanup:$(RESET)"
@@ -127,18 +131,30 @@ re:
 # ==============================================================================
 norm:
 	@docker compose -f ./.docker/compose.yaml exec -T $(NAME) bash \
-		-c "norminette srcs/**/*.c | \
+		-c "norminette $(SRCS) | \
 		grep -vE 'INVALID_HEADER|GLOBAL_VAR_DETECTED|OK!'" \
 		> .report
 
-valgrind: re
+run: fclean
+	@$(MAKE) all DEBUG=0
+	@echo "$(GREEN)Starting with Release Build...$(RESET)"
+	@./$(NAME)
+
+asan: fclean
+	@$(MAKE) all DEBUG=1
+	@echo "$(YELLOW)Starting with AddressSanitizer...$(RESET)"
+	@./$(NAME)
+
+valgrind: fclean
+	@$(MAKE) all DEBUG=2
+	@echo "$(MAGENTA)Starting with Valgrind (OPOST preserved)...$(RESET)"
 	@valgrind --leak-check=full \
-			--show-leak-kinds=all \
-			--suppressions=.valgrind.supp \
-			--track-fds=yes \
-			--trace-children=yes \
-			./minishell
+            --show-leak-kinds=all \
+            --suppressions=.valgrind.supp \
+            --track-fds=yes \
+            --trace-children=yes \
+            ./$(NAME)
 
 -include $(OBJS:.o=.d)
 
-.PHONY: all clean fclean re norm valgrind help
+.PHONY: all clean fclean re norm run asan valgrind help

@@ -33,7 +33,7 @@ static void	init_single_quote_state(t_trans_matrix table)
 	table[TOKEN_IN_SINGLE][EV_EOF] = act_err_unclosed;
 }
 
-static void init_double_quote_state(t_trans_matrix table)
+static void	init_double_quote_state(t_trans_matrix table)
 {
 	table[TOKEN_IN_DOUBLE][EV_SPACE] = act_add_char;
 	table[TOKEN_IN_DOUBLE][EV_SQUOTE] = act_add_char;
@@ -46,14 +46,15 @@ static void init_double_quote_state(t_trans_matrix table)
 
 t_trans_matrix	*get_transition_table(void)
 {
-	static t_trans_matrix table;
-	static bool           is_initialized = false;
+	static t_trans_matrix	table;
+	static bool				is_initialized = false;
+
 	if (is_initialized)
 		return (&table);
 	init_none_state(table);
-    init_word_state(table);
-    init_single_quote_state(table);
-    init_double_quote_state(table);
+	init_word_state(table);
+	init_single_quote_state(table);
+	init_double_quote_state(table);
 	is_initialized = true;
 	return (&table);
 }

@@ -22,7 +22,7 @@ typedef struct s_job t_job;
 
 typedef enum e_sig_mode {
 	SIG_MODE_IDLE = 0,    /* Parent: Main prompt (readline) */
-	SIG_MODE_HEREDOC,	  /* Parent/Child: Heredoc mode */
+	SIG_MODE_HEREDOC,     /* Parent/Child: Heredoc mode */
 	SIG_MODE_EXEC,        /* Parent: Waiting for child */
 	SIG_MODE_CHILD,       /* Child: Running the command */
 	SIG_MODE_BACKGROUND,  /* Child: Running in the background */
@@ -48,8 +48,10 @@ typedef struct s_scope {
 	t_list		*tokens;
 	t_list		*tokens_anchor;
 	t_ast_node	*ast;
+	t_ast_node	**sub_root;
 	t_job		*job;
-} t_scope;
+	int			fd_stdio[3];
+}	t_scope;
 
 typedef struct s_context {
 	void				*stack_base;
@@ -60,6 +62,7 @@ typedef struct s_context {
 	bool				exit;
 	bool				is_err_detected;
 	bool				in_pipeline;
+	int					subshell_depth;
 	int					last_status;
 	int					shlvl;
 	int					fd_save[2];

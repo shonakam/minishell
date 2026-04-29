@@ -12,6 +12,7 @@ void	invoke_execve(t_context *ctx, char **argv)
 		safe_exit(ctx, NULL, argv, STATUS_COMMAND_NOT_FOUND);
 	}
 	envp = env_serialize(ctx->env_list);
+	termios_ctl(false);
 	if (!envp || execve(path, argv, envp) == -1)
 	{
 		free(path);
@@ -27,12 +28,12 @@ void	oneshot(t_context *ctx, t_ast_node *node)
 	t_builtin_func		f;
 	char				**argv;
 
-	termios_ctl(false);
 	signal_set_mode(SIG_MODE_CHILD);
 	if (node->type == NODE_SUBSHELL)
 	{
 		if (node->redirects && !redirect_apply(node->redirects))
 			return (safe_exit(ctx, NULL, NULL, EXIT_FAILURE));
+		ctx->in_pipeline = false;
 		exec_engine(ctx, node->left);
 		safe_exit(ctx, NULL, NULL, ctx->last_status);
 	}

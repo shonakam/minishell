@@ -16,10 +16,10 @@ static void	handle_single_process(
 		update_last_status(ctx, status);
 }
 
-static void wait_foreground_job(t_context *ctx, t_job *job)
+static void	wait_foreground_job(t_context *ctx, t_job *job)
 {
 	int		status;
-	size_t  i;
+	size_t	i;
 
 	i = 0;
 	while (i < job->count)

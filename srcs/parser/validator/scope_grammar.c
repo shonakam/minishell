@@ -7,7 +7,7 @@ bool	is_delimiter(t_token_type type)
 
 bool	is_command_start(t_token_type type)
 {
-	return (is_word(type)|| is_subshell_start(type) || is_io(type));
+	return (is_word(type) || is_subshell_start(type) || is_io(type));
 }
 
 bool	is_simple_command_element(t_token_type type)

@@ -25,7 +25,7 @@ void	ft_load_history(void)
 	int		fd;
 
 	p = ft_get_history();
-	if (p != NULL)
+	if (*p != NULL)
 		return ;
 	path = get_history_path();
 	fd = x_open(path, O_RDONLY, 0);
