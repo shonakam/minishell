@@ -50,7 +50,5 @@ void	act_handle_dollar(t_lexer *l, t_token_state *next)
 	{
 		lexer_advance(l);
 		act_add_char(l, next);
-		lexer_advance(l);
-		l->is_token_finished = true;
 	}
 }

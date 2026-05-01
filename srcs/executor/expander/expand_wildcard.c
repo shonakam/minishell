@@ -33,16 +33,16 @@ void	lstsort(t_list *lst, size_t n)
 	}
 }
 
-static t_list	*expand_single_arg(char *str)
+static t_list	*expand_single_arg(t_arg *arg)
 {
 	t_list	*raw;
 	t_list	*curr;
 	t_list	*new_list;
 	t_list	*tmp;
 
-	if (is_wildcard_target(str))
+	if (arg->state == TOKEN_NONE && is_wildcard_target(arg->str))
 	{
-		raw = scan_files(str);
+		raw = scan_files(arg->str);
 		if (raw)
 		{
 			new_list = NULL;
@@ -59,7 +59,7 @@ static t_list	*expand_single_arg(char *str)
 			return (new_list);
 		}
 	}
-	return (arg_node_new(str));
+	return (arg_node_new(arg->str));
 }
 
 /*
@@ -85,7 +85,7 @@ bool	expand_wildcard(t_simple_command *cmd)
 	curr = cmd->args;
 	while (curr)
 	{
-		expanded_nodes = expand_single_arg(((t_arg *)curr->content)->str);
+		expanded_nodes = expand_single_arg((t_arg *)curr->content);
 		if (!new_args_list)
 			new_args_list = expanded_nodes;
 		else

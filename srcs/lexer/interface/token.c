@@ -11,10 +11,12 @@ t_token	*token_new(t_lexer *l)
 		return (NULL);
 	tok->str = x_strdup(l->buffer);
 	tok->type = l->current_type;
+	tok->state = l->quote_state;
 	return (tok);
 }
 
-t_token	*token_create(t_token_type type, const char *str)
+t_token	*token_create(
+	t_token_type type, t_token_state state, const char *str)
 {
 	t_token	*tok;
 
@@ -25,6 +27,7 @@ t_token	*token_create(t_token_type type, const char *str)
 	if (!tok->str)
 		return (free(tok), NULL);
 	tok->type = type;
+	tok->state = state;
 	return (tok);
 }
 
