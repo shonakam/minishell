@@ -150,7 +150,7 @@ valgrind: fclean
 	@echo "$(MAGENTA)Starting with Valgrind (OPOST preserved)...$(RESET)"
 	@valgrind --leak-check=full \
             --show-leak-kinds=all \
-            --suppressions=.valgrind.supp \
+            --suppressions=$(PWD)/.valgrind.supp \
             --track-fds=yes \
             --trace-children=yes \
             ./$(NAME)
