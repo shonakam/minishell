@@ -29,14 +29,14 @@ static t_list	*lexer_finelize(t_lexer *l, t_list **tokens)
 	t_token	*token;
 	t_list	*node;
 
-	token = token_create(TOKEN_NEWLINE, "newline");
+	token = token_create(TOKEN_NEWLINE, TOKEN_NONE, "newline");
 	if (!token)
 		return (lexer_cleanup(l, tokens));
 	node = x_lstnew(token);
 	if (!node)
 		return (token_free(token), lexer_cleanup(l, tokens));
 	ft_lstadd_back(tokens, node);
-	token = token_create(TOKEN_EOF, "EOF");
+	token = token_create(TOKEN_EOF, TOKEN_NONE, "EOF");
 	if (!token)
 		return (lexer_cleanup(l, tokens));
 	node = x_lstnew(token);

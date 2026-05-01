@@ -10,8 +10,6 @@
 
 static bool	should_continue(t_context *ctx)
 {
-	if (ctx->exit)
-		return (false);
 	if (!ctx->scope.line && g_signal_flag != SIGINT)
 		return (false);
 	if (g_signal_flag == SIGINT)
@@ -44,6 +42,8 @@ unsigned int	repl(t_context *ctx)
 			debug_print_ast(ctx->scope.ast);
 			executor(ctx, ctx->scope.ast);
 		}
+		if (ctx->exit)
+			break ;
 		scope_clear(&ctx->scope);
 	}
 	return (ctx->last_status);

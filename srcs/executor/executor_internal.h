@@ -83,6 +83,4 @@ t_list	*arg_node_new(char *content);
 bool	expand_wildcard(t_simple_command *cmd);
 t_list	*scan_files(char *pattern);
 
-bool	remove_quotes(t_simple_command *cmd);
-
 #endif /* EXECUTOR_INTERNAL_H */
