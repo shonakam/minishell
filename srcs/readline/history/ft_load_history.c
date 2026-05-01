@@ -12,7 +12,7 @@ static void	set_history_to_list(t_list **lst, int fd)
 			line[ft_strlen(line) - 1] = '\0';
 		new = x_lstnew(x_strdup(line));
 		if (new)
-			ft_lstadd_back(lst, new);
+			ft_lstadd_front(lst, new);
 		free(line);
 		line = get_next_line(fd);
 	}
